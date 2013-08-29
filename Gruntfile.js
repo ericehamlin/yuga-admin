@@ -346,7 +346,7 @@ module.exports = function (grunt) {
     'autoprefixer',
     'concat',
     'copy:dist',
-    'cdnify',
+    //'cdnify', // not working right now
     'ngmin',
     'cssmin',
     'uglify',
