@@ -2,10 +2,10 @@
 
 function ElementsListCtrl($scope) {
     setTimeout(function(){
-        alert("he");
-        $("#elements-list").accordion({
-            header:"h5",
-            animate: {duration: 100}
+        $("#elements-list .section-inner").accordion({
+            header: "div.list-title",
+            heightStyle: "fill",
+            animate: {duration: 200}
         });
-    }, 2000);
+    }, 1000);
 }
