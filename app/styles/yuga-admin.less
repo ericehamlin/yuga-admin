@@ -140,6 +140,10 @@ header {
     }
 }
 
+section {
+    display: inline-block;
+}
+
 footer {
     position: fixed;
     bottom: 0px;
@@ -147,6 +151,7 @@ footer {
     right: 0px;
     background-color: @color-1;
     padding: 0 @margin-horizontal;
+    height: 50px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -180,26 +185,57 @@ h6 {
 
 
 /** LIST */
+#elements-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 200px;
 
-.list-title {
-    h5 {
-        display: inline-block;
+    .list-title {
+        h5 {
+            display: inline-block;
+        }
+    }
+
+    .list {
+        position: relative;
+        .list-header {
+            position: relative;
+        }
+        .list-body {
+            position: absolute;
+            top: 30px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            display: block;
+            overflow-y: scroll;
+        }
     }
 }
 
-.list {
-    position: relative;
-    .list-header {
-        position: relative;
-    }
-    .list-body {
-        position: absolute;
-        top: 30px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        display: block;
-        overflow-y: scroll;
-    }
+#edit-screen {
+    position: absolute;
+    top: 0;
+    left: 200px;
+    bottom: 0;
+    right: 0;
+}
+
+#upper-container {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 40%;
+}
+
+#timeline {
+    position: absolute;
+    top: 60%;
+    left: 0;
+    right: 0;
+    bottom: 50px;
 }
 
