@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('yugaAdminApp', ['Command'])
+angular.module('yugaAdminApp', ['Command', 'ResourceBundle'])
 
     .config(function ($routeProvider) {
         $routeProvider
@@ -11,4 +11,10 @@ angular.module('yugaAdminApp', ['Command'])
         .otherwise({
             redirectTo: '/'
         });
+    })
+
+    .run(function($rootScope, ResourceBundle) {
+        $rootScope.resourceBundle = function() {
+            return ResourceBundle;
+        };
     });

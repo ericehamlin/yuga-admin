@@ -7,73 +7,59 @@
     <div class="section-body">
 
         <div class="list-title">
-            <h5>Events</h5>
+            <h5>{{resourceBundle().EVENTS}}</h5>
             <button>hi</button>
         </div>
-        <div class="list">
-            <div class="list-header">hi there</div>
+        <div class="list" id="list-events">
+            <div class="list-header">
+                <div></div>
+                <div>hi there</div>
+            </div>
             <div class="list-body">
                 <ul>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li><li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li><li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-                    <li>Event Name</li>
-
+                    <li ng-repeat="event in events" ng-class="{selected: event.selected, 'selected-secondary': event.selectedSecondary}">
+                        {{event.name}}
+                    </li>
                 </ul>
             </div>
         </div>
 
         <div class="list-title">
-            <h5>Types</h5>
+            <h5>{{resourceBundle().TYPES}}</h5>
             <button>hi</button>
         </div>
-        <div class="list">
-            <div class="list-header">hi there</div>
+        <div class="list" id="list-types">
+            <div class="list-header">
+                <div></div>
+                <div>hi there</div>
+            </div>
             <div class="list-body">
                 <ul>
-                    <li>Type Name</li>
+                    <li ng-repeat="type in types" ng-class="{selected: type.selected, 'selected-secondary': type.selectedSecondary}">
+                        <div ng-bind-html-unsafe="type.icon"></div>
+                        <div>{{type.name}}</div>
+                    </li>
                 </ul>
             </div>
         </div>
 
         <div class="list-title">
-            <h5>Aspects</h5>
+            <h5>{{resourceBundle().ASPECTS}}</h5>
             <button>hi</button>
         </div>
-        <div class="list">
-            <div class="list-header">hi there</div>
+        <div class="list" id="list-aspects">
+            <div class="list-header">
+                <div></div>
+                <div></div>
+                <div>hi there</div>
+            </div>
             <div class="list-body">
                 <ul>
-                    <li>Aspect Name</li>
+                    <li ng-repeat="aspect in aspects" ng-class="{selected: aspect.selected, 'selected-secondary': aspect.selectedSecondary}">
+                        <div ng-bind-html-unsafe="aspect.icon"></div>
+                        <div ng-bind-html-unsafe="aspect.icon" ng-style="{'color': aspect.color}"></div>
+                        <div>{{aspect.name}}</div>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -2,5 +2,9 @@
 
 angular.module('ResourceBundle', [])
     .factory('ResourceBundle', [function() {
-        return {};
+        return {
+            EVENTS:     "Events",
+            TYPES:      "Types",
+            ASPECTS:    "Aspects"
+        };
     }]);

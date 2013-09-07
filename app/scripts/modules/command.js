@@ -1,10 +1,22 @@
 'use strict';
 
 angular.module('Command', [])
-    .factory("CommandManager", [function(){
-        return {};
-    }])
+    .factory("Commander", [function(){
+        return {
+            execute: function(command) {
 
-    .factory("Command", [function(){
+            },
 
-    }])
+            unexecute: function(command) {
+
+            },
+
+            undo: function() {
+
+            },
+
+            redo: function() {
+
+            }
+        };
+    }]);
