@@ -1,5 +1,6 @@
 <section id="edit-aspect" class="edit-screen" ng-controller="EditAspectCtrl">
     <div class="section-header">
+        <div class="icon" ng-bind-html-unsafe="aspect.icon" ng-style="{'color': aspect.color}"></div>
         <h3>{{aspect.name}}</h3>
     </div>
     <div class="section-body">

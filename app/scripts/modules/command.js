@@ -19,4 +19,10 @@ angular.module('Command', [])
 
             }
         };
+    }])
+
+    .factory("Commands", [function() {
+        return {
+
+        }
     }]);

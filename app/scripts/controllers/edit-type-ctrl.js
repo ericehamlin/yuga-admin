@@ -8,6 +8,13 @@ function EditTypeCtrl($scope, ApplicationState, ApplicationEvents) {
         }
     });
 
+    $scope.addField = function() {
+        if ($scope.type.fields === undefined) {
+            $scope.type.fields = [];
+        }
+        $scope.type.fields[$scope.type.fields.length] = {};
+    }
+
 }
 
 EditTypeCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];

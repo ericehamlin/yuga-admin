@@ -9,12 +9,10 @@ angular.module('yugaAdmin')
                 name: "Event Name"
             }),
             new yuga.Event({
-                name: "Revent Name",
-                selected: true
+                name: "Revent Name"
             }),
             new yuga.Event({
-                name: "Herve Villachez",
-                selectedSecondary: true
+                name: "Herve Villachez"
             })
         ];
 
@@ -25,12 +23,17 @@ angular.module('yugaAdmin')
             }),
             new yuga.Type({
                 name: "Place",
-                icon: '&#xf041;',
-                selected: true
+                icon: '&#xf041;'
             }),
             new yuga.Type({
                 name: "Thing",
-                icon: '&#xf02d;'
+                icon: '&#xf02d;',
+                fields: [
+                    {
+                        name: "boobak",
+                        defaultText: "rambalamba"
+                    }
+                ]
             })
         ];
 
@@ -38,7 +41,6 @@ angular.module('yugaAdmin')
             new yuga.Aspect({
                 name: "Johnny",
                 icon: '&#xf025;',
-                selected: true,
                 color: "#00f"
             }),
             new yuga.Aspect({
