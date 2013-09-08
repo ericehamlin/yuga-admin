@@ -1,12 +1,12 @@
-function EditEventCtrl($scope, ApplicationState) {
+function EditEventCtrl($scope, ApplicationState, ApplicationEvents) {
 
     $scope.event = ApplicationState.selectedElement;
 
-    $scope.$on("selectedElementChanged", function($event, element){
+    $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
         if (element.class === "yuga.Event") {
             $scope.event = element;
         }
     });
 }
 
-EditEventCtrl.$inject = ['$scope', 'ApplicationState'];
+EditEventCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];

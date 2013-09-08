@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ApplicationState', [])
+angular.module('yugaAdmin')
     .factory("ApplicationState", ['$rootScope', function($rootScope){
 
 

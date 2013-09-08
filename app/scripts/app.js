@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('yugaAdminApp', ['Command', 'ResourceBundle', 'ApplicationState'])
+angular.module('yugaAdmin', ['Command', 'ResourceBundle'])
 
     .config(function ($routeProvider) {
         $routeProvider

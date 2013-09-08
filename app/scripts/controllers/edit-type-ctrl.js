@@ -1,8 +1,8 @@
-function EditTypeCtrl($scope, ApplicationState) {
+function EditTypeCtrl($scope, ApplicationState, ApplicationEvents) {
 
     $scope.type = ApplicationState.selectedElement;
 
-    $scope.$on("selectedElementChanged", function($event, element){
+    $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
         if (element.class === "yuga.Type") {
             $scope.type = element;
         }
@@ -10,4 +10,4 @@ function EditTypeCtrl($scope, ApplicationState) {
 
 }
 
-EditTypeCtrl.$inject = ['$scope', 'ApplicationState'];
+EditTypeCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];

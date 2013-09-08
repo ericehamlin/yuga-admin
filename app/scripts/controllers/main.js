@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('yugaAdminApp')
-  .controller('MainCtrl', function ($scope, ApplicationState) {
+angular.module('yugaAdmin')
+  .controller('MainCtrl', function ($scope, ApplicationState, ApplicationEvents) {
 
         var editScreen = 'views/edit-timeline.html';
 
-        $scope.$on("selectedElementChanged", function($event, element){
+        $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
             if (element == undefined || element.class == undefined) {
                 editScreen = 'views/edit-timeline.html';
             } else {
