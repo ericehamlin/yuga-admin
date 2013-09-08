@@ -1,6 +1,6 @@
 'use strict';
 
-function ElementsListCtrl($scope) {
+function ElementsListCtrl($scope, ApplicationState) {
     setTimeout(function(){
         $("#elements-list .section-body").accordion({
             header: "div.list-title",
@@ -9,54 +9,23 @@ function ElementsListCtrl($scope) {
         });
     }, 1000);
 
-    $scope.events = [
-        {
-            name: "Event Name"
-        },
-        {
-            name: "Revent Name",
-            selected: true
-        },
-        {
-            name: "Herve Villachez",
-            selectedSecondary: true
-        }
-    ];
+    $scope.events = ApplicationState.timeline.events;
 
-    $scope.types = [
-        {
-            name: "Person",
-            icon: '&#xf025;'
-        },
-        {
-            name: "Place",
-            icon: '&#xf041;',
-            selected: true
-        },
-        {
-            name: "Thing",
-            icon: '&#xf02d;'
-        }
-    ];
+    $scope.types = ApplicationState.timeline.types;
 
-    $scope.aspects = [
-        {
-            name: "Johnny",
-            icon: '&#xf025;',
-            selected: true,
-            color: "#00f"
-        },
-        {
-            name: "Europe",
-            icon: '&#xf041;',
-            color: '#0f0'
-        },
-        {
-            name: "Downtown Webberville",
-            icon: '&#xf041;',
-            color: '#f00'
-        }
-    ];
+    $scope.aspects = ApplicationState.timeline.aspects;
+
+    $scope.selectElement = function(element) {
+        ApplicationState.selectElement(element);
+    };
+
+    $scope.isSelected = function(element) {
+        return element === ApplicationState.selectedElement;
+    };
+
+    $scope.isSelectedSecondary = function(element) {
+        return false;
+    };
 }
 
-ElementsListCtrl.$inject = ['$scope'];
+ElementsListCtrl.$inject = ['$scope', 'ApplicationState'];

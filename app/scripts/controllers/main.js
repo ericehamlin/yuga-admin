@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('yugaAdminApp')
-  .controller('MainCtrl', function ($scope, $rootScope) {
+  .controller('MainCtrl', function ($scope, ApplicationState) {
 
         var editScreen = 'views/edit-timeline.html';
 
-        $rootScope.$watch('selectedElement', function(newValue, oldValue){
-            if (newValue == undefined || newValue.class == undefined) {
+        $scope.$on("selectedElementChanged", function($event, element){
+            if (element == undefined || element.class == undefined) {
                 editScreen = 'views/edit-timeline.html';
             } else {
-                switch (newValue.class) {
+                switch (element.class) {
                     case "yuga.Aspect":
                         editScreen = 'views/edit-aspect.html';
                         break;
@@ -21,6 +21,7 @@ angular.module('yugaAdminApp')
                         break;
                 }
             }
+            console.log(ApplicationState);
         });
 
         $scope.showEditScreen = function() {

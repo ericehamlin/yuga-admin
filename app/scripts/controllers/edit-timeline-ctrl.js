@@ -1,7 +1,5 @@
-function EditTimelineCtrl($scope, $rootScope) {
-    $scope.switchSelectedElement = function() {
-        $rootScope.selectedElement = new yuga.Type();
-    }
+function EditTimelineCtrl($scope, ApplicationState) {
+
 }
 
-EditTimelineCtrl.$inject = ['$scope', '$rootScope'];
+EditTimelineCtrl.$inject = ['$scope', 'ApplicationState'];

@@ -17,7 +17,7 @@
             </div>
             <div class="list-body">
                 <ul>
-                    <li ng-repeat="event in events" ng-class="{selected: event.selected, 'selected-secondary': event.selectedSecondary}">
+                    <li ng-repeat="event in events" ng-class="{selected: isSelected(event), 'selected-secondary': isSelectedSecondary(event)}" ng-click="selectElement(event)">
                         {{event.name}}
                     </li>
                 </ul>
@@ -35,7 +35,7 @@
             </div>
             <div class="list-body">
                 <ul>
-                    <li ng-repeat="type in types" ng-class="{selected: type.selected, 'selected-secondary': type.selectedSecondary}">
+                    <li ng-repeat="type in types" ng-class="{selected: isSelected(type), 'selected-secondary': isSelectedSecondary(type)}" ng-click="selectElement(type)">
                         <div ng-bind-html-unsafe="type.icon"></div>
                         <div>{{type.name}}</div>
                     </li>
@@ -55,7 +55,7 @@
             </div>
             <div class="list-body">
                 <ul>
-                    <li ng-repeat="aspect in aspects" ng-class="{selected: aspect.selected, 'selected-secondary': aspect.selectedSecondary}">
+                    <li ng-repeat="aspect in aspects" ng-class="{selected: isSelected(aspect), 'selected-secondary': isSelectedSecondary(aspect)}" ng-click="selectElement(aspect)">
                         <div ng-bind-html-unsafe="aspect.icon"></div>
                         <div ng-bind-html-unsafe="aspect.icon" ng-style="{'color': aspect.color}"></div>
                         <div>{{aspect.name}}</div>
