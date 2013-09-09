@@ -6,9 +6,11 @@ angular.module('yugaAdmin')
 
         var events = [
             new yuga.Event({
+                id: 1,
                 name: "Event Name"
             }),
             new yuga.Event({
+                id: 2,
                 name: "Revent Name"
             }),
             new yuga.Event({
@@ -18,14 +20,17 @@ angular.module('yugaAdmin')
 
         var types = [
             new yuga.Type({
+                id: 3,
                 name: "Person",
                 icon: '&#xf025;'
             }),
             new yuga.Type({
+                id: 4,
                 name: "Place",
                 icon: '&#xf041;'
             }),
             new yuga.Type({
+                id: 5,
                 name: "Thing",
                 icon: '&#xf02d;',
                 fields: [
@@ -39,19 +44,25 @@ angular.module('yugaAdmin')
 
         var aspects = [
             new yuga.Aspect({
+                id: 6,
                 name: "Johnny",
                 icon: '&#xf025;',
-                color: "#00f"
+                color: "#00f",
+                typeId: 3
             }),
             new yuga.Aspect({
+                id: 7,
                 name: "Europe",
                 icon: '&#xf041;',
-                color: '#0f0'
+                color: '#0f0',
+                typeId: 4
             }),
             new yuga.Aspect({
+                id: 8,
                 name: "Downtown Webberville",
                 icon: '&#xf041;',
-                color: '#f00'
+                color: '#f00',
+                typeId: 4
             })
         ];
 
@@ -64,6 +75,7 @@ angular.module('yugaAdmin')
         return {
             timeline: timeline,
             selectElement: function(element) {
+                timeline.selectElement(element);
                 this.selectedElement = element;
                 console.log(element);
                 $rootScope.$broadcast("selectedElementChanged", element);

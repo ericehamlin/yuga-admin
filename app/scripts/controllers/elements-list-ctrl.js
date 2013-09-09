@@ -20,11 +20,11 @@ function ElementsListCtrl($scope, ApplicationState) {
     };
 
     $scope.isSelected = function(element) {
-        return element === ApplicationState.selectedElement;
+        return element.tempData.selected;
     };
 
     $scope.isSelectedSecondary = function(element) {
-        return false;
+        return element.tempData.selectedSecondary;
     };
 }
 

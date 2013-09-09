@@ -3,6 +3,11 @@
     yuga.Aspect = function (initProperties) {
         this.class = "yuga.Aspect";
 
+        this.tempData = {
+            selected: false,
+            selectedSecondary: false
+        };
+
         angular.extend(this, initProperties);
     };
 

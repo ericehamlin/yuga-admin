@@ -1,8 +1,10 @@
 <section id="edit-type" class="edit-screen" ng-controller="EditTypeCtrl">
+
     <div class="section-header">
         <div class="icon" ng-bind-html-unsafe="type.icon"></div>
         <h3>{{type.name}}</h3>
     </div>
+
     <div class="section-body">
         <div ng-repeat="field in type.fields">
             <label for="field-name-{{$index}}">Field</label>
@@ -13,8 +15,11 @@
 
             <label for="default-text-{{$index}}">Default Text</label>
             <input type="text" id="default-text-{{$index}}" ng-model="field.defaultText">
+
+            <button ng-click="deleteField(field)">x</button>
         </div>
         
-        <a href="javascript: void(0);" ng-click="addField()">Add Field</a>
+        <button ng-click="addField()">+</button>
     </div>
+
 </section>

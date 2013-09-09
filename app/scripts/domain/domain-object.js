@@ -3,6 +3,8 @@
     yuga.DomainObject = function () {
         this.class = "yuga.DomainObject";
 
+        this.tempData = {};
+
         /**
          *
          * @param {String} key
