@@ -4,20 +4,6 @@ angular.module('yugaAdmin')
     .factory("ApplicationState", ['$rootScope', function($rootScope){
 
 
-        var events = [
-            new yuga.Event({
-                id: 1,
-                name: "Event Name"
-            }),
-            new yuga.Event({
-                id: 2,
-                name: "Revent Name"
-            }),
-            new yuga.Event({
-                name: "Herve Villachez"
-            })
-        ];
-
         var types = [
             new yuga.Type({
                 id: 3,
@@ -63,6 +49,23 @@ angular.module('yugaAdmin')
                 icon: '&#xf041;',
                 color: '#f00',
                 typeId: 4
+            })
+        ];
+
+        var events = [
+            new yuga.Event({
+                id: 1,
+                name: "Event Name",
+                aspects: [aspects[0], aspects[2]]
+            }),
+            new yuga.Event({
+                id: 2,
+                name: "Revent Name"
+            }),
+            new yuga.Event({
+                id: 3,
+                name: "Herve Villachez",
+                aspects: [aspects[1], aspects[2]]
             })
         ];
 

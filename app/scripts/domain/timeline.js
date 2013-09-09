@@ -13,19 +13,29 @@
                 this.events[i].tempData.selected = (event === this.events[i]);
             }
 
+            var type;
             for (var i=0; i<this.types.length; i++) {
-                this.types[i].tempData.selected = false;
+                type = this.types[i];
+                type.tempData.selected = false;
+                type.tempData.selectedSecondary = false;
             }
 
+            var aspect;
             for (var i=0; i<this.aspects.length; i++) {
-                this.aspects[i].tempData.selected = false;
-
+                aspect = this.aspects[i];
+                aspect.tempData.selected = false;
+                /** TODO should this be by id or by object? Consistency. event.contains(aspect)  aspect.in(event)*/
+                aspect.tempData.selectedSecondary = jQuery.inArray(aspect, event.aspects) > -1;
             }
         };
 
         this.selectType = function(type) {
+
+            var event;
             for (var i=0; i<this.events.length; i++) {
-                this.events[i].tempData.selected = false;
+                event = this.events[i];
+                event.tempData.selected = false;
+                event.tempData.selectedSecondary = false;
             }
 
             for (var i=0; i<this.types.length; i++) {
@@ -33,20 +43,31 @@
                 this.types[i].tempData.selected = (type === this.types[i]);
             }
 
+            var aspect;
             for (var i=0; i<this.aspects.length; i++) {
-                this.aspects[i].tempData.selected = false;
-                this.aspects[i].tempData.selectedSecondary = (this.aspects[i].typeId === type.id);
+                aspect = this.aspects[i];
+                aspect.tempData.selected = false;
+                /** TODO should this be by id or by object? Consistency. aspect.is(type)  aspect.isInstanceOf(type)*/
+                aspect.tempData.selectedSecondary = (aspect.typeId === type.id);
             }
         };
 
         this.selectAspect = function(aspect) {
+
+            var event;
             for (var i=0; i<this.events.length; i++) {
-                this.events[i].tempData.selected = false;
+                event = this.events[i];
+                event.tempData.selected = false;
+                /** TODO should this be by id or by object? Consistency. event.contains(aspect)  aspect.in(event)*/
+                event.tempData.selectedSecondary = jQuery.inArray(aspect, this.events[i].aspects) > -1;
             }
-            
+
+            var type;
             for (var i=0; i<this.types.length; i++) {
-                this.types[i].tempData.selected = false;
-                this.types[i].tempData.selectedSecondary = (aspect.typeId === this.types[i].id);
+                type = this.types[i];
+                type.tempData.selected = false;
+                /** TODO should this be by id or by object? Consistency. aspect.is(type)*/
+                type.tempData.selectedSecondary = (aspect.typeId === type.id);
             }
 
             for (var i=0; i<this.aspects.length; i++) {
@@ -67,8 +88,6 @@
                     this.selectAspect(element);
                     break;
             }
-
-            console.log("amonkey", this);
         };
 
         angular.extend(this, initProperties);
