@@ -5,6 +5,20 @@
 
         this.tempData = {};
 
+        this.select = function(selected) {
+            if (selected !== false && selected !== true) {
+                selected = true;
+            }
+            this.tempData.selected = selected;
+        };
+
+        this.selectSecondary = function(selectedSecondary) {
+            if (selectedSecondary !== false) {
+                selectedSecondary = true;
+            }
+            this.tempData.selectedSecondary = selectedSecondary;
+        };
+
         /**
          *
          * @param {String} key

@@ -9,6 +9,14 @@
             selectedSecondary: false
         };
 
+        /**
+         *
+         * @param aspect
+         */
+        this.contains = function(aspect) {
+            return jQuery.inArray(aspect, this.aspects) > -1;
+        };
+
         angular.extend(this, initProperties);
     };
 
