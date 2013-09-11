@@ -3,7 +3,7 @@
         <h3>{{event.name}}</h3>
     </div>
     <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
-        <div ng-repeat="aspect in event.aspects">
+        <div ng-repeat="aspect in event.getAspects()">
             {{aspect.name}}
         </div>
     </yg-drop-target>

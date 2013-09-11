@@ -1,7 +1,6 @@
 (function (yuga) {
 
     yuga.DomainObject = function () {
-        this.class = "yuga.DomainObject";
 
         this.tempData = {};
 

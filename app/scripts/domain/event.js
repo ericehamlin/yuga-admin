@@ -1,7 +1,7 @@
 (function (yuga) {
 
     yuga.Event = function (initProperties) {
-        this.class = "yuga.Event";
+
         this.aspects = [];
 
         this.tempData = {
@@ -17,10 +17,21 @@
             return jQuery.inArray(aspect, this.aspects) > -1;
         };
 
+        /**
+         *
+         * @param aspect
+         */
         this.addAspect = function(aspect) {
             if (!this.containsAspect(aspect)) {
                 this.aspects[this.aspects.length] = aspect;
             }
+        };
+
+        /**
+         *
+         */
+        this.getAspects = function() {
+            return this.aspects;
         };
 
         angular.extend(this, initProperties);

@@ -1,7 +1,6 @@
 (function (yuga) {
 
     yuga.Aspect = function (initProperties) {
-        this.class = "yuga.Aspect";
 
         this.tempData = {
             selected: false,
@@ -12,7 +11,7 @@
          *
          * @param event
          */
-        this.in = function(event) {
+        this.inEvent = function(event) {
             return jQuery.inArray(this, event.aspects) > -1;
         };
 
@@ -20,11 +19,19 @@
          *
          * @param type
          */
-        this.is = function(type) {
+        this.isType = function(type) {
             return this.typeId === type.id;
         };
 
+        /**
+         *
+         */
+        this.getEvents = function() {
+
+        };
+
         angular.extend(this, initProperties);
+
     };
 
     yuga.Aspect.prototype = new yuga.DomainObject();

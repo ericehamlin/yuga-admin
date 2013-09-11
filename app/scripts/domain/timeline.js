@@ -1,7 +1,6 @@
 (function (yuga) {
 
     yuga.Timeline = function (initProperties) {
-        this.class = "yuga.Timeline";
 
         this.events = [];
         this.types = [];
@@ -54,7 +53,7 @@
             for (var i=0; i<this.aspects.length; i++) {
                 aspect = this.aspects[i];
                 aspect.select(false);
-                aspect.selectSecondary(aspect.is(type));
+                aspect.selectSecondary(aspect.isType(type));
             }
         };
 
@@ -75,7 +74,7 @@
             for (var i=0; i<this.types.length; i++) {
                 type = this.types[i];
                 type.select(false);
-                type.selectSecondary(aspect.is(type));
+                type.selectSecondary(aspect.isType(type));
             }
 
             for (var i=0; i<this.aspects.length; i++) {

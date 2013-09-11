@@ -1,7 +1,6 @@
 (function (yuga) {
 
     yuga.Type = function (initProperties) {
-        this.class = "yuga.Type";
 
         this.tempData = {
             selected: false,

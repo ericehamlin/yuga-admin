@@ -4,6 +4,8 @@
         <h3>{{aspect.name}}</h3>
     </div>
     <yg-drop-target yg-drop-callback="addEvent" data-yg-drop-accept=".event" class="section-body">
-        Edit Aspect
+        <div ng-repeat="event in aspect.getEvents()">
+            {{event.name}}
+        </div>
     </yg-drop-target>
 </section>
