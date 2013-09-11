@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('yugaAdmin')
-    .factory("ApplicationState", ['$rootScope', function($rootScope){
+    .factory("ApplicationState", ['$rootScope', 'ApplicationEvents', function($rootScope, ApplicationEvents){
 
 
         var types = [
@@ -75,13 +75,14 @@ angular.module('yugaAdmin')
             types: types,
             aspects: aspects
         });
+
         return {
             timeline: timeline,
             selectElement: function(element) {
                 timeline.selectElement(element);
                 this.selectedElement = element;
                 console.log(element);
-                $rootScope.$broadcast("selectedElementChanged", element);
+                $rootScope.$broadcast(ApplicationEvents.SELECTED_ELEMENT_CHANGED, element);
             },
             selectedElement: null
         };

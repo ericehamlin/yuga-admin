@@ -9,8 +9,12 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents) {
     });
 
     $scope.addAspect = function(aspectId) {
-        alert("ASPECT " + aspectId);
-    }
+        $scope.$apply(function() {
+            var aspect = ApplicationState.timeline.getAspectById(aspectId);
+            $scope.event.addAspect(aspect);
+            aspect.selectSecondary();
+        });
+    };
 }
 
 EditEventCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];

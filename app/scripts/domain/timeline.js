@@ -28,7 +28,7 @@
             for (var i=0; i<this.aspects.length; i++) {
                 aspect = this.aspects[i];
                 aspect.select(false);
-                aspect.selectSecondary(event.contains(aspect));
+                aspect.selectSecondary(event.containsAspect(aspect));
             }
         };
 
@@ -68,7 +68,7 @@
             for (var i=0; i<this.events.length; i++) {
                 event = this.events[i];
                 event.select(false);
-                event.selectSecondary(event.contains(aspect));
+                event.selectSecondary(event.containsAspect(aspect));
             }
 
             var type;
@@ -100,6 +100,45 @@
                     this.selectAspect(element);
                     break;
             }
+        };
+
+        /**
+         *
+         * @param aspectId
+         */
+        this.getAspectById = function(aspectId) {
+            for (var i=0; i<this.aspects.length; i++) {
+                if (aspectId == this.aspects[i].id) {
+                    return this.aspects[i];
+                }
+            }
+            return null;
+        };
+
+        /**
+         *
+         * @param eventId
+         */
+        this.getEventById = function(eventId) {
+            for (var i=0; i<this.events.length; i++) {
+                if (eventId == this.events[i].id) {
+                    return this.events[i];
+                }
+            }
+            return null;
+        };
+
+        /**
+         *
+         * @param typeId
+         */
+        this.getTypeById = function(typeId) {
+            for (var i=0; i<this.types.length; i++) {
+                if (typeId == this.types[i].id) {
+                    return this.types[i];
+                }
+            }
+            return null;
         };
 
         angular.extend(this, initProperties);
