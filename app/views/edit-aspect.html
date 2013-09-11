@@ -3,7 +3,7 @@
         <div class="icon" ng-bind-html-unsafe="aspect.icon" ng-style="{'color': aspect.color}"></div>
         <h3>{{aspect.name}}</h3>
     </div>
-    <div class="section-body">
+    <div class="section-body" yg-drop-target data-yg-drop-accept=".event" yg-drop-callback="addEvent">
         Edit Aspect
     </div>
 </section>

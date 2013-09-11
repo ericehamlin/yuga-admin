@@ -7,6 +7,10 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents) {
             $scope.event = element;
         }
     });
+
+    $scope.addAspect = function(aspectId) {
+        alert("ASPECT " + aspectId);
+    }
 }
 
 EditEventCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];
