@@ -23,10 +23,6 @@ angular.module('yugaAdmin')
         return {
             restrict: 'A',
             replace: false,
-            /*transclude: true,
-            scope: {
-                ygDragId: "@"
-            },*/
             link: function(scope, iElement, iAttrs) {
 
                 var element = iElement[0];
@@ -65,8 +61,10 @@ angular.module('yugaAdmin')
 
 
         return {
-            restrict:'A',
-            replace:false,
+            restrict:'E',
+            replace: true,
+            transclude: true,
+            template: "<div ng-transclude></div>",
             scope: {
                 ygDropCallback: "="
             },
@@ -87,6 +85,7 @@ angular.module('yugaAdmin')
                 }
 
                 var element = iElement[0];
+                console.log(element)
                 element.addEventListener('dragenter', handleDragEnter, false);
                 element.addEventListener('dragover', handleDragOver, false);
                 element.addEventListener('dragleave', handleDragLeave, false);

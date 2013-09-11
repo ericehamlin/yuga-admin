@@ -2,7 +2,9 @@
     <div class="section-header">
         <h3>{{event.name}}</h3>
     </div>
-    <div class="section-body" yg-drop-target data-yg-drop-accept=".aspect" yg-drop-callback="addAspect">
-        Edit Event
-    </div>
+    <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
+        <div ng-repeat="aspect in event.aspects">
+            {{aspect.name}}
+        </div>
+    </yg-drop-target>
 </section>
