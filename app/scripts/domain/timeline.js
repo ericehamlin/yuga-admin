@@ -88,16 +88,12 @@
          * @param element
          */
         this.selectElement = function(element) {
-            switch (element.class) {
-                case "yuga.Event" :
-                    this.selectEvent(element);
-                    break;
-                case "yuga.Type" :
-                    this.selectType(element);
-                    break;
-                case "yuga.Aspect" :
-                    this.selectAspect(element);
-                    break;
+            if (element instanceof yuga.Event) {
+                this.selectEvent(element);
+            } else if (element instanceof yuga.Type) {
+                this.selectType(element);
+            } else if (element instanceof yuga.Aspect) {
+                this.selectAspect(element);
             }
         };
 

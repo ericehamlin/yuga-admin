@@ -69,6 +69,10 @@ angular.module('yugaAdmin')
             })
         ];
 
+        aspects[0].events = [events[0]];
+        aspects[1].events = [events[2]];
+        aspects[2].events = [events[0], events[2]];
+
         var timeline = new yuga.Timeline({
             name: "Default Timeline",
             events: events,
@@ -81,7 +85,7 @@ angular.module('yugaAdmin')
             selectElement: function(element) {
                 timeline.selectElement(element);
                 this.selectedElement = element;
-                console.log(element);
+                console.log(timeline, element);
                 $rootScope.$broadcast(ApplicationEvents.SELECTED_ELEMENT_CHANGED, element);
             },
             selectedElement: null
