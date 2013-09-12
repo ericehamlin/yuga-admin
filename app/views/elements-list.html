@@ -56,8 +56,8 @@
             <div class="list-body">
                 <ul>
                     <li ng-repeat="aspect in aspects" class="aspect" ng-class="{selected: isSelected(aspect), 'selected-secondary': isSelectedSecondary(aspect)}" ng-click="selectElement(aspect)" draggable="true" yg-draggable data-yg-drag-id="{{aspect.id}}">
-                        <div ng-bind-html-unsafe="aspect.icon"></div>
-                        <div ng-bind-html-unsafe="aspect.icon" ng-style="{'color': aspect.color}"></div>
+                        <div ng-bind-html-unsafe="aspect.getType().icon"></div>
+                        <div ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': aspect.color}"></div>
                         <div>{{aspect.name}}</div>
                     </li>
                 </ul>

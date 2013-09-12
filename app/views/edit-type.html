@@ -11,7 +11,14 @@
             <input type="text" id="field-name-{{$index}}" ng-model="field.name">
 
             <label for="field-type-{{$index}}">Field Type</label>
-            <select id="field-type-{{$index}}"></select>
+            <select id="field-type-{{$index}}" ng-model="field.type">
+                <option>date</option>
+                <option>datetime</option>
+                <option>text</option>
+                <option>number</option>
+                <option>textarea</option>
+                <option>selection</option>
+            </select>
 
             <label for="default-text-{{$index}}">Default Text</label>
             <input type="text" id="default-text-{{$index}}" ng-model="field.defaultText">

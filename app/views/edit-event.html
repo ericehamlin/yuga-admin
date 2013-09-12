@@ -3,8 +3,17 @@
         <h3>{{event.name}}</h3>
     </div>
     <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
+        <label for="start">Start</label>
+        <input type="text" name="start" id="start" ng-model="event.start"/>
+
+        <label for="end">End</label>
+        <input type="text" name="end" id="end" ng-model="event.end"/>
+
+        <label for="description">Description</label>
+        <textarea name="description" id="description" ng-model="event.description"></textarea>
+
         <div ng-repeat="aspect in event.getAspects()">
-            {{aspect.name}}
+            {{aspect.global.name}}
         </div>
     </yg-drop-target>
 </section>

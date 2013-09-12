@@ -29,6 +29,13 @@
 
         /**
          *
+         */
+        this.getType = function() {
+            return this.timeline.getTypeById(this.typeId);
+        };
+
+        /**
+         *
          * @param event
          */
         this.addEvent = function(event) {

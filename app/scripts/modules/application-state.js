@@ -32,21 +32,18 @@ angular.module('yugaAdmin')
             new yuga.Aspect({
                 id: 6,
                 name: "Johnny",
-                icon: '&#xf025;',
                 color: "#00f",
                 typeId: 3
             }),
             new yuga.Aspect({
                 id: 7,
                 name: "Europe",
-                icon: '&#xf041;',
                 color: '#0f0',
                 typeId: 4
             }),
             new yuga.Aspect({
                 id: 8,
                 name: "Downtown Webberville",
-                icon: '&#xf041;',
                 color: '#f00',
                 typeId: 4
             })
@@ -79,6 +76,18 @@ angular.module('yugaAdmin')
             types: types,
             aspects: aspects
         });
+
+        for (var i=0; i<events.length; i++) {
+            events[i].timeline = timeline;
+        }
+
+        for (var i=0; i<types.length; i++) {
+            types[i].timeline = timeline;
+        }
+
+        for (var i=0; i<aspects.length; i++) {
+            aspects[i].timeline = timeline;
+        }
 
         return {
             timeline: timeline,

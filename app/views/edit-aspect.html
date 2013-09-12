@@ -1,11 +1,15 @@
 <section id="edit-aspect" class="edit-screen" ng-controller="EditAspectCtrl">
     <div class="section-header">
-        <div class="icon" ng-bind-html-unsafe="aspect.icon" ng-style="{'color': aspect.color}"></div>
+        <div class="icon" ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': aspect.color}"></div>
         <h3>{{aspect.name}}</h3>
     </div>
     <yg-drop-target yg-drop-callback="addEvent" data-yg-drop-accept=".event" class="section-body">
         <div ng-repeat="event in aspect.getEvents()">
             {{event.name}}
+        </div>
+
+        <div ng-repeat="field in aspect.getType().fields">
+            <label for="">{{field.name}}</label> {{field.type}}
         </div>
     </yg-drop-target>
 </section>
