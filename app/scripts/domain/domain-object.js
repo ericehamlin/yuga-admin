@@ -18,6 +18,14 @@
             this.tempData.selectedSecondary = selectedSecondary;
         };
 
+        this.isSelected = function() {
+            return this.tempData.selected;
+        };
+
+        this.isSelectedSecondary = function() {
+            return this.tempData.selectedSecondary;
+        };
+
         /**
          *
          * @param {String} key

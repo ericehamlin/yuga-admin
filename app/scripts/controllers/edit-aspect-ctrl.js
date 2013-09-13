@@ -17,6 +17,10 @@ function EditAspectCtrl($scope, ApplicationState, ApplicationEvents) {
             event.selectSecondary();
         });
     };
+
+    $scope.getFieldId = function(field) {
+        return $scope.aspect.getType().getFieldId(field);
+    };
 }
 
 EditAspectCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];

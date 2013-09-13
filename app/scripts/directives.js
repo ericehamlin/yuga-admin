@@ -94,4 +94,19 @@ angular.module('yugaAdmin')
         }
     })
 
+    .directive("ygDate", function() {
+        return {
+            restrict: "E",
+            replace: true,
+            template: "<input type='date'/>"
+        }
+    })
+
+    .directive("ygDatetime", function() {
+        return {
+            restrict: "E",
+            replace: true,
+            template: "<input type='datetime'/>"
+        }
+    })
 ;

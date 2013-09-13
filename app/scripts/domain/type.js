@@ -1,5 +1,14 @@
 (function (yuga) {
 
+    yuga.fieldTypes = {
+        TEXT : "text",
+        TEXTAREA : "textarea",
+        DATE : "date",
+        DATETIME : "datetime",
+        SELECT : "select",
+        NUMBER : "number"
+    };
+
     yuga.Type = function (initProperties) {
 
         this.tempData = {
@@ -19,6 +28,25 @@
             if (foundIndex > -1) {
                 this.fields.splice(foundIndex, 1);
             }
+        };
+
+        /**
+         *
+         * @param field
+         */
+        this.getFieldId = function(field) {
+            return field.name.replace(/\s/, "_");
+        };
+
+        /**
+         *
+         */
+        this.getFieldTypes = function() {
+            var fieldTypes = [];
+            for (i in yuga.fieldTypes) {
+                fieldTypes.push(yuga.fieldTypes[i]);
+            }
+            return fieldTypes;
         };
 
         angular.extend(this, initProperties);

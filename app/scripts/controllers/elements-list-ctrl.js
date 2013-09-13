@@ -20,12 +20,16 @@ function ElementsListCtrl($scope, ApplicationState) {
         ApplicationState.selectElement(element);
     };
 
-    $scope.isSelected = function(element) {
-        return element.tempData.selected;
+    $scope.newEvent = function() {
+        alert("new event")
     };
 
-    $scope.isSelectedSecondary = function(element) {
-        return element.tempData.selectedSecondary;
+    $scope.newAspect = function() {
+        alert("new aspect")
+    };
+
+    $scope.newType = function() {
+        alert("new type")
     };
 }
 
