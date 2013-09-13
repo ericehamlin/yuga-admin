@@ -92,10 +92,7 @@ angular.module('yugaAdmin')
         return {
             timeline: timeline,
             selectElement: function(element) {
-                timeline.selectElement(element);
                 this.selectedElement = element;
-                console.log(timeline, element);
-                $rootScope.$broadcast(ApplicationEvents.SELECTED_ELEMENT_CHANGED, element);
             },
             selectedElement: null
         };

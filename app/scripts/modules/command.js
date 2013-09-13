@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('Command', [])
-    .factory("Commander", [function(){
+    .factory("Commander", ['ApplicationState', 'ApplicationEvents', function(ApplicationState, ApplicationEvents){
+
         return {
             execute: function(command) {
-
+                command.execute(ApplicationState, ApplicationEvents);
             },
 
             unexecute: function(command) {
@@ -19,10 +20,4 @@ angular.module('Command', [])
 
             }
         };
-    }])
-
-    .factory("Commands", [function() {
-        return {
-
-        }
     }]);

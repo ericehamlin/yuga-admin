@@ -1,6 +1,6 @@
 'use strict';
 
-function ElementsListCtrl($scope, ApplicationState) {
+function ElementsListCtrl($scope, ApplicationState, Commander) {
     setTimeout(function(){
         $("#elements-list .section-body").accordion({
             header: "div.list-title",
@@ -17,7 +17,9 @@ function ElementsListCtrl($scope, ApplicationState) {
     $scope.aspects = ApplicationState.timeline.aspects;
 
     $scope.selectElement = function(element) {
-        ApplicationState.selectElement(element);
+        var command = new yuga.SelectElementCommand(element);
+        console.log("COMMAND", command);
+        Commander.execute(command);
     };
 
     $scope.newEvent = function() {
@@ -33,4 +35,4 @@ function ElementsListCtrl($scope, ApplicationState) {
     };
 }
 
-ElementsListCtrl.$inject = ['$scope', 'ApplicationState'];
+ElementsListCtrl.$inject = ['$scope', 'ApplicationState', 'Commander'];
