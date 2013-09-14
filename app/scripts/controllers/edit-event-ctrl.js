@@ -1,4 +1,4 @@
-function EditEventCtrl($scope, ApplicationState, ApplicationEvents) {
+function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
     $scope.event = ApplicationState.selectedElement;
 
@@ -11,11 +11,10 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents) {
     $scope.addAspect = function(aspectId) {
         $scope.$apply(function() {
             var aspect = ApplicationState.timeline.getAspectById(aspectId);
-            $scope.event.addAspect(aspect);
-            aspect.addEvent($scope.event);
-            aspect.selectSecondary();
+            var command = new yuga.AddAspectToEventCommand($scope.event, aspect);
+            Commander.execute(command);
         });
     };
 }
 
-EditEventCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];
+EditEventCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents', 'Commander'];

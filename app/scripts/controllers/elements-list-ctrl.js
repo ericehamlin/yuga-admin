@@ -18,7 +18,6 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
 
     $scope.selectElement = function(element) {
         var command = new yuga.SelectElementCommand(element);
-        console.log("COMMAND", command);
         Commander.execute(command);
     };
 

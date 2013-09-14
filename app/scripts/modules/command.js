@@ -17,7 +17,7 @@ angular.module('Command', [])
         return {
             execute: function(command) {
                 execute(command);
-                if (command.isUnexecutable) {
+                if (command.isUndoable) {
                     commandStack[commandStackIndex] = command;
                     commandStackIndex++;
                     commandStack.length = commandStackIndex;
@@ -26,8 +26,8 @@ angular.module('Command', [])
 
             undo: function() {
                 if (commandStackIndex > 0) {
-                    unexecute(commandStack[commandStackIndex]);
                     commandStackIndex--;
+                    unexecute(commandStack[commandStackIndex]);
                 } else {
                     console.log("COULD NOT UNDO")
                 }

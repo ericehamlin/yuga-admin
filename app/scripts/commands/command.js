@@ -2,11 +2,9 @@
 
     yuga.Command = function () {
 
-        this.isUnexecutable = false;
-        this.parameters = {};
+        this.isUndoable = false;
 
         this.execute = function(ApplicationState, ApplicationEvents) {
-
         };
 
         this.unexecute = function(ApplicationState, ApplicationEvents) {

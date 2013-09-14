@@ -46,6 +46,20 @@
 
         /**
          *
+         * @param event
+         */
+        this.removeEvent = function(event) {
+            for (var i=0; i<this.events.length; i++) {
+                if (this.events[i] === event) {
+                    this.events.splice(i, 1);
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        /**
+         *
          */
         this.getEvents = function() {
             return this.events;

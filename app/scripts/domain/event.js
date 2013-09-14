@@ -31,6 +31,20 @@
 
         /**
          *
+         * @param aspect
+         */
+        this.removeAspect = function(aspect) {
+            for (var i=0; i<this.aspects.length; i++) {
+                if (this.aspects[i] === aspect) {
+                    this.aspects.splice(i, 1);
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        /**
+         *
          */
         this.getAspects = function() {
             var aspects = [];

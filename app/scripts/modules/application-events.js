@@ -3,10 +3,11 @@
 angular.module('yugaAdmin')
     .factory("ApplicationEvents", ['$rootScope', function($rootScope){
         return {
-            broadcast : function(event, args) {
-                $rootScope.$broadcast(event, args);
+            broadcast : function() {
+                $rootScope.$broadcast.apply($rootScope, arguments);
             },
 
-            SELECTED_ELEMENT_CHANGED: "selectedElementChanged"
+            SELECTED_ELEMENT_CHANGED: "selectedElementChanged",
+            ASPECT_ADDED_TO_EVENT: "aspectAddedToEvent"
         }
     }]);
