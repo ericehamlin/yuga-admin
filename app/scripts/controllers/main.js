@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('yugaAdmin')
-  .controller('MainCtrl', function ($scope, ApplicationState, ApplicationEvents) {
+  .controller('MainCtrl', function ($scope, ApplicationState, ApplicationEvents, Commander) {
 
         var editScreen = 'views/edit-timeline.html';
 
@@ -23,6 +23,10 @@ angular.module('yugaAdmin')
 
         $scope.showEditScreen = function() {
             return editScreen;
+        };
+
+        $scope.undo = function() {
+            Commander.undo();
         };
 
   });
