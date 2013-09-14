@@ -30,4 +30,8 @@ angular.module('yugaAdmin')
             Commander.undo();
         };
 
+        $scope.redo = function() {
+            Commander.redo();
+        };
+
   });

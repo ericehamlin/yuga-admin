@@ -24,8 +24,12 @@ angular.module('Command', [])
                 }
             },
 
+            canUndo: function() {
+                return commandStackIndex > 0;
+            },
+
             undo: function() {
-                if (commandStackIndex > 0) {
+                if (this.canUndo()) {
                     commandStackIndex--;
                     unexecute(commandStack[commandStackIndex]);
                 } else {
@@ -33,8 +37,12 @@ angular.module('Command', [])
                 }
             },
 
+            canRedo: function() {
+                return commandStackIndex < commandStack.length;
+            },
+
             redo: function() {
-                if (commandStackIndex < commandStack.length) {
+                if (this.canRedo()) {
                     execute(commandStack[commandStackIndex]);
                     commandStackIndex++;
                 }

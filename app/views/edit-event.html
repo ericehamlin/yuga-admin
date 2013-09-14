@@ -12,8 +12,15 @@
         <label for="description">Description</label>
         <textarea name="description" id="description" ng-model="event.description"></textarea>
 
-        <div ng-repeat="aspect in event.getAspects()">
-            {{aspect.global.name}}
+        <div id="edit-event-aspects" class="edit-sub-elements">
+            <div ng-repeat="aspect in event.getAspects()" class="edit-sub-element">
+                <div class="edit-sub-element-header">
+                    <h5>{{aspect.global.name}}</h5>
+                </div>
+                <div class="edit-sub-element-body">
+                    balloon
+                </div>
+            </div>
         </div>
     </yg-drop-target>
 </section>
