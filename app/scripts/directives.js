@@ -108,7 +108,8 @@ angular.module('yugaAdmin')
         }
     })
 
-    .directive("ygModel", function(ApplicationState, ApplicationEvents, Commander) {
+    .directive("ygModel", function($timeout, ApplicationState, ApplicationEvents, Commander) {
+
         return {
             restrict: "A",
             scope: {
@@ -117,17 +118,24 @@ angular.module('yugaAdmin')
             },
 
             link: function(scope, iElement, iAttrs) {
+
+                var wait;
                 scope.property = iAttrs.ygModel.replace(/^.*\./, "");
+
                 $(iElement).on("change, keyup", function() {
-                    var newValue = $(iElement).val();
-                    if (newValue != scope.ygModel) {
-                        scope.executeCommand(newValue);
-                    }
+                    $timeout.cancel(wait);
+
+                    wait = $timeout(function() {
+                        var newValue = $(iElement).val();
+                        if (newValue != scope.ygModel) {
+                            scope.executeCommand(newValue);
+                        }
+                        wait = null;
+                    }, 500);
                 });
             },
 
             controller: function($scope, $element, $attrs) {
-
                 $scope.$watch("ygModel", function(newValue, oldValue) {
                     $element.val(newValue)
                 });

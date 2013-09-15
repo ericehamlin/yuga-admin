@@ -4,10 +4,10 @@
     </div>
     <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
         <label for="start">Start</label>
-        <input type="text" name="start" id="start" ng-model="event.start"/>
+        <input type="text" name="start" id="start" yg-model="event.start" yg-model-element="event" />
 
         <label for="end">End</label>
-        <input type="text" name="end" id="end" ng-model="event.end"/>
+        <input type="text" name="end" id="end" yg-model="event.end" yg-model-element="event"/>
 
         <label for="description">Description</label>
         <textarea name="description" id="description" yg-model="event.description" yg-model-element="event"></textarea>
