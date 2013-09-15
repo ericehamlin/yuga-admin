@@ -149,4 +149,23 @@ angular.module('yugaAdmin')
             }
         }
     })
+
+    .directive("ygAccordion", function($timeout) {
+        return {
+            restrict: "A",
+            link: function(scope, iElement, iAttrs) {
+
+                var options = {
+                    header: iAttrs.ygAccordionHeader,
+                    animate: {duration: 100}
+                };
+                if (iAttrs.ygAccordionHeightStyle) {
+                    options.heightStyle = iAttrs.ygAccordionHeightStyle;
+                }
+                $timeout(function(){
+                    $(iElement).accordion(options);
+                });
+            }
+        };
+    })
 ;

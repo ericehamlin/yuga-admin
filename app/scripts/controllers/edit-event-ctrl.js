@@ -1,13 +1,5 @@
 function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
-    setTimeout(function(){
-        $("#edit-event-aspects").accordion({
-            header: ".edit-sub-element-header",
-            animate: {duration: 100}
-        });
-
-    }, 1000);
-
     $scope.event = ApplicationState.selectedElement;
 
     $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){

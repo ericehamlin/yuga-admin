@@ -12,7 +12,7 @@
         <label for="description">Description</label>
         <textarea name="description" id="description" yg-model="event.description" yg-model-element="event"></textarea>
 
-        <div id="edit-event-aspects" class="edit-sub-elements">
+        <div id="edit-event-aspects" class="edit-sub-elements" yg-accordion yg-accordion-header=".edit-sub-element-header">
             <div ng-repeat="aspect in event.getAspects()" class="edit-sub-element">
                 <div class="edit-sub-element-header">
                     <h5>{{aspect.name}}</h5>
