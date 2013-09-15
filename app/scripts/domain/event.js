@@ -52,9 +52,17 @@
             var aspects = [];
             for (var i=0; i<this.aspects.length; i++) {
                 var aspect = this.aspects[i];
-                aspects.push({global: aspect, local: this.aspectsLocal[aspect.id]})
+                aspects.push(aspect)
             }
             return aspects;
+        };
+
+        /**
+         *
+         * @param aspectId
+         */
+        this.getLocalAspectById = function(aspectId) {
+            return this.aspectsLocal[aspectId];
         };
 
         angular.extend(this, initProperties);

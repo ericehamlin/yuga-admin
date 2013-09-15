@@ -53,7 +53,8 @@ angular.module('yugaAdmin')
             new yuga.Event({
                 id: 1,
                 name: "Event Name",
-                aspects: [aspects[0], aspects[2]]
+                aspects: [aspects[0], aspects[2]],
+                aspectsLocal: {6: {name:"Barry"}}
             }),
             new yuga.Event({
                 id: 2,
