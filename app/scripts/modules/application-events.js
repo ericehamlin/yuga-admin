@@ -9,6 +9,7 @@ angular.module('yugaAdmin')
 
             SELECTED_ELEMENT_CHANGED :  "selectedElementChanged",
             ASPECT_ADDED_TO_EVENT :     "aspectAddedToEvent",
-            PROPERTY_CHANGED :          "propertyChanged"
+            PROPERTY_CHANGED :          "propertyChanged",
+            FIELD_ADDED_TO_TYPE :       "fieldAddedToType"
         }
     }]);

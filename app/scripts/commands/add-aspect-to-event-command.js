@@ -2,6 +2,8 @@
 
     yuga.AddAspectToEventCommand = function(event, aspect) {
 
+        this.name = "add aspect to event";
+
         this.isUndoable = true;
 
         this.execute = function(ApplicationState, ApplicationEvents) {

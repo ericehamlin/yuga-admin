@@ -26,8 +26,18 @@ angular.module('yugaAdmin')
             return editScreen;
         };
 
+        $scope.undoName = function() {
+            var command = Commander.getUndoCommand();
+            return command ? command.name : "";
+        };
+
         $scope.undo = function() {
             Commander.undo();
+        };
+
+        $scope.redoName = function() {
+            var command = Commander.getRedoCommand();
+            return command ? command.name : "";
         };
 
         $scope.redo = function() {

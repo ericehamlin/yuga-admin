@@ -8,8 +8,8 @@
 </header>
 
 <br/><br/>
-<a href="" ng-click="undo()">Undo</a>
-<a href="" ng-click="redo()">Redo</a>
+<a href="" ng-click="undo()">Undo {{undoName()}}</a>
+<a href="" ng-click="redo()">Redo {{redoName()}}</a>
 
 <div id="upper-container">
     <ng-include src="'views/elements-list.html'"></ng-include>

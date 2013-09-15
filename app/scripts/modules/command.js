@@ -28,10 +28,17 @@ angular.module('Command', [])
                 return commandStackIndex > 0;
             },
 
+            getUndoCommand: function() {
+                if (this.canUndo()) {
+                    return commandStack[commandStackIndex-1];
+                }
+                return null;
+            },
+
             undo: function() {
                 if (this.canUndo()) {
+                    unexecute(this.getUndoCommand());
                     commandStackIndex--;
-                    unexecute(commandStack[commandStackIndex]);
                 } else {
                     console.log("COULD NOT UNDO")
                 }
@@ -41,9 +48,16 @@ angular.module('Command', [])
                 return commandStackIndex < commandStack.length;
             },
 
+            getRedoCommand: function() {
+                if (this.canRedo()) {
+                    return commandStack[commandStackIndex];
+                }
+                return null;
+            },
+
             redo: function() {
                 if (this.canRedo()) {
-                    execute(commandStack[commandStackIndex]);
+                    execute(this.getRedoCommand());
                     commandStackIndex++;
                 }
             }

@@ -1,4 +1,4 @@
-function EditTypeCtrl($scope, ApplicationState, ApplicationEvents) {
+function EditTypeCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
     $scope.type = ApplicationState.selectedElement;
 
@@ -9,7 +9,8 @@ function EditTypeCtrl($scope, ApplicationState, ApplicationEvents) {
     });
 
     $scope.addField = function() {
-        $scope.type.addField();
+        var command = new yuga.AddFieldToTypeCommand($scope.type);
+        Commander.execute(command);
     };
 
     $scope.deleteField = function(field) {
@@ -18,4 +19,4 @@ function EditTypeCtrl($scope, ApplicationState, ApplicationEvents) {
 
 }
 
-EditTypeCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents'];
+EditTypeCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents', 'Commander'];

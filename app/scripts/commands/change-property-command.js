@@ -2,6 +2,8 @@
 
     yuga.ChangePropertyCommand = function(obj, property, from, to) {
 
+        this.name = "text change";
+
         this.isUndoable = true;
 
         this.execute = function(ApplicationState, ApplicationEvents) {
