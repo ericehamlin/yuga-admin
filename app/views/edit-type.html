@@ -8,13 +8,13 @@
     <div class="section-body">
         <div ng-repeat="field in type.fields">
             <label for="field-name-{{$index}}">Field</label>
-            <input type="text" id="field-name-{{$index}}" ng-model="field.name">
+            <input type="text" id="field-name-{{$index}}" yg-model="field.name" yg-model-element="field" />
 
             <label for="field-type-{{$index}}">Field Type</label>
             <select id="field-type-{{$index}}" ng-model="field.type" ng-options="fieldType for fieldType in type.getFieldTypes()"></select>
 
             <label for="default-text-{{$index}}">Default</label>
-            <input type="text" id="default-text-{{$index}}" ng-model="field.defaultValue">
+            <input type="text" id="default-text-{{$index}}" yg-model="field.defaultValue" yg-model-element="field" />
 
             <button ng-click="deleteField(field)">x</button>
         </div>

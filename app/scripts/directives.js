@@ -120,7 +120,7 @@ angular.module('yugaAdmin')
             link: function(scope, iElement, iAttrs) {
 
                 var wait;
-                scope.property = iAttrs.ygModel.replace(/^.*\./, "");
+                scope.property = iAttrs.ygModel.replace(/^.*?(\.|\[)/, "");
 
                 $(iElement).on("change, keyup", function() {
                     $timeout.cancel(wait);
