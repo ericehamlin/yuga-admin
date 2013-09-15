@@ -6,7 +6,6 @@ angular.module('yugaAdmin')
 
     .directive('ygDraggable', function() {
 
-
         function handleDragStart(e) {
 
             var dragId = jQuery(this).data("yg-drag-id");
@@ -85,7 +84,6 @@ angular.module('yugaAdmin')
                 }
 
                 var element = iElement[0];
-                console.log(element)
                 element.addEventListener('dragenter', handleDragEnter, false);
                 element.addEventListener('dragover', handleDragOver, false);
                 element.addEventListener('dragleave', handleDragLeave, false);
@@ -107,6 +105,40 @@ angular.module('yugaAdmin')
             restrict: "E",
             replace: true,
             template: "<input type='datetime'/>"
+        }
+    })
+
+    .directive("ygModel", function(ApplicationState, ApplicationEvents, Commander) {
+        return {
+            restrict: "A",
+            scope: {
+                ygModel: "=",
+                ygModelElement: "="
+            },
+
+            link: function(scope, iElement, iAttrs) {
+                scope.property = iAttrs.ygModel.replace(/^.*\./, "");
+                $(iElement).on("change, keyup", function() {
+                    var newValue = $(iElement).val();
+                    if (newValue != scope.ygModel) {
+                        scope.executeCommand(newValue);
+                    }
+                });
+            },
+
+            controller: function($scope, $element, $attrs) {
+
+                $scope.$watch("ygModel", function(newValue, oldValue) {
+                    $element.val(newValue)
+                });
+
+                $scope.executeCommand = function(newValue) {
+                    $scope.$apply(function(){
+                        var command = new yuga.ChangePropertyCommand($scope.ygModelElement, $scope.property, $scope.ygModel, newValue);
+                        Commander.execute(command);
+                    });
+                };
+            }
         }
     })
 ;

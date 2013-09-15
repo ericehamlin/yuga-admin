@@ -2,6 +2,8 @@
 
     yuga.Event = function (initProperties) {
 
+        this.description = "";
+
         this.aspects = [];
         this.aspectsLocal = {};
 

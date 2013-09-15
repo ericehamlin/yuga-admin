@@ -10,7 +10,13 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
     $scope.event = ApplicationState.selectedElement;
 
-    $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
+    $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function(event, element){
+        if (element instanceof yuga.Event) {
+            $scope.event = element;
+        }
+    });
+
+    $scope.$on(ApplicationEvents.PROPERTY_CHANGED, function(event, element, property, from, to){
         if (element instanceof yuga.Event) {
             $scope.event = element;
         }

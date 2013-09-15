@@ -7,7 +7,8 @@ angular.module('yugaAdmin')
                 $rootScope.$broadcast.apply($rootScope, arguments);
             },
 
-            SELECTED_ELEMENT_CHANGED: "selectedElementChanged",
-            ASPECT_ADDED_TO_EVENT: "aspectAddedToEvent"
+            SELECTED_ELEMENT_CHANGED :  "selectedElementChanged",
+            ASPECT_ADDED_TO_EVENT :     "aspectAddedToEvent",
+            PROPERTY_CHANGED :          "propertyChanged"
         }
     }]);

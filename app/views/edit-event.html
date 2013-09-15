@@ -10,7 +10,7 @@
         <input type="text" name="end" id="end" ng-model="event.end"/>
 
         <label for="description">Description</label>
-        <textarea name="description" id="description" ng-model="event.description"></textarea>
+        <textarea name="description" id="description" yg-model="event.description" yg-model-element="event"></textarea>
 
         <div id="edit-event-aspects" class="edit-sub-elements">
             <div ng-repeat="aspect in event.getAspects()" class="edit-sub-element">
