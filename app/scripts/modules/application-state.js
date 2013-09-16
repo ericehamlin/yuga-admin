@@ -52,9 +52,7 @@ angular.module('yugaAdmin')
         var events = [
             new yuga.Event({
                 id: 1,
-                name: "Event Name",
-                aspects: [aspects[0], aspects[2]],
-                aspectsLocal: {6: {name:"Barry"}}
+                name: "Event Name"
             }),
             new yuga.Event({
                 id: 2,
@@ -62,14 +60,20 @@ angular.module('yugaAdmin')
             }),
             new yuga.Event({
                 id: 3,
-                name: "Herve Villachez",
-                aspects: [aspects[1], aspects[2]]
+                name: "Herve Villachez"
             })
         ];
 
-        aspects[0].events = [events[0]];
-        aspects[1].events = [events[2]];
-        aspects[2].events = [events[0], events[2]];
+        aspects[0].addEvent(events[0]);
+        events[0].addAspect(aspects[0]);
+
+        aspects[1].addEvent(events[2]);
+        events[2].addAspect(aspects[1]);
+
+        aspects[2].addEvent(events[0]);
+        aspects[2].addEvent(events[2]);
+        events[0].addAspect(aspects[2]);
+        events[2].addAspect(aspects[2]);
 
         var timeline = new yuga.Timeline({
             name: "Default Timeline",

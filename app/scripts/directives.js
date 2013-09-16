@@ -150,6 +150,48 @@ angular.module('yugaAdmin')
         }
     })
 
+    .directive("ygLocalAspectModel", function($timeout, ApplicationState, ApplicationEvents, Commander) {
+        return {
+            restrict: "A",
+            scope: {
+                ygLocalAspectModel: "=",
+                ygLocalAspectModelElement: "=",
+                ygLocalAspectModelFieldId: "="
+            },
+
+            link: function(scope, iElement, iAttrs) {
+
+                var wait;
+
+                $(iElement).on("change, keyup", function() {
+                    $timeout.cancel(wait);
+
+                    wait = $timeout(function() {
+                        var newValue = $(iElement).val();
+                        if (newValue != scope.ygLocalAspectModel) {
+                            scope.executeCommand(newValue);
+                        }
+                        wait = null;
+                    }, 500);
+                });
+            },
+
+            controller: function($scope, $element, $attrs) {
+                $scope.$watch("ygLocalAspectModel", function(newValue, oldValue) {
+                    $element.val(newValue)
+                });
+
+                $scope.executeCommand = function(newValue) {
+                    $scope.$apply(function(){
+                        var command = new yuga.ChangeLocalAspectPropertyCommand($scope.ygLocalAspectModelElement, $scope.ygLocalAspectModelFieldId, $scope.ygLocalAspectModel, newValue);
+                        console.log($scope.ygLocalAspectModelElement, $scope.ygLocalAspectModelFieldId, $scope.ygLocalAspectModel, newValue);
+                        Commander.execute(command);
+                    });
+                };
+            }
+        }
+    })
+
     .directive("ygAccordion", function($timeout) {
         return {
             restrict: "A",
@@ -175,7 +217,6 @@ angular.module('yugaAdmin')
                     scope.$watch('ygAccordionRefresh', function(newValue, oldValue) {
                         $(iElement).accordion('destroy');
                         $timeout(function() {
-                            console.log(angular.version);
                             $(iElement).accordion(options);
                         });
                     });

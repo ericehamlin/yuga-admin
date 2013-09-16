@@ -18,7 +18,21 @@
                     <h5>{{aspect.name}}</h5>
                 </div>
                 <div class="edit-sub-element-body">
-                    balloon
+                    <div ng-repeat="field in aspect.getType().fields">
+                        <label for="{{getFieldId(aspect, field)}}">{{field.name}}</label>
+
+                        <ng-switch on="field.type">
+
+                            <input ng-switch-when="text" type="text" yg-local-aspect-model="getLocalAspectField(aspect, field)" yg-local-aspect-model-field-id="getFieldId(aspect,field)" yg-local-aspect-model-element="getLocalAspect(aspect)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
+
+                            <textarea ng-switch-when="textarea" type="text" ng-model="getLocalAspectFieldValue(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
+                            <input ng-switch-when="number" type="number" ng-model="getLocalAspectFieldValue(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
+                            <yg-date ng-switch-when="date" ng-model="getLocalAspectFieldValue(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}"></yg-date>
+                            <yg-datetime ng-switch-when="datetime" ng-model="getLocalAspectFieldValue(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}"></yg-datetime>
+
+                        </ng-switch>
+
+                    </div>
                     {{event.getLocalAspectById(aspect.id).name}}
                 </div>
             </div>

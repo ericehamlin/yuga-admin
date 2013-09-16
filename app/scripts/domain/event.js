@@ -5,7 +5,7 @@
         this.description = "";
 
         this.aspects = [];
-        this.aspectsLocal = {};
+        this.localAspects = {};
 
         this.tempData = {
             selected: false,
@@ -27,7 +27,8 @@
         this.addAspect = function(aspect) {
             if (!this.containsAspect(aspect)) {
                 this.aspects[this.aspects.length] = aspect;
-                this.aspectsLocal[aspect.id] = {};
+                var localAspect = new yuga.LocalAspect({aspect: aspect, event: this});
+                this.localAspects[aspect.id] = localAspect;
             }
         };
 
@@ -62,7 +63,7 @@
          * @param aspectId
          */
         this.getLocalAspectById = function(aspectId) {
-            return this.aspectsLocal[aspectId];
+            return this.localAspects[aspectId];
         };
 
         angular.extend(this, initProperties);
