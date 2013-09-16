@@ -153,17 +153,32 @@ angular.module('yugaAdmin')
     .directive("ygAccordion", function($timeout) {
         return {
             restrict: "A",
+            replace: true,
+            transclude: true,
+            template: "<div ng-transclude></div>",
+            scope: {
+                ygAccordionRefresh: "="
+            },
             link: function(scope, iElement, iAttrs) {
 
                 var options = {
                     header: iAttrs.ygAccordionHeader,
                     animate: {duration: 100}
                 };
+
                 if (iAttrs.ygAccordionHeightStyle) {
                     options.heightStyle = iAttrs.ygAccordionHeightStyle;
                 }
+
                 $timeout(function(){
                     $(iElement).accordion(options);
+                    scope.$watch('ygAccordionRefresh', function(newValue, oldValue) {
+                        $(iElement).accordion('destroy');
+                        $timeout(function() {
+                            console.log(angular.version);
+                            $(iElement).accordion(options);
+                        });
+                    });
                 });
             }
         };

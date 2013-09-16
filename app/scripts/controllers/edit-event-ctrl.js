@@ -1,17 +1,17 @@
 function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
     $scope.event = ApplicationState.selectedElement;
+    $scope.refresh = 0;
 
     $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
         if (element instanceof yuga.Event) {
             $scope.event = element;
+            $scope.refresh++;
         }
     });
 
-    $scope.$on(ApplicationEvents.PROPERTY_CHANGED, function(event, element, property, from, to){
-        /*if (element instanceof yuga.Event) {
-            $scope.event = element;
-        }*/
+    $scope.$on(ApplicationEvents.ASPECT_ADDED_TO_EVENT, function($event, event, aspect){
+        $scope.refresh++;
     });
 
     $scope.addAspect = function(aspectId) {
