@@ -65,6 +65,18 @@
             return this.events;
         };
 
+        this.getFieldValue = function(fieldId, returnDefault) {
+            if (this[fieldId] !== undefined) {
+                return this[fieldId]
+            }
+            else if (returnDefault) {
+                return field.defaultValue;
+            }
+            else {
+                return null;
+            }
+        };
+
         angular.extend(this, initProperties);
 
     };
