@@ -24,7 +24,8 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     };
 
     $scope.newType = function() {
-        alert("new type")
+        var command = new yuga.NewTypeCommand();
+        Commander.execute(command);
     };
 }
 
