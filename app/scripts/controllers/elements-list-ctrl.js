@@ -8,6 +8,9 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
 
     $scope.aspects = ApplicationState.timeline.aspects;
 
+    $scope.sortEvents = "start";
+    $scope.sortEventsReverse = false;
+
     $scope.selectElement = function(element) {
         var command = new yuga.SelectElementCommand(element);
         Commander.execute(command);

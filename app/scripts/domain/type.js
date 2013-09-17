@@ -17,6 +17,7 @@
         };
 
         this.fields = [];
+        this.icon = "&#xf04d;";
 
         this.addField = function() {
             this.fields[this.fields.length] = {};

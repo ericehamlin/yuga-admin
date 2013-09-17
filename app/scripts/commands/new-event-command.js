@@ -6,7 +6,9 @@
 
         this.isUndoable = true;
 
+        // todo id for new object
         var event = new yuga.Event({name: "New Event"});
+
         this.execute = function(ApplicationState, ApplicationEvents, Commander) {
             ApplicationState.timeline.events.push(event);
             ApplicationEvents.broadcast(ApplicationEvents.NEW_EVENT, event);

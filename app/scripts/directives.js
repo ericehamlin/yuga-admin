@@ -224,4 +224,62 @@ angular.module('yugaAdmin')
             }
         };
     })
+
+    .directive("ygSortableHeader", function() {
+        return {
+            restrict: "A",
+            replace: true,
+            transclude: true,
+            template: "<div ng-transclude></div>",
+            scope: {
+                ygSortReverse: "=",
+                ygSortVar: "="
+            },
+
+            controller: function($scope, $element, $attrs) {
+
+                this.getSortVar = function() {
+                    return $scope.ygSortVar;
+                };
+
+                this.setSortVar = function(val) {
+                    if (val === $scope.ygSortVar) {
+                        $scope.ygSortReverse = $scope.ygSortReverse ? false : true;
+                    }
+                    $scope.ygSortVar = val;
+                };
+
+                this.getSortReverse = function() {
+                    return $scope.ygSortReverse;
+                };
+            }
+        };
+    })
+
+    .directive("ygSortable", function() {
+        return {
+            restrict: "E",
+            require: "^ygSortableHeader",
+            replace: true,
+            transclude: true,
+            template:   '<div ng-transclude ng-click="select()" ng-class="{asc: isAscending(), desc: isDescending()}" class="sortable">' +
+                        '</div>',
+            scope: {
+                ygSortProperty: "@"
+            },
+            link: function(scope, iElement, iAttrs, ygSortableHeaderCtrl) {
+                scope.select = function() {
+                    ygSortableHeaderCtrl.setSortVar(scope.ygSortProperty);
+                }
+
+                scope.isAscending = function() {
+                    return ygSortableHeaderCtrl.getSortVar() === scope.ygSortProperty && !ygSortableHeaderCtrl.getSortReverse();
+                };
+
+                scope.isDescending = function() {
+                    return ygSortableHeaderCtrl.getSortVar() === scope.ygSortProperty && ygSortableHeaderCtrl.getSortReverse();
+                };
+            }
+        };
+    })
 ;
