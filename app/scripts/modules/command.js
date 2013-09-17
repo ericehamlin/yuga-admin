@@ -6,15 +6,15 @@ angular.module('Command', [])
         var commandStack = [];
         var commandStackIndex = 0;
 
-        var execute = function(command) {
-            command.execute(ApplicationState, ApplicationEvents);
-        };
+        function execute(command) {
+            command.execute(ApplicationState, ApplicationEvents, Commander);
+        }
 
-        var unexecute = function(command) {
-            command.unexecute(ApplicationState, ApplicationEvents);
-        };
+        function unexecute(command) {
+            command.unexecute(ApplicationState, ApplicationEvents, Commander);
+        }
 
-        return {
+        var Commander =  {
             execute: function(command) {
                 execute(command);
                 if (command.isUndoable) {
@@ -62,4 +62,6 @@ angular.module('Command', [])
                 }
             }
         };
+
+        return Commander;
     }]);

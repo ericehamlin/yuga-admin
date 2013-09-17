@@ -14,11 +14,13 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     };
 
     $scope.newEvent = function() {
-        alert("new event")
+        var command = new yuga.NewEventCommand();
+        Commander.execute(command);
     };
 
     $scope.newAspect = function() {
-        alert("new aspect")
+        var command = new yuga.NewAspectCommand();
+        Commander.execute(command);
     };
 
     $scope.newType = function() {
