@@ -1,0 +1,20 @@
+<header>
+    <h1>Logo</h1>
+    <nav>
+        <div class="dropdown" id="file-menu">
+            <div class="dropdown-toggle" data-toggle="dropdown" data-target="#"><i class="icon-file"></i> <span>File</span></div>
+            <ul class="dropdown-menu" role="menu">
+                <li><a tabindex="-1" href="#">New</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <div class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" data-target="#"><i class="icon-pencil"></i> <span>Edit</span></div>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-class="{disabled: !canUndo()}"><a href="" tabindex="-1" ng-click="undo()">Undo {{undoName()}}</a></li>
+                <li ng-class="{disabled: !canRedo()}"><a href="" tabindex="-1" ng-click="redo()">Redo {{redoName()}}</a><li>
+                <li class="divider"></li>
+            </ul>
+        </div>
+    </nav>
+</header>

@@ -12,15 +12,22 @@
         </div>
         <div class="list" id="list-events">
             <div class="list-header" yg-sortable-header yg-sort-var="sortEvents" yg-sort-reverse="sortEventsReverse">
-                <div></div>
-                <yg-sortable yg-sort-property="name">{{resourceBundle().EVENTS}}</yg-sortable>
-                <yg-sortable>name</yg-sortable>
-                <yg-sortable>name</yg-sortable>
+                <yg-sortable yg-sort-property="name">Name</yg-sortable>
+                <yg-sortable yg-sort-property="start">Start</yg-sortable>
+                <yg-sortable yg-sort-property="end">End</yg-sortable>
             </div>
             <div class="list-body">
                 <ul>
                     <li ng-repeat="event in events | orderBy:sortEvents:sortEventsReverse" class="event" ng-class="{selected: event.isSelected(), 'selected-secondary': event.isSelectedSecondary()}" ng-click="selectElement(event)" draggable="true" yg-draggable data-yg-drag-id="{{event.id}}">
-                        {{event.name}}
+                        <div class="sortable">
+                            {{event.name}}
+                        </div>
+                        <div class="sortable">
+                            {{event.start}}
+                        </div>
+                        <div class="sortable">
+                            {{event.end}}
+                        </div>
                     </li>
                 </ul>
             </div>

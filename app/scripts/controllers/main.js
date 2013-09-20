@@ -23,6 +23,10 @@ angular.module('yugaAdmin')
             return editScreen;
         };
 
+        $scope.canUndo = function() {
+            return Commander.canUndo();
+        };
+
         $scope.undoName = function() {
             var command = Commander.getUndoCommand();
             return command ? command.name : "";
@@ -30,6 +34,10 @@ angular.module('yugaAdmin')
 
         $scope.undo = function() {
             Commander.undo();
+        };
+
+        $scope.canRedo = function() {
+            return Commander.canRedo();
         };
 
         $scope.redoName = function() {

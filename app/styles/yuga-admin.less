@@ -125,6 +125,8 @@ input, select {
 
 @color-1: #dddddd;
 
+@scrollbar-width: 10px;
+
 /** BEGIN */
 
 html {
@@ -140,11 +142,19 @@ header {
     right: 0px;
     background-color: @color-1;
     padding: 0 @margin-horizontal;
+    z-index: 1000;
 
     nav {
         position: absolute;
+        /*
         right: @margin-horizontal;
+        */
+        right: 200px;
         top: 0px;
+
+        & > div {
+            display: inline-block;
+        }
     }
 }
 
@@ -275,13 +285,31 @@ h6 {
         }
 
         li, .list-header {
+            width: 100%;
             & > div {
-                display: table-cell;
+                display: inline-block;
+                vertical-align: middle;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
             }
         }
     }
     
     #list-events {
+        li, .list-header {
+            & > div {
+                &:nth-child(1) {
+                    width: 46%;
+                }
+                &:nth-child(2) {
+                    width: 25%;
+                }
+                &:nth-child(3) {
+                    width: 25%;
+                }
+            }
+        }
     }
     
     #list-types {
@@ -365,17 +393,37 @@ h6 {
 }
 
 .sortable {
-    padding-right: 25px;
+    /*padding-right: 25px;*/
 }
 
 .asc {
-    &:after {
-        content: "^";
-    }
+
 }
 
 .desc {
-    &:after {
-        content: "V";
+
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+
+    &:hover {
+        & > span {
+            visibility: visible;
+        }
+    }
+
+    & > span {
+        visibility: hidden;
+    }
+}
+
+.dropdown {
+    &.open {
+        .dropdown-toggle {
+            & > span {
+                visibility: visible;
+            }
+        }
     }
 }

@@ -150,6 +150,7 @@ angular.module('yugaAdmin')
         }
     })
 
+    // TODO: see if we can fold this into ygModel
     .directive("ygLocalAspectModel", function($timeout, ApplicationState, ApplicationEvents, Commander) {
         return {
             restrict: "A",
