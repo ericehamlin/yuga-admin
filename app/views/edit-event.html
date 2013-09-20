@@ -1,6 +1,6 @@
 <section id="edit-event" class="edit-screen" ng-controller="EditEventCtrl">
     <div class="section-header">
-        <h3>{{event.name}}</h3>
+        <h3 contenteditable="true">{{event.name}}</h3>
     </div>
     <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
         <label for="start">Start</label>
