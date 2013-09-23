@@ -32,19 +32,19 @@ angular.module('yugaAdmin')
             new yuga.Aspect({
                 id: 6,
                 name: "Johnny",
-                color: "#00f",
+                color: "00f",
                 typeId: 3
             }),
             new yuga.Aspect({
                 id: 7,
                 name: "Europe",
-                color: '#0f0',
+                color: '0f0',
                 typeId: 4
             }),
             new yuga.Aspect({
                 id: 8,
                 name: "Downtown Webberville",
-                color: '#f00',
+                color: 'f00',
                 typeId: 4
             })
         ];

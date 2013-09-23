@@ -1,5 +1,12 @@
 function EditAspectCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
+    setTimeout(function() {
+        $("#colorpicker").colorpicker({
+            rgb: false,
+            hsv: false
+        });
+    }, 2000);
+
     $scope.aspect = ApplicationState.selectedElement;
 
     $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){

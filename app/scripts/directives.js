@@ -122,7 +122,8 @@ angular.module('yugaAdmin')
                 var wait;
                 scope.property = iAttrs.ygModel.replace(/^.*?(\.|\[)/, "");
 
-                $(iElement).on("change, keyup", function() {
+                $(iElement).on("input", function() {
+
                     $timeout.cancel(wait);
 
                     wait = $timeout(function() {
