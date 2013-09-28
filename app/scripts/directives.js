@@ -119,9 +119,27 @@ angular.module('yugaAdmin')
 
             link: function(scope, iElement, iAttrs) {
 
-                var wait;
+                var wait,
+                    poll,
+                    oldValue = scope.ygModel;
                 scope.property = iAttrs.ygModel.replace(/^.*?(\.|\[)/, "");
+                poll = setInterval(function() {
+                    var newValue = $(iElement).val();
+                    if (newValue != oldValue) {
+                        oldValue = newValue;
+                        $timeout.cancel(wait);
 
+                        wait = $timeout(function() {
+
+                            if (newValue != scope.ygModel) {
+                                scope.executeCommand(newValue);
+                            }
+                            wait = null;
+                        }, 500);
+                    }
+                }, 50);
+                /*
+                //non-polling
                 $(iElement).on("input", function() {
 
                     $timeout.cancel(wait);
@@ -134,6 +152,11 @@ angular.module('yugaAdmin')
                         wait = null;
                     }, 500);
                 });
+                */
+
+                scope.$on('$destroy', function() {
+                    clearInterval(poll);
+                })
             },
 
             controller: function($scope, $element, $attrs) {
