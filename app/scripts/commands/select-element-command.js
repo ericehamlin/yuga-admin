@@ -5,7 +5,6 @@
         this.execute = function(ApplicationState, ApplicationEvents) {
             ApplicationState.timeline.selectElement(element);
             ApplicationState.selectElement(element);
-
             ApplicationEvents.broadcast(ApplicationEvents.SELECTED_ELEMENT_CHANGED, element);
         };
     };

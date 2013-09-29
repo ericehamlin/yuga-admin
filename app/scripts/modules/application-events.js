@@ -11,6 +11,8 @@ angular.module('yugaAdmin')
             ASPECT_ADDED_TO_EVENT :     "aspectAddedToEvent",
             PROPERTY_CHANGED :          "propertyChanged",
             FIELD_ADDED_TO_TYPE :       "fieldAddedToType",
-            NEW_EVENT :                 "newEvent"
+            NEW_EVENT :                 "newEvent",
+            NEW_TYPE :                  "newType",
+            NEW_ASPECT :                "newAspect"
         }
     }]);

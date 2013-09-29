@@ -4,18 +4,29 @@ function EditAspectCtrl($scope, $timeout, ApplicationState, ApplicationEvents, C
 
     $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
         if (element instanceof yuga.Aspect) {
-            init();
+            reset();
         }
     });
 
+    /**
+     *
+     */
     $scope.getTypes = function() {
         return ApplicationState.timeline.types;
     };
 
+    /**
+     *
+     * @param type
+     */
     $scope.setType = function(type) {
         $scope.aspect.setType(type);
     };
 
+    /**
+     *
+     * @param eventId
+     */
     $scope.addEvent = function(eventId) {
         $scope.$apply(function() {
             var event = ApplicationState.timeline.getEventById(eventId);
@@ -24,15 +35,26 @@ function EditAspectCtrl($scope, $timeout, ApplicationState, ApplicationEvents, C
         });
     };
 
+    /**
+     *
+     * @param field
+     */
     $scope.getFieldId = function(field) {
         return $scope.aspect.getType().getFieldId(field);
     };
 
+    /**
+     *
+     */
     $scope.toggleEditName = function() {
         $scope.editName = !$scope.editName;
     };
 
     function init() {
+        reset();
+    }
+
+    function reset() {
         $scope.aspect = ApplicationState.selectedElement;
 
         $scope.editName = false;
@@ -48,7 +70,7 @@ function EditAspectCtrl($scope, $timeout, ApplicationState, ApplicationEvents, C
 
             $("#colorpicker").colorpicker("setColor", "#"+$("#colorpicker").val())
         });
-    };
+    }
 }
 
 EditAspectCtrl.$inject = ['$scope', '$timeout', 'ApplicationState', 'ApplicationEvents', 'Commander'];

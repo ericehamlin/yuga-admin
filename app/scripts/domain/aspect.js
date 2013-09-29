@@ -2,6 +2,10 @@
 
     yuga.Aspect = function (initProperties) {
 
+        this.name = "";
+        this.color = "000000";
+        this.description = "";
+
         //todo -- probably eliminate this. Shouldn't have to update both arrays
         // on the other hand, shouldn't have to scrounge through two levels of arrays to get this result
         this.events = [];
