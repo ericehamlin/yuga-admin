@@ -1,19 +1,10 @@
-function EditAspectCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
+function EditAspectCtrl($scope, $timeout, ApplicationState, ApplicationEvents, Commander) {
 
-    setTimeout(function() {
-        $("#colorpicker").colorpicker({
-            parts: ['map', 'bar'],
-            buttonColorize: true,
-            buttonImageOnly: true,
-            showOn: 'button'
-        });
-    }, 2000);
-
-    $scope.aspect = ApplicationState.selectedElement;
+    init();
 
     $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
         if (element instanceof yuga.Aspect) {
-            $scope.aspect = element;
+            init();
         }
     });
 
@@ -36,6 +27,28 @@ function EditAspectCtrl($scope, ApplicationState, ApplicationEvents, Commander) 
     $scope.getFieldId = function(field) {
         return $scope.aspect.getType().getFieldId(field);
     };
+
+    $scope.toggleEditName = function() {
+        $scope.editName = !$scope.editName;
+    };
+
+    function init() {
+        $scope.aspect = ApplicationState.selectedElement;
+
+        $scope.editName = false;
+
+        $timeout(function() {
+            //$("#colorpicker").colorpicker("destroy");
+            $("#colorpicker").colorpicker({
+                parts: ['map', 'bar'],
+                buttonColorize: true,
+                buttonImageOnly: true,
+                showOn: 'button'
+            });
+
+            $("#colorpicker").colorpicker("setColor", "#"+$("#colorpicker").val())
+        });
+    };
 }
 
-EditAspectCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents', 'Commander'];
+EditAspectCtrl.$inject = ['$scope', '$timeout', 'ApplicationState', 'ApplicationEvents', 'Commander'];

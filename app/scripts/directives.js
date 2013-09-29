@@ -127,6 +127,7 @@ angular.module('yugaAdmin')
                 poll = setInterval(function() {
                     var newValue = $(iElement).val();
                     if (newValue != oldValue) {
+
                         oldValue = newValue;
                         $timeout.cancel(wait);
 
@@ -167,6 +168,7 @@ angular.module('yugaAdmin')
 
                 $scope.executeCommand = function(newValue) {
                     $scope.$apply(function(){
+                        console.log($scope.ygModelElement, $scope.property, $scope.ygModel, newValue);
                         var command = new yuga.ChangePropertyCommand($scope.ygModelElement, $scope.property, $scope.ygModel, newValue);
                         Commander.execute(command);
                     });
@@ -281,6 +283,7 @@ angular.module('yugaAdmin')
             }
         };
     })
+
 
     .directive("ygSortable", function() {
         return {

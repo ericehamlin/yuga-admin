@@ -2,7 +2,8 @@
 
     <div class="section-header">
         <div class="icon" ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': '#' + aspect.color}"></div>
-        <h3>{{aspect.name}}</h3>
+        <h3 ng-show="!editName" ng-click="toggleEditName()">{{aspect.name}}</h3>
+        <h3 ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="aspect-name" id="aspect-name" yg-model="aspect.name" yg-model-element="aspect" style="width:100%;"/></h3>
     </div>
 
     <yg-drop-target yg-drop-callback="addEvent" data-yg-drop-accept=".event" class="section-body">
