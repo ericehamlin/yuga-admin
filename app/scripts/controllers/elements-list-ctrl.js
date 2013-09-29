@@ -10,6 +10,8 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
 
     $scope.sortEvents = "start";
     $scope.sortEventsReverse = false;
+    $scope.sortTypes = "name";
+    $scope.sortTypesReverse = false;
 
     $scope.selectElement = function(element) {
         var command = new yuga.SelectElementCommand(element);

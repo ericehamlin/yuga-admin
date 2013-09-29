@@ -36,6 +36,14 @@
 
         /**
          *
+         * @param type
+         */
+        this.setType = function(type) {
+            this.typeId = type.id;
+        };
+
+        /**
+         *
          * @param event
          */
         this.addEvent = function(event) {

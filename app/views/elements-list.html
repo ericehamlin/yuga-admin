@@ -38,13 +38,13 @@
             <button ng-click="newType()">+</button>
         </div>
         <div class="list" id="list-types">
-            <div class="list-header">
-                <div></div>
-                <div>hi there</div>
+            <div class="list-header" yg-sortable-header yg-sort-var="sortTypes" yg-sort-reverse="sortTypesReverse">
+                <div>&#xf04d;</div>
+                <yg-sortable yg-sort-property="name">Name</yg-sortable>
             </div>
             <div class="list-body">
                 <ul>
-                    <li ng-repeat="type in types" class="type" ng-class="{selected: type.isSelected(), 'selected-secondary': type.isSelectedSecondary()}" ng-click="selectElement(type)" draggable="true" yg-draggable data-yg-drag-id="{{type.id}}">
+                    <li ng-repeat="type in types | orderBy:sortTypes:sortTypesReverse" class="type" ng-class="{selected: type.isSelected(), 'selected-secondary': type.isSelectedSecondary()}" ng-click="selectElement(type)" draggable="true" yg-draggable data-yg-drag-id="{{type.id}}">
                         <div ng-bind-html-unsafe="type.icon"></div>
                         <div>{{type.name}}</div>
                     </li>
@@ -57,14 +57,14 @@
             <button ng-click="newAspect()">+</button>
         </div>
         <div class="list" id="list-aspects">
-            <div class="list-header">
-                <div></div>
-                <div></div>
-                <div>hi there</div>
+            <div class="list-header" yg-sortable-header yg-sort-var="sortAspects" yg-sort-reverse="sortAspectsReverse">
+                <yg-sortable yg-sort-property="getType().icon">&#xf04d;</yg-sortable>
+                <div>&#xf04d;</div>
+                <yg-sortable yg-sort-property="name">Name</yg-sortable>
             </div>
             <div class="list-body">
                 <ul>
-                    <li ng-repeat="aspect in aspects" class="aspect" ng-class="{selected: aspect.isSelected(), 'selected-secondary': aspect.isSelectedSecondary()}" ng-click="selectElement(aspect)" draggable="true" yg-draggable data-yg-drag-id="{{aspect.id}}">
+                    <li ng-repeat="aspect in aspects | orderBy:sortAspects:sortAspectsReverse" class="aspect" ng-class="{selected: aspect.isSelected(), 'selected-secondary': aspect.isSelectedSecondary()}" ng-click="selectElement(aspect)" draggable="true" yg-draggable data-yg-drag-id="{{aspect.id}}">
                         <div ng-bind-html-unsafe="aspect.getType().icon"></div>
                         <div ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': '#' + aspect.color}"></div>
                         <div>{{aspect.name}}</div>

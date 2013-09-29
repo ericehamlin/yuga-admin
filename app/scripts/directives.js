@@ -288,7 +288,7 @@ angular.module('yugaAdmin')
             require: "^ygSortableHeader",
             replace: true,
             transclude: true,
-            template:   '<div ng-transclude ng-click="select()" ng-class="{asc: isAscending(), desc: isDescending()}" class="sortable">' +
+            template:   '<div ng-click="select()" ng-class="{asc: isAscending(), desc: isDescending()}" class="sortable"><span ng-transclude></span><i class="icon-caret-down"></i><i class="icon-caret-up"></i>' +
                         '</div>',
             scope: {
                 ygSortProperty: "@"

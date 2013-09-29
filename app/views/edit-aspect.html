@@ -1,5 +1,5 @@
 <section id="edit-aspect" class="edit-screen" ng-controller="EditAspectCtrl">
-    
+
     <div class="section-header">
         <div class="icon" ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': '#' + aspect.color}"></div>
         <h3>{{aspect.name}}</h3>
@@ -10,16 +10,18 @@
             {{event.name}}
         </div>
 
-        <div class="btn-group">
-            <button type="button" class="btn btn-danger">Type</button>
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+        <label for="aspect-type">Type</label>
+        <div class="btn-group" id="aspect-type">
+            <button type="button" class="btn"><span class="icon" ng-bind-html-unsafe="aspect.getType().icon"></span> {{aspect.getType().name}}</button>
+            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="type in getTypes()"><a href="#"><span style="font-family:fontawesome;" ng-bind-html-unsafe="type.icon"></span> {{type.name}}</a></li>
+                <li ng-repeat="type in getTypes()"><a href="javascript:void(0);" ng-click="setType(type)"><span style="font-family:fontawesome;" ng-bind-html-unsafe="type.icon"></span> {{type.name}}</a></li>
             </ul>
         </div>
 
+        <label for="colorpicker">Color</label>
         <input id="colorpicker" type="hidden" yg-model="aspect.color" yg-model-element="aspect" />
 
         <div ng-repeat="field in aspect.getType().fields">

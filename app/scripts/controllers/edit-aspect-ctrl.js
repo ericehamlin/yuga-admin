@@ -19,7 +19,11 @@ function EditAspectCtrl($scope, ApplicationState, ApplicationEvents, Commander) 
 
     $scope.getTypes = function() {
         return ApplicationState.timeline.types;
-    }
+    };
+
+    $scope.setType = function(type) {
+        $scope.aspect.setType(type);
+    };
 
     $scope.addEvent = function(eventId) {
         $scope.$apply(function() {
