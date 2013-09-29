@@ -94,9 +94,10 @@ angular.module('yugaAdmin')
 
     .directive("ygDate", function() {
         return {
-            restrict: "E",
-            replace: true,
-            template: "<input type='date'/>"
+            restrict: "A",
+            link: function(scope, iElement, iAttrs) {
+                $(iElement).datepicker();
+            }
         }
     })
 

@@ -2,8 +2,10 @@ function EditAspectCtrl($scope, ApplicationState, ApplicationEvents, Commander) 
 
     setTimeout(function() {
         $("#colorpicker").colorpicker({
-            rgb: false,
-            hsv: false
+            parts: ['map', 'bar'],
+            buttonColorize: true,
+            buttonImageOnly: true,
+            showOn: 'button'
         });
     }, 2000);
 
@@ -14,6 +16,10 @@ function EditAspectCtrl($scope, ApplicationState, ApplicationEvents, Commander) 
             $scope.aspect = element;
         }
     });
+
+    $scope.getTypes = function() {
+        return ApplicationState.timeline.types;
+    }
 
     $scope.addEvent = function(eventId) {
         $scope.$apply(function() {

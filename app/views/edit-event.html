@@ -4,10 +4,10 @@
     </div>
     <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
         <label for="start">Start</label>
-        <input type="text" name="start" id="start" yg-model="event.start" yg-model-element="event" />
+        <input type="text" name="start" id="start" yg-date yg-model="event.start" yg-model-element="event" />
 
         <label for="end">End</label>
-        <input type="text" name="end" id="end" yg-model="event.end" yg-model-element="event"/>
+        <input type="text" name="end" id="end" yg-date yg-model="event.end" yg-model-element="event"/>
 
         <label for="description">Description</label>
         <textarea name="description" id="description" yg-model="event.description" yg-model-element="event"></textarea>
@@ -32,7 +32,7 @@
 
                             <input ng-switch-when="number" type="number" ng-model="getLocalAspectFieldValue(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
 
-                            <yg-date ng-switch-when="date" ng-model="getLocalAspectFieldValue(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}"></yg-date>
+                            <input type="text" ng-switch-when="date" yg-date />
 
                             <yg-datetime ng-switch-when="datetime" ng-model="getLocalAspectFieldValue(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}"></yg-datetime>
 
