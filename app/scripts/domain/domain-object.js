@@ -32,6 +32,10 @@
          * @throws {TypeError}
          */
         this.getProperty = function(key) {
+            if (!key) {
+                return null;
+            }
+
             var keys = key.split(".");
             if (keys.length === 1) {
                 return this[key];

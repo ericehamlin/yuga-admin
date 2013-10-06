@@ -92,11 +92,13 @@ angular.module('yugaAdmin')
         }
     })
 
-    .directive("ygDate", function() {
+    .directive("ygDate", function($timeout) {
         return {
             restrict: "A",
             link: function(scope, iElement, iAttrs) {
-                $(iElement).datepicker();
+                $timeout(function() {
+                    $(iElement).datepicker();
+                });
             }
         }
     })
@@ -189,20 +191,20 @@ angular.module('yugaAdmin')
     })
 
 
-    .directive("ygModel2", function($timeout, ApplicationState, ApplicationEvents, Commander) {
+    .directive("ygModelObject", function($timeout, ApplicationState, ApplicationEvents, Commander) {
 
         return {
             restrict: "A",
             scope: {
-                ygModelElement: "=",
-                ygModelField: "@"
+                ygModelObject: "=",
+                ygModelProperty: "@"
             },
 
             link: function(scope, iElement, iAttrs) {
 
                 var wait,
                     poll,
-                    oldValue = scope.ygModelElement.getFieldValue(scope.ygModelField);
+                    oldValue = scope.ygModelObject.getProperty(scope.ygModelProperty);
 
                 poll = setInterval(function() {
                     var newValue = $(iElement).val();
@@ -213,7 +215,7 @@ angular.module('yugaAdmin')
 
                         wait = $timeout(function() {
 
-                            if (newValue != scope.ygModelElement.getFieldValue(scope.ygModelField)) {
+                            if (newValue != scope.ygModelObject.getProperty(scope.ygModelProperty)) {
                                 scope.executeCommand(newValue);
                             }
                             wait = null;
@@ -227,14 +229,13 @@ angular.module('yugaAdmin')
             },
 
             controller: function($scope, $element, $attrs) {
-                console.log($scope);
-                $scope.$watch(function($scope) { return $scope.ygModelElement.getProperty($scope.ygModelField)}, function(newValue, oldValue) {
+                $scope.$watch(function($scope) { return $scope.ygModelObject.getProperty($scope.ygModelProperty)}, function(newValue, oldValue) {
                     $element.val(newValue)
                 });
 
                 $scope.executeCommand = function(newValue) {
                     $scope.$apply(function(){
-                        var command = new yuga.ChangePropertyCommand($scope.ygModelElement, $scope.ygModelField, $scope.ygModelElement.getFieldValue($scope.ygModelField), newValue);
+                        var command = new yuga.ChangePropertyCommand($scope.ygModelObject, $scope.ygModelProperty, $scope.ygModelObject.getProperty($scope.ygModelProperty), newValue);
                         Commander.execute(command);
                     });
                 };
@@ -242,48 +243,6 @@ angular.module('yugaAdmin')
         }
     })
 
-    // TODO: see if we can fold this into ygModel
-    .directive("ygLocalAspectModel", function($timeout, ApplicationState, ApplicationEvents, Commander) {
-        return {
-            restrict: "A",
-            scope: {
-                ygLocalAspectModel: "=",
-                ygLocalAspectModelElement: "=",
-                ygLocalAspectModelFieldId: "="
-            },
-
-            link: function(scope, iElement, iAttrs) {
-
-                var wait;
-
-                $(iElement).on("change, keyup", function() {
-                    $timeout.cancel(wait);
-
-                    wait = $timeout(function() {
-                        var newValue = $(iElement).val();
-                        if (newValue != scope.ygLocalAspectModel) {
-                            scope.executeCommand(newValue);
-                        }
-                        wait = null;
-                    }, 500);
-                });
-            },
-
-            controller: function($scope, $element, $attrs) {
-                $scope.$watch("ygLocalAspectModel", function(newValue, oldValue) {
-                    $element.val(newValue)
-                });
-
-                $scope.executeCommand = function(newValue) {
-                    $scope.$apply(function(){
-                        var command = new yuga.ChangeLocalAspectPropertyCommand($scope.ygLocalAspectModelElement, $scope.ygLocalAspectModelFieldId, $scope.ygLocalAspectModel, newValue);
-                        console.log($scope.ygLocalAspectModelElement, $scope.ygLocalAspectModelFieldId, $scope.ygLocalAspectModel, newValue);
-                        Commander.execute(command);
-                    });
-                };
-            }
-        }
-    })
 
     .directive("ygAccordion", function($timeout) {
         return {

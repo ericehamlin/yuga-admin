@@ -3,7 +3,7 @@
     <div class="section-header">
         <div class="icon" ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': '#' + aspect.color}"></div>
         <h3 ng-show="!editName" ng-click="toggleEditName()">{{aspect.name}}</h3>
-        <h3 ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="aspect-name" id="aspect-name" yg-model="aspect.name" yg-model-element="aspect"/></h3>
+        <h3 ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="aspect-name" id="aspect-name" yg-model-object="aspect" yg-model-property="name"/></h3>
     </div>
 
     <yg-drop-target yg-drop-callback="addEvent" data-yg-drop-accept=".event" class="section-body">
@@ -23,16 +23,16 @@
         </div>
 
         <label for="colorpicker">Color</label>
-        <input id="colorpicker" type="hidden" yg-model="aspect.color" yg-model-element="aspect" />
+        <input id="colorpicker" type="hidden" yg-model-object="aspect" yg-model-property="color" />
 
         <div ng-repeat="field in aspect.getType().fields">
             <label for="{{getFieldId(field)}}">{{field.name}}</label>
             <ng-switch on="field.type">
-                <input ng-switch-when="text" type="text" yg-model2 yg-model-element="aspect" yg-model-field="{{getFieldId(field)}}" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
-                <textarea ng-switch-when="textarea" type="text" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
-                <input ng-switch-when="number" type="number" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
-                <yg-date ng-switch-when="date" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}"></yg-date>
-                <yg-datetime ng-switch-when="datetime" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}"></yg-datetime>
+                <input ng-switch-when="text" type="text" yg-model-object="aspect" yg-model-property="{{getFieldId(field)}}" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
+                <textarea ng-switch-when="textarea" type="text" yg-model-object="aspect" yg-model-property="{{getFieldId(field)}}" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
+                <input ng-switch-when="number" type="number" yg-model-object="aspect" yg-model-property="{{getFieldId(field)}}"  id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
+                <input ng-switch-when="date" type="text" yg-date yg-model-object="aspect" yg-model-property="{{getFieldId(field)}}"  id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" />
+                <yg-datetime ng-switch-when="datetime" yg-model-object="aspect" yg-model-property="{{getFieldId(field)}}"  id="{{getFieldId(field)}}" name="{{getFieldId(field)}}"></yg-datetime>
             </ng-switch>
         </div>
     </yg-drop-target>

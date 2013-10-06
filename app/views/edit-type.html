@@ -3,7 +3,7 @@
     <div class="section-header">
         <div class="icon" ng-bind-html-unsafe="type.icon"></div>
         <h3 ng-show="!editName" ng-click="toggleEditName()">{{type.name}}</h3>
-        <h3 ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="type-name" id="type-name" yg-model="type.name" yg-model-element="type"/></h3>
+        <h3 ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="type-name" id="type-name" yg-model-object="type" yg-model-property="name"/></h3>
     </div>
 
     <div class="section-body">
