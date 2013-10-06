@@ -25,7 +25,7 @@
                         <ng-switch on="field.type">
 
                             <div ng-switch-when="text">
-                                <input type="text" yg-local-aspect-model="getLocalAspectField(aspect, field)" yg-local-aspect-model-field-id="getFieldId(aspect,field)" yg-local-aspect-model-element="getLocalAspect(aspect)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
+                                <input type="text" yg-model2 yg-model-element="getLocalAspect(aspect)"  yg-model-field="{{getFieldId(aspect,field)}}" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
                                 ({{aspect.getFieldValue(getFieldId(aspect,field))}})
                             </div>
 

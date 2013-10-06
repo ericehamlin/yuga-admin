@@ -28,7 +28,7 @@
         <div ng-repeat="field in aspect.getType().fields">
             <label for="{{getFieldId(field)}}">{{field.name}}</label>
             <ng-switch on="field.type">
-                <input ng-switch-when="text" type="text" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
+                <input ng-switch-when="text" type="text" yg-model2 yg-model-element="aspect" yg-model-field="{{getFieldId(field)}}" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
                 <textarea ng-switch-when="textarea" type="text" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
                 <input ng-switch-when="number" type="number" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}" placeholder="{{field.defaultValue}}" />
                 <yg-date ng-switch-when="date" ng-model="aspect[getFieldId(field)]" id="{{getFieldId(field)}}" name="{{getFieldId(field)}}"></yg-date>

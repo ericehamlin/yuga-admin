@@ -115,7 +115,8 @@ angular.module('yugaAdmin')
             restrict: "A",
             scope: {
                 ygModel: "=",
-                ygModelElement: "="
+                ygModelElement: "=",
+                ygModelField: "@"
             },
 
             link: function(scope, iElement, iAttrs) {
@@ -123,7 +124,16 @@ angular.module('yugaAdmin')
                 var wait,
                     poll,
                     oldValue = scope.ygModel;
-                scope.property = iAttrs.ygModel.replace(/^.*?(\.|\[)/, "");
+
+                console.log(scope);
+                if (scope.ygModelField !== undefined) {
+                    console.log("MODELFIELD", scope.ygModelField);
+                    scope.property = scope.ygModelField;
+                }
+                else {
+                    scope.property = iAttrs.ygModel.replace(/^.*?(\.|\[)/, "");
+                }
+
                 poll = setInterval(function() {
                     var newValue = $(iElement).val();
                     if (newValue != oldValue) {
@@ -162,6 +172,7 @@ angular.module('yugaAdmin')
             },
 
             controller: function($scope, $element, $attrs) {
+                console.log($scope);
                 $scope.$watch("ygModel", function(newValue, oldValue) {
                     $element.val(newValue)
                 });
@@ -170,6 +181,60 @@ angular.module('yugaAdmin')
                     $scope.$apply(function(){
                         console.log($scope.ygModelElement, $scope.property, $scope.ygModel, newValue);
                         var command = new yuga.ChangePropertyCommand($scope.ygModelElement, $scope.property, $scope.ygModel, newValue);
+                        Commander.execute(command);
+                    });
+                };
+            }
+        }
+    })
+
+
+    .directive("ygModel2", function($timeout, ApplicationState, ApplicationEvents, Commander) {
+
+        return {
+            restrict: "A",
+            scope: {
+                ygModelElement: "=",
+                ygModelField: "@"
+            },
+
+            link: function(scope, iElement, iAttrs) {
+
+                var wait,
+                    poll,
+                    oldValue = scope.ygModelElement.getFieldValue(scope.ygModelField);
+
+                poll = setInterval(function() {
+                    var newValue = $(iElement).val();
+                    if (newValue != oldValue) {
+
+                        oldValue = newValue;
+                        $timeout.cancel(wait);
+
+                        wait = $timeout(function() {
+
+                            if (newValue != scope.ygModelElement.getFieldValue(scope.ygModelField)) {
+                                scope.executeCommand(newValue);
+                            }
+                            wait = null;
+                        }, 500);
+                    }
+                }, 50);
+
+                scope.$on('$destroy', function() {
+                    clearInterval(poll);
+                })
+            },
+
+            controller: function($scope, $element, $attrs) {
+                console.log($scope);
+                $scope.$watch(function($scope) { return $scope.ygModelElement.getProperty($scope.ygModelField)}, function(newValue, oldValue) {
+                    $element.val(newValue)
+                });
+
+                $scope.executeCommand = function(newValue) {
+                    $scope.$apply(function(){
+                        var command = new yuga.ChangePropertyCommand($scope.ygModelElement, $scope.ygModelField, $scope.ygModelElement.getFieldValue($scope.ygModelField), newValue);
                         Commander.execute(command);
                     });
                 };

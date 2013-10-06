@@ -8,6 +8,7 @@
 
         this.execute = function(ApplicationState, ApplicationEvents) {
             obj[property] = to;
+            console.log("OBJ", obj, property);
             ApplicationState.timeline.selectElement(ApplicationState.selectedElement);
 
             ApplicationEvents.broadcast(ApplicationEvents.PROPERTY_CHANGED, obj, property, from, to);
