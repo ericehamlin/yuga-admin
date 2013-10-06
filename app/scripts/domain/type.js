@@ -20,7 +20,7 @@
         this.icon = "&#xf04d;";
 
         this.addField = function() {
-            this.fields[this.fields.length] = {};
+            this.fields[this.fields.length] = new yuga.Field();
         };
 
         /** TODO how does this affect all the aspects which derive from it? */
