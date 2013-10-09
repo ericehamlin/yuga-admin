@@ -4,10 +4,10 @@
         <h3 ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="event-name" id="event-name" yg-model-object="event" yg-model-property="name"/></h3>
     </div>
     <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
-        <label for="start">Start</label>
+        <label for="start">{{resourceBundle().START}}</label>
         <input type="text" name="start" id="start" yg-date yg-model-object="event"  yg-model-property="start" id="{{getFieldId(aspect, field)}}" />
 
-        <label for="end">End</label>
+        <label for="end">{{resourceBundle().End}}</label>
         <input type="text" name="end" id="end" yg-date yg-model-object="event"  yg-model-property="end" />
 
         <label for="description">Description</label>

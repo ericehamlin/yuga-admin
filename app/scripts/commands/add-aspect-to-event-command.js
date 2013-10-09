@@ -2,7 +2,7 @@
 
     yuga.AddAspectToEventCommand = function(event, aspect) {
 
-        this.name = "add aspect to event";
+        this.name = yuga.ResourceBundle.COMMAND_ADD_ASPECT_TO_EVENT;
 
         this.isUndoable = true;
 

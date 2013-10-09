@@ -2,7 +2,7 @@
 
     yuga.NewAspectCommand = function() {
 
-        this.name = "new aspect";
+        this.name = yuga.ResourceBundle.COMMAND_NEW_ASPECT;
 
         this.isUndoable = true;
 

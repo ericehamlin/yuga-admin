@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('yugaAdmin', ['Command', 'ResourceBundle'])
+angular.module('yugaAdmin', ['Command'])
 
     .config(function ($routeProvider) {
         $routeProvider
@@ -13,8 +13,8 @@ angular.module('yugaAdmin', ['Command', 'ResourceBundle'])
         });
     })
 
-    .run(function($rootScope, ResourceBundle) {
+    .run(function($rootScope) {
         $rootScope.resourceBundle = function() {
-            return ResourceBundle;
+            return yuga.ResourceBundle;
         };
     });

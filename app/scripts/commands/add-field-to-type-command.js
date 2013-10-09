@@ -2,7 +2,7 @@
 
     yuga.AddFieldToTypeCommand = function(type) {
 
-        this.name = "add field to type";
+        this.name = yuga.ResourceBundle.COMMAND_ADD_FIELD_TO_TYPE;
 
         this.isUndoable = true;
 

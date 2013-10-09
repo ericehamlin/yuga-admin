@@ -2,24 +2,24 @@
     <h1>Logo</h1>
     <nav>
         <div class="dropdown" id="file-menu">
-            <div class="dropdown-toggle" data-toggle="dropdown" data-target="#"><i class="icon-file"></i> <span>File</span></div>
+            <div class="dropdown-toggle" data-toggle="dropdown" data-target="#"><i class="icon-file"></i> <span>{{resourceBundle().FILE}}</span></div>
             <ul class="dropdown-menu" role="menu">
-                <li><a tabindex="-1" href="#">New</a></li>
+                <li><a tabindex="-1" href="#">{{resourceBundle().NEW}}</a></li>
             </ul>
         </div>
 
         <div class="dropdown">
-            <div class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" data-target="#"><i class="icon-pencil"></i> <span>Edit</span></div>
+            <div class="dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" data-target="#"><i class="icon-pencil"></i> <span>{{resourceBundle().EDIT}}</span></div>
             <ul class="dropdown-menu" role="menu">
-                <li ng-class="{disabled: !canUndo()}"><a href="" tabindex="-1" ng-click="undo()">Undo {{undoName()}}</a></li>
-                <li ng-class="{disabled: !canRedo()}"><a href="" tabindex="-1" ng-click="redo()">Redo {{redoName()}}</a><li>
+                <li ng-class="{disabled: !canUndo()}"><a href="" tabindex="-1" ng-click="undo()">{{resourceBundle().UNDO}} {{undoName()}}</a></li>
+                <li ng-class="{disabled: !canRedo()}"><a href="" tabindex="-1" ng-click="redo()">{{resourceBundle().REDO}} {{redoName()}}</a><li>
                 <li class="divider"></li>
                 <li class="dropdown-submenu">
-                    <a tabindex="-1" href="#">New</a>
+                    <a tabindex="-1" href="#">{{resourceBundle().NEW}}</a>
                     <ul class="dropdown-menu">
-                        <li><a href="" tabindex="-1" ng-click="newEvent()">Event</a><li>
-                        <li><a href="" tabindex="-1" ng-click="newType()">Type</a><li>
-                        <li><a href="" tabindex="-1" ng-click="newAspect()">Aspect</a><li>
+                        <li><a href="" tabindex="-1" ng-click="newEvent()">{{resourceBundle().EVENT}}</a><li>
+                        <li><a href="" tabindex="-1" ng-click="newType()">{{resourceBundle().TYPE}}</a><li>
+                        <li><a href="" tabindex="-1" ng-click="newAspect()">{{resourceBundle().ASPECT}}</a><li>
                     </ul>
                 </li>
             </ul>

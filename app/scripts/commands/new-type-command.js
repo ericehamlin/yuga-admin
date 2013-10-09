@@ -2,7 +2,7 @@
 
     yuga.NewTypeCommand = function() {
 
-        this.name = "new type";
+        this.name = yuga.ResourceBundle.COMMAND_NEW_TYPE;
 
         this.isUndoable = true;
 

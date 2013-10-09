@@ -2,7 +2,7 @@
 
     yuga.NewEventCommand = function() {
 
-        this.name = "new event";
+        this.name = yuga.ResourceBundle.COMMAND_NEW_EVENT;
 
         this.isUndoable = true;
 
