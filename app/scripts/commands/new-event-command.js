@@ -1,5 +1,6 @@
 (function (yuga) {
 
+    //TODO : apparently this is also firing a change property command. Why?
     yuga.NewEventCommand = function() {
 
         this.name = yuga.ResourceBundle.COMMAND_NEW_EVENT;

@@ -12,12 +12,14 @@
     yuga.Type = function (initProperties) {
 
         this.tempData = {
+            hidden: false,
             selected: false,
             selectedSecondary: false
         };
 
         this.fields = [];
         this.icon = "&#xf04d;";
+
 
         this.addField = function() {
             this.fields[this.fields.length] = new yuga.Field();

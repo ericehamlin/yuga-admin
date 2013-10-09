@@ -6,6 +6,27 @@
         this.types = [];
         this.aspects = [];
 
+
+        /**
+         * @param callback
+         */
+        this.traverseElements = function(callback) {
+            for (var i=0; i<this.events.length; i++) {
+                var event = this.events[i];
+                callback(event);
+            }
+
+            for (var i=0; i<this.types.length; i++) {
+                var type = this.types[i];
+                callback(type);
+            }
+
+            for (var i=0; i<this.aspects.length; i++) {
+                var aspect = this.aspects[i];
+                callback(aspect);
+            }
+        };
+
         /**
          *
          * @param event

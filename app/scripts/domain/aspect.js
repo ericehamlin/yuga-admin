@@ -11,6 +11,7 @@
         this.events = [];
 
         this.tempData = {
+            hidden: false,
             selected: false,
             selectedSecondary: false
         };

@@ -8,6 +8,7 @@
         this.localAspects = {};
 
         this.tempData = {
+            hidden: false,
             selected: false,
             selectedSecondary: false
         };

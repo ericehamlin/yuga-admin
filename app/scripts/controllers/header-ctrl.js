@@ -1,6 +1,7 @@
 'use strict';
 
 function HeaderCtrl($scope, Commander) {
+
     $scope.canUndo = function() {
         return Commander.canUndo();
     };

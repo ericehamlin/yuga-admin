@@ -26,6 +26,18 @@
             return this.tempData.selectedSecondary;
         };
 
+        this.show = function() {
+            this.tempData.hidden = false;
+        };
+
+        this.hide = function() {
+            this.tempData.hidden = true;
+        };
+
+        this.isHidden = function() {
+            return this.tempData.hidden;
+        }
+
         /**
          *
          * @param {String} key

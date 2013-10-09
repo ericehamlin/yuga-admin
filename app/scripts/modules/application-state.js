@@ -94,11 +94,52 @@ angular.module('yugaAdmin')
             aspects[i].timeline = timeline;
         }
 
+
+        var filters = [];
+
+        function search() {
+            timeline.traverseElements(function(element){
+                element.show();
+            });
+            for (var i=0; i<filters.length; i++) {
+                timeline.traverseElements(filters[i].filter);
+            }
+        }
+
+        function addFilter(filter) {
+            if (filter.id == undefined) {
+                filter.id = Math.ceil(Math.random() * 100);
+            } else {
+                for (var i=0; i<filters.length; i++) {
+                    if (filters[i].id == filter.id) {
+                        filters.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+            filters.push(filter);
+            search();
+
+            return filter.id;
+        }
+
+        function removeFilter(id) {
+            for (var i=0; i<filters.length; i++) {
+                if (filters[i].id == id) {
+                    filters.splice(i, 1);
+                    break;
+                }
+            }
+            search();
+        }
+
         return {
             timeline: timeline,
             selectElement: function(element) {
                 this.selectedElement = element;
             },
+            addFilter: addFilter,
+            removeFilter: removeFilter,
             selectedElement: null
         };
     }]);
