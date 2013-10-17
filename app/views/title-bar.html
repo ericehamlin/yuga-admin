@@ -1,6 +1,11 @@
-<div  ng-controller="TitleBarCtrl">
-    <h2>Timeline Name</h2>
+<div ng-controller="TitleBarCtrl">
+        <h2 style="display: inline-block;">Timeline Name</h2>
 
-    <input type="text" ng-model="searchText"/>
-
+        <input type="text" ng-model="searchText" id="search-text"/>
+    <yg-drop-target yg-drop-callback="addFilter" data-yg-drop-accept=".aspect, .type, .event" style="height:50px">
+        <div style="display: inline-block;" ng-repeat="filter in filters">
+            {{filter|json}}
+            <a href="" ng-click="removeFilter(filter.id)">x</a>
+        </div>
+    </yg-drop-target>
 </div>

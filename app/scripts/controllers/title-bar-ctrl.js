@@ -2,12 +2,53 @@
 
 function TitleBarCtrl($scope, Commander, ApplicationState) {
 
-    $scope.removeFilter = function() {
+    $scope.filters = ApplicationState.filters;
+
+    $scope.addFilter = function(id) {
+        var filterElement = ApplicationState.timeline.getElementById(id);
+        var filter;
+        if (filterElement instanceof yuga.Event) {
+            filter = {
+                filter: function(element) {
+                    if (element instanceof yuga.Event) {
+                        if (filterElement !== element) {
+                            element.hide();
+                        }
+                    } else if (element instanceof yuga.Type) {
+
+                    } else if (element instanceof yuga.Aspect) {
+                        if (!filterElement.containsAspect(element)) {
+                            element.hide();
+                        }
+                    }
+                }
+            };
+        } else if (filterElement instanceof yuga.Type) {
+            filter = {
+                filter: function(element) {
+
+                }
+            };
+        } else if (filterElement instanceof yuga.Aspect) {
+            filter = {
+                filter: function(element) {
+
+                }
+            };
+        }
+
+        $scope.$apply(function() {
+        ApplicationState.addFilter(filter);
+        });
+    };
+
+    $scope.removeFilter = function(filterId) {
         ApplicationState.removeFilter(filterId);
     };
 
     $scope.$watch("searchText", function(newValue, oldValue) {
         if (newValue !== undefined) {
+
             ApplicationState.addFilter({
                 id: "searchText",
                 filter: function(element) {

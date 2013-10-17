@@ -97,18 +97,29 @@ angular.module('yugaAdmin')
 
         var filters = [];
 
+        /**
+         *
+         */
         function search() {
             timeline.traverseElements(function(element){
                 element.show();
             });
             for (var i=0; i<filters.length; i++) {
                 timeline.traverseElements(filters[i].filter);
+                console.log("filters", i, filters[i])
             }
         }
 
+        /**
+         *
+         * @param filter
+         *
+         * @returns {String|Number} filter id
+         */
         function addFilter(filter) {
             if (filter.id == undefined) {
                 filter.id = Math.ceil(Math.random() * 100);
+                console.log("GENERATING FILTER ID");
             } else {
                 for (var i=0; i<filters.length; i++) {
                     if (filters[i].id == filter.id) {
@@ -123,6 +134,10 @@ angular.module('yugaAdmin')
             return filter.id;
         }
 
+        /**
+         *
+         * @param id
+         */
         function removeFilter(id) {
             for (var i=0; i<filters.length; i++) {
                 if (filters[i].id == id) {
@@ -138,6 +153,7 @@ angular.module('yugaAdmin')
             selectElement: function(element) {
                 this.selectedElement = element;
             },
+            filters: filters,
             addFilter: addFilter,
             removeFilter: removeFilter,
             selectedElement: null

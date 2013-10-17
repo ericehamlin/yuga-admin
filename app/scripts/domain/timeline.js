@@ -121,6 +121,8 @@
         /**
          *
          * @param aspectId
+         *
+         * @returns {yuga.Aspect}
          */
         this.getAspectById = function(aspectId) {
             for (var i=0; i<this.aspects.length; i++) {
@@ -134,6 +136,8 @@
         /**
          *
          * @param eventId
+         *
+         * @returns {yuga.Event}
          */
         this.getEventById = function(eventId) {
             for (var i=0; i<this.events.length; i++) {
@@ -147,6 +151,8 @@
         /**
          *
          * @param typeId
+         *
+         * @returns {yuga.Type}
          */
         this.getTypeById = function(typeId) {
             for (var i=0; i<this.types.length; i++) {
@@ -155,6 +161,24 @@
                 }
             }
             return null;
+        };
+
+        /**
+         *
+         * @param id
+         *
+         * @returns {yuga.Aspect|yuga.Event|yuga.Type}
+         */
+        this.getElementById = function(id) {
+            var element = this.getEventById(id);
+            if (!element) {
+                element = this.getTypeById(id);
+                if (!element) {
+                    element = this.getAspectById(id);
+                }
+            }
+
+            return element;
         };
 
         angular.extend(this, initProperties);

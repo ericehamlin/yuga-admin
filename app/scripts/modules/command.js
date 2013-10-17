@@ -8,10 +8,15 @@ angular.module('Command', [])
 
         function execute(command) {
             command.execute(ApplicationState, ApplicationEvents, Commander);
+            // TODO: move to individual commands, try to figure out how to check shallow copies
+            // also, maybe different events for modifying timeline data and display
+            ApplicationEvents.broadcast(ApplicationEvents.TIMELINE_MODIFIED);
         }
 
         function unexecute(command) {
             command.unexecute(ApplicationState, ApplicationEvents, Commander);
+            // TODO: move to individual commands, try to figure out how to check shallow copies
+            ApplicationEvents.broadcast(ApplicationEvents.TIMELINE_MODIFIED);
         }
 
         var Commander =  {

@@ -1,3 +1,9 @@
-<section id="timeline">
-    Timeline
+<section id="timeline" ng-controller="TimelineCtrl">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="timeline-widget">
+        <rect id="drag-grab" x="0" y="0" height="100%" width="100%" fill="#ffff00" style="cursor:crosshair;"/>
+        <g id="all" style="cursor:pointer;">
+            <circle r="30" cx="40" cy="50" fill="#ff0000"/>
+            <circle r="30" cx="500" cy="50"/>
+        </g>
+    </svg>
 </section>
