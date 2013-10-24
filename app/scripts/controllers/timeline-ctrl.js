@@ -6,13 +6,15 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
     $timeout(function() {
         timeline("timeline-widget", ApplicationState.timeline);
-    });
+    }, 100);
 
     function timeline(id, timelineData) {
         var SVGDocument = document.getElementById(id),
             SVGNamespace = "http://www.w3.org/2000/svg",
             all,
-            dragGrab
+            dragGrab,
+            minTime,
+            maxTime
             ;
 
         init();
@@ -38,8 +40,32 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             updateTimelineGroup();
         }
 
+        /**
+         *
+         */
         function updateTimelineGroup() {
             emptySVGElement(all);
+            getTimeRange();
+            drawTickMarks();
+        }
+
+        function getTimeRange() {
+            var minDate = new Date(1968, 3, 4, 1, 1, 3, 0);
+            var maxDate  = new Date(2013, 3, 4, 1, 1, 3, 0);
+            minTime = minDate.getTime();
+            maxTime = maxDate.getTime();
+        }
+
+        /**
+         *
+         */
+        function drawTickMarks() {
+            var ticks = createSVGElement("g", {
+                id: "ticks"
+            });
+
+            var windowWidth = SVGDocument.clientWidth;
+            console.log(windowWidth);
 
             var testShape = createSVGElement("circle", {
                 r: "30",
@@ -50,12 +76,23 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             all.appendChild(testShape);
         }
 
+        /**
+         *
+         * @param {SVGElement} element
+         */
         function emptySVGElement(element) {
             while (element.childNodes.length > 0) {
                 element.removeChild(all.childNodes[0])
             }
         }
 
+        /**
+         *
+         * @param {String} type
+         * @param {Object} attributes
+         *
+         * @returns {SVGElement}
+         */
         function createSVGElement(type, attributes) {
             var element = document.createElementNS(SVGNamespace, type);
             for (var i in attributes) {
@@ -64,42 +101,101 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             return element;
         }
 
+        /**
+         *
+         * @param {SVGElement} svgElement
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Boolean} replaceTransform
+         */
         function translate(svgElement, x, y, replaceTransform) {
             var matrix = getTranslateMatrix(x,y);
             setTransformMatrix(svgElement, matrix, replaceTransform);
         }
 
+        /**
+         *
+         * @param {Number} x
+         * @param {Number} y
+         *
+         * @returns {Array}
+         */
         function getTranslateMatrix(x, y) {
             return [1, 0, 0, 1, x, y];
         }
 
+        /**
+         *
+         * @param {SVGElement} svgElement
+         * @param {Number} degrees
+         * @param {Boolean} replaceTransform
+         */
         function rotate(svgElement, degrees, replaceTransform) {
             var matrix = getRotateMatrix(degrees);
             setTransformMatrix(svgElement, matrix, replaceTransform);
         }
 
+        /**
+         *
+         * @param {Number} degrees
+         *
+         * @returns {Array}
+         */
         function getRotateMatrix(degrees) {
             return [Math.cos(degrees), Math.sin(degrees), -Math.sin(degrees), Math.cos(degrees), 0, 0];
         }
 
+        /**
+         *
+         * @param {SVGElement} svgElement
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Boolean} replaceTransform
+         */
         function scale(svgElement, x, y, replaceTransform) {
             var matrix = getScaleMatrix(x,y);
             setTransformMatrix(svgElement, matrix, replaceTransform);
         }
 
+        /**
+         *
+         * @param {Number} x
+         * @param {Number} y
+         *
+         * @returns {Array}
+         */
         function getScaleMatrix(x, y) {
             return [x, 0, 0, y, 0, 0];
         }
 
+        /**
+         *
+         * @param {SVGElement} svgElement
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Boolean} replaceTransform
+         */
         function skew(svgElement, x, y, replaceTransform) {
             var matrix = getSkewMatrix(x,y);
             setTransformMatrix(svgElement, matrix, replaceTransform);
         }
 
+        /**
+         * TODO: this
+         *
+         * @param x
+         * @param y
+         */
         function getSkewMatrix(x, y) {
 
         }
 
+        /**
+         *
+         * @param svgElement
+         * @param matrix
+         * @param replaceTransform
+         */
         function matrix(svgElement, matrix, replaceTransform) {
             setTransformMatrix(svgElement, matrix, replaceTransform);
         }
@@ -110,8 +206,10 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
          * [  a1  a3  a5 ]  *  [  b1  b3  b5 ]  =   [  (a1*b0)+(a3*b1)  (a1*b2)+(a3*b3)  (a1*b4)+(a3*b5)+a5  ]
          * [  0   0   1  ]     [  0   0   1  ]      [         0                0                    1        ]
          *
-         * @param matrixA
-         * @param matrixB
+         * @param {Array} matrixA
+         * @param {Array} matrixB
+         *
+         * @returns {Array}
          */
         function multiplyMatrices(matrixA, matrixB) {
 
@@ -126,6 +224,13 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             return resultMatrix;
         }
 
+        /**
+         *
+         * @param {SVGElement} svgElement
+         * @param {Array} matrix
+         *
+         * @returns {Array}
+         */
         function calculateTransformMatrix(svgElement, matrix) {
             var matrices = [],
                 resultMatrix = [],
@@ -155,6 +260,12 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             return resultMatrix;
         }
 
+        /**
+         *
+         * @param {String} transformString
+         *
+         * @returns {Array}
+         */
         function parseTransformString(transformString) {
             var values, matrix;
 
@@ -191,6 +302,12 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
         }
 
 
+        /**
+         *
+         * @param {SVGElement} svgElement
+         * @param {Array} matrix
+         * @param {Boolean} replaceTransform
+         */
         function setTransformMatrix(svgElement, matrix, replaceTransform) {
             if (replaceTransform) {
                 svgElement.setAttribute("transform", "matrix(" + matrix.join(",") + ")");
@@ -203,7 +320,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
         dragGrab.addEventListener("mousedown", function(e) {
             var previousDragX,
-                currentDragX = e.x;
+                currentDragX = e.clientX;
 
             document.addEventListener("mouseup", onMouseUp);
 
@@ -212,7 +329,8 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
             function onMouseMove(e) {
                 previousDragX = currentDragX;
-                currentDragX = e.x;
+                currentDragX = e.clientX;
+
                 translate(all, currentDragX - previousDragX, 0);
             }
 
