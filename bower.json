@@ -13,7 +13,9 @@
     "jquery-ui": "~1.10.3",
     "font-awesome": "~3.2.1",
     "bootstrap": "~3.0.0",
-    "jquery.colorpicker": "~4.9.2"
+    "jquery.colorpicker": "~4.9.2",
+    "datejs": "*",
+    "ama3-anytime": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",

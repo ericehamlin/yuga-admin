@@ -97,7 +97,9 @@ angular.module('yugaAdmin')
             restrict: "A",
             link: function(scope, iElement, iAttrs) {
                 $timeout(function() {
-                    $(iElement).datepicker();
+                    $(iElement).AnyTime_picker({
+                        askEra: true
+                    });
                 });
             }
         }

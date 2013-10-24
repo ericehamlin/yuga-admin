@@ -5,16 +5,64 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
     });
 
     $timeout(function() {
-        var svgDocument = document.getElementById("timeline-widget"),
-            all = svgDocument.getElementById("all"),
-            dragGrab = svgDocument.getElementById("drag-grab")
+        timeline("timeline-widget", ApplicationState.timeline);
+    });
+
+    function timeline(id, timelineData) {
+        var SVGDocument = document.getElementById(id),
+            SVGNamespace = "http://www.w3.org/2000/svg",
+            all,
+            dragGrab
             ;
 
+        init();
 
-        all.setAttribute("transform", "scale(2, 1)");
+        function init() {
+            dragGrab = createSVGElement("rect", {
+                id: "drag-grab",
+                height: "100%",
+                width: "100%",
+                x: "0",
+                y: "0",
+                fill: "#ffff00"
+            });
+            SVGDocument.appendChild(dragGrab);
 
-        //all.setAttribute("transform", "matrix(2, 0, 0, 1, -50, 20)");
-        console.log("CALCULATED", multiplyMatrices(getTranslateMatrix(-50,20), getScaleMatrix(2,1)));
+            all = createSVGElement("g", {
+                id: "all",
+                height: "100%",
+                width: "100%"
+            });
+            SVGDocument.appendChild(all);
+
+            updateTimelineGroup();
+        }
+
+        function updateTimelineGroup() {
+            emptySVGElement(all);
+
+            var testShape = createSVGElement("circle", {
+                r: "30",
+                cx: "40",
+                cy: "50",
+                fill: "#ff0000"
+            });
+            all.appendChild(testShape);
+        }
+
+        function emptySVGElement(element) {
+            while (element.childNodes.length > 0) {
+                element.removeChild(all.childNodes[0])
+            }
+        }
+
+        function createSVGElement(type, attributes) {
+            var element = document.createElementNS(SVGNamespace, type);
+            for (var i in attributes) {
+                element.setAttribute(i, attributes[i]);
+            }
+            return element;
+        }
 
         function translate(svgElement, x, y, replaceTransform) {
             var matrix = getTranslateMatrix(x,y);
@@ -58,7 +106,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
 
         /**
-         * [  a0  a2  a4 ]     [  b0  b2  b4 ]      [  (a0*b0)+(a2*b1)  (a0*b2)+(a1*b3)  (a0*b4)+(a2*b5)+a4  ]
+         * [  a0  a2  a4 ]     [  b0  b2  b4 ]      [  (a0*b0)+(a2*b1)  (a0*b2)+(a2*b3)  (a0*b4)+(a2*b5)+a4  ]
          * [  a1  a3  a5 ]  *  [  b1  b3  b5 ]  =   [  (a1*b0)+(a3*b1)  (a1*b2)+(a3*b3)  (a1*b4)+(a3*b5)+a5  ]
          * [  0   0   1  ]     [  0   0   1  ]      [         0                0                    1        ]
          *
@@ -66,6 +114,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
          * @param matrixB
          */
         function multiplyMatrices(matrixA, matrixB) {
+
             var resultMatrix = [];
             resultMatrix[0] = (matrixA[0] * matrixB[0]) + (matrixA[2] * matrixB[1]);
             resultMatrix[1] = (matrixA[1] * matrixB[0]) + (matrixA[3] * matrixB[1]);
@@ -78,26 +127,31 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
         }
 
         function calculateTransformMatrix(svgElement, matrix) {
-            var transform = svgElement.getAttribute("transform");
-            var transforms = transform.trim().split(/\)\s*/g);
+            var matrices = [],
+                resultMatrix = [],
+                transform = svgElement.getAttribute("transform");
 
-            transforms.length -= 1; // don't know why my regex creates a blank entry at the end
+            if (transform) {
+                var transforms = transform.trim().split(/\)\s*/g);
 
-            if (transforms.length === 0) {
-                return matrix;
+                transforms.length -= 1; // don't know why my regex creates a blank entry at the end
+
+                if (transforms.length === 0) {
+                    return matrix;
+                }
+
+
+                for (var i=0; i<transforms.length; i++) {
+                    matrices[i] = parseTransformString(transforms[i]);
+                }
             }
 
-            var matrices = [];
-            for (var i=0; i<transforms.length; i++) {
-                matrices[i] = parseTransformString(transforms[i]);
-            }
             matrices.push(matrix);
 
-            var resultMatrix = matrices[0];
-            for (var i=0; i<matrices.length; i++) {
+            resultMatrix = matrices[0];
+            for (var i=1; i<matrices.length; i++) {
                 resultMatrix = multiplyMatrices(resultMatrix, matrices[i]);
             }
-
             return resultMatrix;
         }
 
@@ -110,18 +164,21 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 matrix = getTranslateMatrix(parseFloat(values[0]), parseFloat(values[1]));
                 console.log("TRANSLATE!", matrix);
             }
+
             else if (transformString.match(/rotate/i)) {
                 transformString = transformString.replace(/rotate\s*\(\s*/i, "");
                 values = transformString.trim().split(/\s*,\s*/);
                 matrix = getRotateMatrix(parseFloat(values[0]));
                 console.log("ROTATE!", matrix);
             }
+
             else if (transformString.match(/scale/i)) {
                 transformString = transformString.replace(/scale\s*\(\s*/i, "");
                 values = transformString.trim().split(/\s*,\s*/);
                 matrix = getScaleMatrix(parseFloat(values[0]), parseFloat(values[1]));
                 console.log("SCALE!", matrix);
             }
+
             else if (transformString.match(/matrix/i)) {
                 transformString = transformString.replace(/matrix\s*\(\s*/i, "");
                 values = transformString.trim().split(/\s*,\s*/);
@@ -149,26 +206,22 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 currentDragX = e.x;
 
             document.addEventListener("mouseup", onMouseUp);
-            svgDocument.addEventListener("mouseup", onMouseUp);
 
             document.addEventListener("mousemove", onMouseMove);
-            svgDocument.addEventListener("mousemove", onMouseMove);
 
 
             function onMouseMove(e) {
                 previousDragX = currentDragX;
                 currentDragX = e.x;
-                console.log(previousDragX, currentDragX);
+                translate(all, currentDragX - previousDragX, 0);
             }
 
             function onMouseUp(e) {
                 document.removeEventListener("mouseup", onMouseUp);
-                svgDocument.removeEventListener("mouseup", onMouseUp);
-
-                translate(all, 20, 0);
+                document.removeEventListener("mousemove", onMouseMove);
             }
         });
-    });
+    }
 }
 
 TimelineCtrl.$inject = ['$scope', '$timeout', 'ApplicationEvents', 'ApplicationState'];
