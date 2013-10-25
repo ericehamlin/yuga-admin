@@ -6,7 +6,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
     $timeout(function() {
         timeline("timeline-widget", ApplicationState.timeline);
-    }, 100);
+    });
 
     function timeline(id, timelineData) {
         var SVGDocument = document.getElementById(id),
@@ -14,7 +14,9 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             all,
             dragGrab,
             minTime,
-            maxTime
+            maxTime,
+            timelineWindowWidth = SVGDocument.parentNode.clientWidth,
+            viewableAreaRatio
             ;
 
         init();
@@ -31,9 +33,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             SVGDocument.appendChild(dragGrab);
 
             all = createSVGElement("g", {
-                id: "all",
-                height: "100%",
-                width: "100%"
+                id: "all"
             });
             SVGDocument.appendChild(all);
 
@@ -45,7 +45,6 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
          */
         function updateTimelineGroup() {
             emptySVGElement(all);
-            getTimeRange();
             drawTickMarks();
         }
 
@@ -54,6 +53,50 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             var maxDate  = new Date(2013, 3, 4, 1, 1, 3, 0);
             minTime = minDate.getTime();
             maxTime = maxDate.getTime();
+
+            return maxTime - minTime;
+        }
+
+        function calculateViewableAreaRatio() {
+            var minViewableDate = new Date(1969, 3, 4, 1, 1, 3, 0);
+            var maxViewableDate = new Date(2010, 3, 4, 1, 1, 3, 0);
+
+            var minViewableTime = minViewableDate.getTime();
+            var maxViewableTime = maxViewableDate.getTime();
+
+            var viewableWidth = maxViewableTime - minViewableTime;
+
+            var ratio = timelineWindowWidth/viewableWidth;
+            return ratio;
+
+
+/*
+            var pixelToSecond = timelineWindowWidth/(maxViewableTime-minViewableTime);
+
+            return pixelToSecond;
+
+            var pixelDistanceForTick = 20;
+            if (pixelToSecond > pixelDistanceForTick) {
+                console.log("show seconds")
+            }
+            else if (pixelToSecond > (pixelDistanceForTick/60) ) {
+                console.log("show minutes")
+            }
+            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60)) ) {
+                console.log("show hours")
+            }
+            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60 * 24)) ) {
+                console.log("show days")
+            }
+            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60 * 24 * 30)) ) {
+                console.log("show months")
+            }
+            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60 * 24 * 365)) ) {
+                console.log("show years")
+            }
+            var totalWidth = (maxTime-minTime) * pixelToSecond;
+            return totalWidth;
+            */
         }
 
         /**
@@ -64,16 +107,57 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 id: "ticks"
             });
 
-            var windowWidth = SVGDocument.clientWidth;
-            console.log(windowWidth);
+            var totalPixelWidth = getTimeRange();
 
-            var testShape = createSVGElement("circle", {
-                r: "30",
-                cx: "40",
-                cy: "50",
-                fill: "#ff0000"
+            // 8388607 is the greatest width that can be managed by Firefox --
+            // due to floating-point representation (I believe)
+            // so the plan is going to be -- what is the smallest, most precise unit of time we want to represent?
+            // if milliseconds or seconds or minutes, it reduces the range of time we're able to represent.
+            // we also need a conversion factor from unixtime seconds
+
+            // 8388607 seconds ~= 2330 hours ~= 97 days ~= 3 months
+            // 8388607 minutes ~= 139810 hours ~= 5825 days ~= 15 years
+            // 8388607 hours ~= 349525 days ~= 957 years
+            // 8388607 days ~= 22982 years
+
+            // BUUUUT....
+            // if the unit of time is seconds, we need more than one pixel width per second.
+            // so these figures will be divided by whatever our maximum display width per unit is
+            // i.e. if we can zoom down to 100px/sec, we can only fit 83886 seconds on our timeline ~= 24 hours
+
+            //totalPixelWidth = 8388607;
+
+            //totalPixelWidth = 100;
+            //viewableAreaRatio = 100;
+
+            var tickmarks = createSVGElement("rect", {
+                x: "0",
+                y: "0",
+                width: totalPixelWidth,
+                height: "110",
+                fill: "#ff00ff"
             });
-            all.appendChild(testShape);
+
+            var tickmark1 = createSVGElement("line", {
+                x1: 20,
+                y1: 0,
+                x2: 20,
+                y2: 100,
+                stroke: "#ff0000",
+                "vector-effect": "non-scaling-stroke",
+                "stroke-width": "1px"
+            });
+            ticks.appendChild(tickmarks);
+            ticks.appendChild(tickmark1);
+
+            //viewableAreaRatio = calculateViewableAreaRatio();
+
+            // greatest size calculation that can be managed by Firefox
+            // maybe switch only at scale thresholds?
+            // totalPixelWidth = 10000000;
+             viewableAreaRatio = 0.00001;
+            all.appendChild(ticks);
+            scale(all, viewableAreaRatio, 1, true);
         }
 
         /**
@@ -331,7 +415,9 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 previousDragX = currentDragX;
                 currentDragX = e.clientX;
 
-                translate(all, currentDragX - previousDragX, 0);
+                console.log(viewableAreaRatio);
+                translate(all, (currentDragX - previousDragX) / viewableAreaRatio, 0);
+                //translate(all, currentDragX - previousDragX, 0);
             }
 
             function onMouseUp(e) {

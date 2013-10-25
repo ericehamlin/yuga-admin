@@ -5,6 +5,7 @@
         this.events = [];
         this.types = [];
         this.aspects = [];
+        this.precision = 1;
 
 
         /**
@@ -26,6 +27,25 @@
                 callback(aspect);
             }
         };
+
+        /**
+         * @returns {Number} timestamp of latest date on the timeline
+         */
+        this.getLatestEventTime = function() {
+            for (var i=0; i<this.events.length; i++) {
+                var event = this.events[i];
+            }
+        };
+
+        /**
+         * @returns {Number} timestamp of earliest date on the timeline
+         */
+        this.getEarliestEventTime = function() {
+            for (var i=0; i<this.events.length; i++) {
+                var event = this.events[i];
+            }
+        };
+
 
         /**
          *
@@ -179,6 +199,13 @@
             }
 
             return element;
+        };
+
+        /**
+         *
+         */
+        this.getPrecision = function() {
+            return this.precision;
         };
 
         angular.extend(this, initProperties);
