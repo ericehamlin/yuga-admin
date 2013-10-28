@@ -29,21 +29,36 @@
         };
 
         /**
-         * @returns {Number} timestamp of latest date on the timeline
+         * @returns {Number} latest date on the timeline converted to atomic time units (usually milliseconds)
          */
         this.getLatestEventTime = function() {
+            var latest = null;
             for (var i=0; i<this.events.length; i++) {
                 var event = this.events[i];
+
+                // TODO: what about events that only have a start
+                if (event.end && (!latest || event.getEndTimeUnits() > latest)) {
+                    latest = event.getEndTimeUnits();
+                }
             }
+
+            return latest;
         };
 
         /**
-         * @returns {Number} timestamp of earliest date on the timeline
+         * @returns {Number} earliest date on the timeline converted to atomic time units (usually milliseconds)
          */
         this.getEarliestEventTime = function() {
+            var earliest = null;
             for (var i=0; i<this.events.length; i++) {
                 var event = this.events[i];
+
+                if (event.start && (!earliest || event.getStartTimeUnits() < earliest)) {
+                    earliest = event.getStartTimeUnits();
+                }
             }
+
+            return earliest;
         };
 
 

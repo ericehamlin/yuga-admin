@@ -5,9 +5,214 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
     });
 
     $timeout(function() {
-        timeline("timeline-widget", ApplicationState.timeline);
+        timelineWidget("timeline-widget", ApplicationState.timeline);
     });
 
+
+    /** HTML VERSION */
+
+    function timelineWidget(id, timelineData) {
+        var widget = document.getElementById(id);
+        var all,
+            dragGrab,
+            ticks,
+            timeDisplay,
+            pixelToTimeUnitRatio,
+            timelineWindowWidth = $(widget).width(),
+            centerPointTime,
+            margin = 2000,
+            maxTime,
+            minTime,
+
+            drawBeginningTime,
+            drawEndTime,
+            drawTimeRangeWidth
+            ;
+
+        init();
+
+        function init() {
+            dragGrab = document.createElement("div");
+            dragGrab.setAttribute("style", "width:100%; height:100%; z-index: 2; position:absolute;");
+            widget.appendChild(dragGrab);
+
+            all = document.createElement("div");
+            all.setAttribute("style", "position:absolute; height:100%; z-index: 3;");
+            widget.appendChild(all);
+
+            ticks = document.createElement("div");
+            ticks.setAttribute("style", "position:absolute; height:45px; bottom:45px;");
+            all.appendChild(ticks);
+
+            timeDisplay = document.createElement("div");
+            timeDisplay.setAttribute("style", "position:absolute; height:45px; bottom:0px;");
+            widget.appendChild(timeDisplay);
+
+            maxTime = timelineData.getLatestEventTime();
+            minTime = timelineData.getEarliestEventTime();
+
+            pixelToTimeUnitRatio =  (timelineWindowWidth + (2 * margin))/(maxTime - minTime);
+            centerPointTime = (maxTime + minTime) / 2;
+
+
+
+            drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+            drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+            drawTimeRangeWidth = drawEndTime - drawBeginningTime;
+
+            $(all).css("left", (convertTimeUnitsToPixels(drawBeginningTime - centerPointTime) + (timelineWindowWidth / 2)) + "px");
+            updateTimelineGroup();
+        }
+
+        /**
+         *
+         */
+        function updateTimelineGroup() {
+            //pixelToTimeUnitRatio = calculatePixelsToTimeUnitRatio();
+            drawTickMarks();
+            drawEvents();
+        }
+
+        /**
+         *
+         */
+        function drawTickMarks() {
+        }
+
+        function drawEvents() {
+            for (var i=0; i<timelineData.events.length; i++) {
+                drawEvent(timelineData.events[i]);
+            }
+        }
+
+        function drawEvent(event) {
+            if (event.start && event.end) {
+                var eventDiv;
+                var $eventDiv;
+                if ($("#timeline-event-" + event.id).length == 0) {
+                    eventDiv = document.createElement("div");
+                    var $eventDiv = $(eventDiv);
+                    $eventDiv.css({position: "absolute", height: "25px", "background-color": "#ff0000", "top": Math.round(Math.random() * 200) + "px"});
+                    $eventDiv.attr("id", "timeline-event-" + event.id);
+                }
+                else {
+                    $eventDiv = $("#timeline-event-" + event.id);
+                }
+
+                var leftPixels, rightPixels;
+                leftPixels = convertTimeUnitsToPixels(event.getStartTimeUnits() - drawBeginningTime);
+                leftPixels = leftPixels > 0 ? leftPixels : 0;
+                rightPixels = convertTimeUnitsToPixels(drawEndTime - event.getEndTimeUnits());
+                rightPixels = rightPixels > 0 ? rightPixels : 0;
+
+
+                if (rightPixels <= drawTimeRangeWidth && leftPixels <= drawTimeRangeWidth) {
+
+                    $eventDiv.css({
+                        left: leftPixels + "px",
+                        width: (convertTimeUnitsToPixels(drawEndTime) - rightPixels - leftPixels) + "px"
+                    });
+
+                    $eventDiv.html(event.name);
+                    $(all).append($eventDiv);
+                }
+            }
+        }
+
+        /**
+         *
+         * @param {Number} pixels
+         */
+        function convertPixelsToTimeUnits(pixels) {
+            return pixels / pixelToTimeUnitRatio;
+        };
+
+        /**
+         *
+         * @param {Number} timeUnits (most likely milliseconds)
+         */
+        function convertTimeUnitsToPixels(timeUnits) {
+            return timeUnits * pixelToTimeUnitRatio;
+        };
+
+        function calculatePixelsToTimeUnitRatio() {
+            var minViewableDate = new Date(1975, 3, 4, 1, 1, 3, 0);
+            var maxViewableDate = new Date(1978, 3, 4, 1, 1, 3, 0);
+
+            var minViewableTime = minViewableDate.getTime();
+            var maxViewableTime = maxViewableDate.getTime();
+
+            var viewableTime = (maxViewableTime - minViewableTime);
+
+            var ratio = timelineWindowWidth/viewableTime;
+            return ratio;
+        }
+
+        /**
+         *
+         */
+        function needsRedrawing() {
+            return convertTimeUnitsToPixels(centerPointTime - drawBeginningTime) < timelineWindowWidth/2 ||
+                   convertTimeUnitsToPixels(drawEndTime - centerPointTime) < timelineWindowWidth/2 ;
+        }
+
+        function redraw() {
+            if (convertTimeUnitsToPixels(drawEndTime - centerPointTime) < timelineWindowWidth/2) {
+                drawEndTime += convertPixelsToTimeUnits(margin);
+            }
+            else if (convertTimeUnitsToPixels(centerPointTime - drawBeginningTime) < timelineWindowWidth/2) {
+                drawBeginningTime -= convertPixelsToTimeUnits(margin);
+            }
+            drawTimeRangeWidth = drawEndTime - drawBeginningTime;
+            $(all).css("left", (convertTimeUnitsToPixels(drawBeginningTime - centerPointTime) + (timelineWindowWidth / 2)) + "px");
+            drawEvents();
+        }
+
+        /**
+         *
+         * @param {Number} timeUnitsDelta
+         */
+        function moveByTime(timeUnitsDelta) {
+        }
+
+        /**
+         *
+         * @param {Number} pixelsDelta
+         */
+        function moveByPixels(pixelsDelta) {
+            $(all).css("left", $(all).position().left+pixelsDelta);
+            centerPointTime -= convertPixelsToTimeUnits(pixelsDelta);
+        }
+
+        dragGrab.addEventListener("mousedown", function(e) {
+            var previousDragX,
+                currentDragX = e.clientX;
+
+            document.addEventListener("mouseup", onMouseUp);
+            document.addEventListener("mousemove", onMouseMove);
+
+
+            function onMouseMove(e) {
+                previousDragX = currentDragX;
+                currentDragX = e.clientX;
+
+                moveByPixels(currentDragX - previousDragX);
+                if (needsRedrawing()) {
+                    redraw();
+                }
+
+                timeDisplay.innerHTML = centerPointTime;
+            }
+
+            function onMouseUp(e) {
+                document.removeEventListener("mouseup", onMouseUp);
+                document.removeEventListener("mousemove", onMouseMove);
+            }
+        });
+    }
+
+
+    /** SVG VERSION */
     function timeline(id, timelineData) {
         var SVGDocument = document.getElementById(id),
             SVGNamespace = "http://www.w3.org/2000/svg",
@@ -16,7 +221,8 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             minTime,
             maxTime,
             timelineWindowWidth = SVGDocument.parentNode.clientWidth,
-            viewableAreaRatio
+            viewableAreaRatio,
+            conversionFactor = 1/6000
             ;
 
         init();
@@ -49,22 +255,22 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
         }
 
         function getTimeRange() {
-            var minDate = new Date(1968, 3, 4, 1, 1, 3, 0);
-            var maxDate  = new Date(2013, 3, 4, 1, 1, 3, 0);
+            var minDate = new Date(1969, 3, 4, 1, 1, 3, 0);
+            var maxDate  = new Date(1979, 3, 4, 1, 1, 3, 0);
             minTime = minDate.getTime();
             maxTime = maxDate.getTime();
 
-            return maxTime - minTime;
+            return (maxTime - minTime) * conversionFactor;
         }
 
         function calculateViewableAreaRatio() {
-            var minViewableDate = new Date(1969, 3, 4, 1, 1, 3, 0);
-            var maxViewableDate = new Date(2010, 3, 4, 1, 1, 3, 0);
+            var minViewableDate = new Date(1975, 3, 4, 1, 1, 3, 0);
+            var maxViewableDate = new Date(1978, 3, 4, 1, 1, 3, 0);
 
             var minViewableTime = minViewableDate.getTime();
             var maxViewableTime = maxViewableDate.getTime();
 
-            var viewableWidth = maxViewableTime - minViewableTime;
+            var viewableWidth = (maxViewableTime - minViewableTime) * conversionFactor;
 
             var ratio = timelineWindowWidth/viewableWidth;
             return ratio;
@@ -127,8 +333,8 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
             //totalPixelWidth = 8388607;
 
-            //totalPixelWidth = 100;
-            //viewableAreaRatio = 100;
+            totalPixelWidth = 100;
+            viewableAreaRatio = 50;
 
             var tickmarks = createSVGElement("rect", {
                 x: "0",
@@ -139,23 +345,25 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             });
 
             var tickmark1 = createSVGElement("line", {
-                x1: 20,
+                x1: 400,
                 y1: 0,
-                x2: 20,
+                x2: 400,
                 y2: 100,
                 stroke: "#ff0000",
-                "vector-effect": "non-scaling-stroke",
-                "stroke-width": "1px"
+                /*"vector-effect": "non-scaling-stroke",*/
+                "stroke-width": "1"
             });
             ticks.appendChild(tickmarks);
             ticks.appendChild(tickmark1);
 
             //viewableAreaRatio = calculateViewableAreaRatio();
 
+            console.log(totalPixelWidth, viewableAreaRatio);
+
             // greatest size calculation that can be managed by Firefox
             // maybe switch only at scale thresholds?
             // totalPixelWidth = 10000000;
-             viewableAreaRatio = 0.00001;
+            // viewableAreaRatio = 0.00001;
             all.appendChild(ticks);
             scale(all, viewableAreaRatio, 1, true);
         }
@@ -402,22 +610,34 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             }
         }
 
+
+        /**
+         *
+         * @param {Number} pixelsDelta
+         */
+        function moveByPixels(pixelsDelta) {
+            translate(all, pixelsDelta / viewableAreaRatio, 0);
+        }
+
+        /**
+         *
+         * @param {Number} millisecondsDelta
+         */
+        function moveByTime(millisecondsDelta) {
+        }
+
         dragGrab.addEventListener("mousedown", function(e) {
             var previousDragX,
                 currentDragX = e.clientX;
 
             document.addEventListener("mouseup", onMouseUp);
-
             document.addEventListener("mousemove", onMouseMove);
 
 
             function onMouseMove(e) {
                 previousDragX = currentDragX;
                 currentDragX = e.clientX;
-
-                console.log(viewableAreaRatio);
-                translate(all, (currentDragX - previousDragX) / viewableAreaRatio, 0);
-                //translate(all, currentDragX - previousDragX, 0);
+                moveByPixels(currentDragX - previousDragX);
             }
 
             function onMouseUp(e) {

@@ -23,6 +23,14 @@
 
         /**
          *
+         * @param event
+         */
+        this.intersectsEvent = function(event) {
+
+        };
+
+        /**
+         *
          * @param aspect
          */
         this.addAspect = function(aspect) {
@@ -65,6 +73,21 @@
          */
         this.getLocalAspectById = function(aspectId) {
             return this.localAspects[aspectId];
+        };
+
+        /**
+         * @returns {Number} (usually milliseconds)
+         */
+        this.getStartTimeUnits = function() {
+            return Date.parse(this.start).getTime();
+        };
+
+
+        /**
+         * @returns {Number} (usually milliseconds)
+         */
+        this.getEndTimeUnits = function() {
+            return Date.parse(this.end).getTime();
         };
 
         angular.extend(this, initProperties);

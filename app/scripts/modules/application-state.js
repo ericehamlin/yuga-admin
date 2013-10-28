@@ -52,15 +52,21 @@ angular.module('yugaAdmin')
         var events = [
             new yuga.Event({
                 id: 1,
-                name: "Event Name"
+                name: "Event Name",
+                start: "1972-05-05 05:06:23",
+                end: "1999-06-07 01:30:30"
             }),
             new yuga.Event({
                 id: 2,
-                name: "Revent Name"
+                name: "Revent Name",
+                start: "1990-05-05 05:06:23",
+                end: "2012-06-07 01:30:30"
             }),
             new yuga.Event({
                 id: 3,
-                name: "Herve Villachez"
+                name: "Herve Villachez",
+                start: "1965-05-05 05:06:23",
+                end: "2000-06-07 01:30:30"
             })
         ];
 
