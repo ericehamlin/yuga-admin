@@ -127,6 +127,16 @@ input, select {
 
 @scrollbar-width: 10px;
 
+
+/** FUNCTIONS */
+
+.user-select(@select) {
+     user-select: @select;
+     -webkit-user-select: @select;
+     -moz-user-select: @select;
+     -ms-user-select: @select;
+}
+
 /** BEGIN */
 
 html {
@@ -487,6 +497,30 @@ h6 {
 .dropdown-submenu.pull-left{float:none;}
 .dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}*/
 
+.tick {
+    position: absolute;
+    z-index: 4;
+    bottom: 0px;
+    height: 30px;
+    background-color: #aaaaaa;
+    border-right: 1px solid #fff;
+    .user-select(none);
+    text-align: center;
+}
+
+.sub-tick {
+    position: absolute;
+    bottom: 0px;
+    height: 1em;
+    border-left: 1px solid #fff;
+    font-size: 0.8em;
+    padding-left: 0.2em;
+
+    &:first-child {
+        border-left: none;
+    }
+
+}
 
 /* ************************************************************** */
 /* CUSTOM WEBKIT SCROLLBAR */

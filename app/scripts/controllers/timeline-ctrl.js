@@ -24,9 +24,9 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             maxTime,
             minTime,
 
+            beginningCenterPointTime,
             drawBeginningTime,
-            drawEndTime,
-            drawTimeRangeWidth
+            drawEndTime
             ;
 
         init();
@@ -41,7 +41,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             widget.appendChild(all);
 
             ticks = document.createElement("div");
-            ticks.setAttribute("style", "position:absolute; height:45px; bottom:45px;");
+            ticks.setAttribute("style", "position:absolute; height:45px; bottom:0px;");
             all.appendChild(ticks);
 
             timeDisplay = document.createElement("div");
@@ -51,16 +51,15 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             maxTime = timelineData.getLatestEventTime();
             minTime = timelineData.getEarliestEventTime();
 
-            pixelToTimeUnitRatio =  (timelineWindowWidth + (2 * margin))/(maxTime - minTime);
+            pixelToTimeUnitRatio =  (timelineWindowWidth + (8 * margin))/(maxTime - minTime);
             centerPointTime = (maxTime + minTime) / 2;
-
+            beginningCenterPointTime = centerPointTime;
 
 
             drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
             drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
-            drawTimeRangeWidth = drawEndTime - drawBeginningTime;
 
-            $(all).css("left", (convertTimeUnitsToPixels(drawBeginningTime - centerPointTime) + (timelineWindowWidth / 2)) + "px");
+            $(all).css("left", (timelineWindowWidth / 2) + "px");
             updateTimelineGroup();
         }
 
@@ -77,6 +76,40 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
          *
          */
         function drawTickMarks() {
+            var scale;
+            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+                "December"];
+
+            var drawBeginningDate = new Date(drawBeginningTime);
+
+            drawBeginningDate = drawBeginningDate.moveToMonth(0, -1).moveToFirstDayOfMonth();
+
+            var leftPixels, widthPixels;
+
+            while (drawBeginningDate.getTime() < drawEndTime) {
+                var beginTickTime = drawBeginningDate.getTime();
+                var year = drawBeginningDate.getFullYear();
+                leftPixels = convertTimeUnitsToPixels(beginTickTime - beginningCenterPointTime);
+                widthPixels = convertTimeUnitsToPixels(drawBeginningDate.addYears(1).getTime() - beginTickTime);
+                var $bottom = $("<div/>").
+                    addClass("tick").
+                    css({left: leftPixels + "px", width: widthPixels + "px"}).
+                    html(year);
+
+                drawBeginningDate.addYears(-1);
+
+                for (var i=0; i<12; i++) {
+                    var monthLeftPixels = convertTimeUnitsToPixels(drawBeginningDate.getTime() - beginTickTime) ;
+                    var $month = $("<div/>").
+                        addClass("sub-tick").
+                        css({left: monthLeftPixels +"px"}).
+                        html(drawBeginningDate.toString("MMM"));
+                    $bottom.append($month);
+
+                    drawBeginningDate.addMonths(1);
+                }
+                $(ticks).append($bottom);
+            }
         }
 
         function drawEvents() {
@@ -99,18 +132,15 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                     $eventDiv = $("#timeline-event-" + event.id);
                 }
 
-                var leftPixels, rightPixels;
-                leftPixels = convertTimeUnitsToPixels(event.getStartTimeUnits() - drawBeginningTime);
-                leftPixels = leftPixels > 0 ? leftPixels : 0;
-                rightPixels = convertTimeUnitsToPixels(drawEndTime - event.getEndTimeUnits());
-                rightPixels = rightPixels > 0 ? rightPixels : 0;
+                var left, right;
 
+                left = event.getStartTimeUnits() > drawBeginningTime ? event.getStartTimeUnits() : drawBeginningTime;
+                right = event.getEndTimeUnits() < drawEndTime ? event.getEndTimeUnits() : drawEndTime;
 
-                if (rightPixels <= drawTimeRangeWidth && leftPixels <= drawTimeRangeWidth) {
-
+                if (drawBeginningTime <= right <= drawEndTime ||  drawBeginningTime <= left <= drawEndTime) {
                     $eventDiv.css({
-                        left: leftPixels + "px",
-                        width: (convertTimeUnitsToPixels(drawEndTime) - rightPixels - leftPixels) + "px"
+                        left: convertTimeUnitsToPixels(left - beginningCenterPointTime) + "px",
+                        width: convertTimeUnitsToPixels(right - left) + "px"
                     });
 
                     $eventDiv.html(event.name);
@@ -163,9 +193,8 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             else if (convertTimeUnitsToPixels(centerPointTime - drawBeginningTime) < timelineWindowWidth/2) {
                 drawBeginningTime -= convertPixelsToTimeUnits(margin);
             }
-            drawTimeRangeWidth = drawEndTime - drawBeginningTime;
-            $(all).css("left", (convertTimeUnitsToPixels(drawBeginningTime - centerPointTime) + (timelineWindowWidth / 2)) + "px");
             drawEvents();
+            drawTickMarks();
         }
 
         /**
