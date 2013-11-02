@@ -4,10 +4,20 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
     $scope.$on(ApplicationEvents.TIMELINE_MODIFIED, function() {
     });
 
+    var widget;
+
     $timeout(function() {
-        timelineWidget("timeline-widget", ApplicationState.timeline);
+        widget = new timelineWidget("timeline-widget", ApplicationState.timeline);
     });
 
+
+    $scope.zoomIn = function() {
+        widget.zoomBy(1);
+    };
+
+    $scope.zoomOut = function() {
+        widget.zoomBy(-1);
+    };
 
     /** HTML VERSION */
 
@@ -31,6 +41,15 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
         init();
 
+        this.zoomBy = function(zoomDelta) {
+            console.log(pixelToTimeUnitRatio);
+            pixelToTimeUnitRatio *= Math.pow(4, zoomDelta);
+            drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+            drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+            console.log(pixelToTimeUnitRatio);
+            redraw();
+        };
+
         function init() {
             dragGrab = document.createElement("div");
             dragGrab.setAttribute("style", "width:100%; height:100%; z-index: 2; position:absolute;");
@@ -51,7 +70,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             maxTime = timelineData.getLatestEventTime();
             minTime = timelineData.getEarliestEventTime();
 
-            pixelToTimeUnitRatio =  (timelineWindowWidth + (8 * margin))/(maxTime - minTime);
+            pixelToTimeUnitRatio =  (timelineWindowWidth + (2500 * margin))/(maxTime - minTime);
             centerPointTime = (maxTime + minTime) / 2;
             beginningCenterPointTime = centerPointTime;
 
@@ -59,6 +78,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
             drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
 
+            console.log("at beginning", new Date(drawBeginningTime), new Date(drawEndTime));
             $(all).css("left", (timelineWindowWidth / 2) + "px");
             updateTimelineGroup();
         }
@@ -77,39 +97,112 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
          */
         function drawTickMarks() {
             var scale;
-            var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November",
-                "December"];
+
+            /*scale = {
+                tick : {
+                    format: "yyyy",
+                    add: {years: 1}
+                },
+                subTick : {
+                    format: "MMM",
+                    add: {months: 1}
+                }
+            };
+
+            scale = {
+                tick : {
+                    format: "MMMM",
+                    add: {months: 1}
+                },
+                subTick : {
+                    format: "",
+                    add: {days: 1}
+                }
+            };
+
+
+            scale = {
+                tick : {
+                    format: "MMMM, yyyy",
+                    add: {months: 1}
+                },
+                subTick : {
+                    format: "ddd d",
+                    add: {days: 1}
+                }
+            };
+
+            */
+
+
+
+            if (pixelToTimeUnitRatio > 0.00001) { // 0.000013460840841860077 // labeled hours
+                scale = {
+                    initialize: {hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "MMM d, yyyy",
+                        add: {days: 1}
+                    },
+                    subTick : {
+                        format: "h:mmtt",
+                        add: {hours: 1} // why doesn't this work on webkit?
+                    }
+                };
+
+            }
+            else if (pixelToTimeUnitRatio > 0.000001) { //0.0000033652102104650194
+                scale = {
+                    initialize: {hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "MMM d, yyyy",
+                        add: {days: 1}
+                    },
+                    subTick : {
+                        format: "",
+                        add: {hours: 1} // why doesn't this work on webkit?
+                    }
+                };
+            }
+
+
 
             var drawBeginningDate = new Date(drawBeginningTime);
-
-            drawBeginningDate = drawBeginningDate.moveToMonth(0, -1).moveToFirstDayOfMonth();
+            drawBeginningDate.set(scale.initialize);
 
             var leftPixels, widthPixels;
 
             while (drawBeginningDate.getTime() < drawEndTime) {
                 var beginTickTime = drawBeginningDate.getTime();
-                var year = drawBeginningDate.getFullYear();
+                var tickLabel = drawBeginningDate.toString(scale.tick.format);
                 leftPixels = convertTimeUnitsToPixels(beginTickTime - beginningCenterPointTime);
-                widthPixels = convertTimeUnitsToPixels(drawBeginningDate.addYears(1).getTime() - beginTickTime);
-                var $bottom = $("<div/>").
+                var nextTickDate = drawBeginningDate.clone().add(scale.tick.add);
+                widthPixels = convertTimeUnitsToPixels(nextTickDate.getTime() - beginTickTime);
+
+                var $tick = $("<div/>").
                     addClass("tick").
                     css({left: leftPixels + "px", width: widthPixels + "px"}).
-                    html(year);
+                    html(tickLabel);
 
-                drawBeginningDate.addYears(-1);
 
-                for (var i=0; i<12; i++) {
-                    var monthLeftPixels = convertTimeUnitsToPixels(drawBeginningDate.getTime() - beginTickTime) ;
-                    var $month = $("<div/>").
+                while (drawBeginningDate.getTime() <= nextTickDate.getTime()) {
+                    var subTickLeftPixels = convertTimeUnitsToPixels(drawBeginningDate.getTime() - beginTickTime),
+                        nextSubTickDate = drawBeginningDate.clone().add(scale.subTick.add),
+                        subTickWidth = convertTimeUnitsToPixels(nextSubTickDate.getTime() - drawBeginningDate.getTime())
+                        ;
+                    var $subTick = $("<div/>").
                         addClass("sub-tick").
-                        css({left: monthLeftPixels +"px"}).
-                        html(drawBeginningDate.toString("MMM"));
-                    $bottom.append($month);
-
-                    drawBeginningDate.addMonths(1);
+                        css({left: subTickLeftPixels +"px", width: subTickWidth + ""});
+                    if (scale.subTick.format) {
+                        $subTick.html(drawBeginningDate.toString(scale.subTick.format));
+                    }
+                    $tick.append($subTick);
+                    drawBeginningDate.setTime(nextSubTickDate.getTime());
                 }
-                $(ticks).append($bottom);
+
+                drawBeginningDate = nextTickDate;
+                $(ticks).append($tick);
             }
+            console.log("done");
         }
 
         function drawEvents() {
