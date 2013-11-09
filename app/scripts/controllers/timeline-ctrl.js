@@ -41,9 +41,14 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
         init();
 
+        /**
+         * TODO: why isn't this keeping our center point?
+         * @param zoomDelta
+         */
         this.zoomBy = function(zoomDelta) {
             console.log(pixelToTimeUnitRatio);
-            pixelToTimeUnitRatio *= Math.pow(4, zoomDelta);
+            beginningCenterPointTime = centerPointTime;
+            pixelToTimeUnitRatio *= Math.pow(1.5, zoomDelta);
             drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
             drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
             console.log(pixelToTimeUnitRatio);
@@ -66,6 +71,11 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             timeDisplay = document.createElement("div");
             timeDisplay.setAttribute("style", "position:absolute; height:45px; bottom:0px;");
             widget.appendChild(timeDisplay);
+
+            var $centerLine = $("<div/>").
+                css({width: "1px", position: "absolute", "background-color": "#000", height: "100%", left: (timelineWindowWidth/2) + "px"});
+
+            $(widget).append($centerLine);
 
             maxTime = timelineData.getLatestEventTime();
             minTime = timelineData.getEarliestEventTime();
@@ -98,44 +108,6 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
         function drawTickMarks() {
             var scale;
 
-            /*scale = {
-                tick : {
-                    format: "yyyy",
-                    add: {years: 1}
-                },
-                subTick : {
-                    format: "MMM",
-                    add: {months: 1}
-                }
-            };
-
-            scale = {
-                tick : {
-                    format: "MMMM",
-                    add: {months: 1}
-                },
-                subTick : {
-                    format: "",
-                    add: {days: 1}
-                }
-            };
-
-
-            scale = {
-                tick : {
-                    format: "MMMM, yyyy",
-                    add: {months: 1}
-                },
-                subTick : {
-                    format: "ddd d",
-                    add: {days: 1}
-                }
-            };
-
-            */
-
-
-
             if (pixelToTimeUnitRatio > 0.00001) { // 0.000013460840841860077 // labeled hours
                 scale = {
                     initialize: {hour: 0, minute: 0, second: 0},
@@ -160,6 +132,45 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                     subTick : {
                         format: "",
                         add: {hours: 1} // why doesn't this work on webkit?
+                    }
+                };
+            }
+            else if (pixelToTimeUnitRatio > 0.0000003) { //8.413025526162548e-7
+                scale = {
+                    initialize: {day: 1, hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "MMMM, yyyy",
+                        add: {months: 1}
+                    },
+                    subTick : {
+                        format: "ddd d",
+                        add: {days: 1}
+                    }
+                };
+            }
+            else if (pixelToTimeUnitRatio > 0.00000005) {
+                scale = {
+                    initialize: {day: 1, hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "MMMM, yyyy",
+                        add: {months: 1}
+                    },
+                    subTick : {
+                        format: "",
+                        add: {days: 1}
+                    }
+                };
+            }
+            else {
+                scale = {
+                    initialize: {month: 0, day: 1, hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "yyyy",
+                        add: {years: 1}
+                    },
+                    subTick : {
+                        format: "MMM",
+                        add: {months: 1}
                     }
                 };
             }
@@ -202,7 +213,6 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 drawBeginningDate = nextTickDate;
                 $(ticks).append($tick);
             }
-            console.log("done");
         }
 
         function drawEvents() {
@@ -258,19 +268,6 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             return timeUnits * pixelToTimeUnitRatio;
         };
 
-        function calculatePixelsToTimeUnitRatio() {
-            var minViewableDate = new Date(1975, 3, 4, 1, 1, 3, 0);
-            var maxViewableDate = new Date(1978, 3, 4, 1, 1, 3, 0);
-
-            var minViewableTime = minViewableDate.getTime();
-            var maxViewableTime = maxViewableDate.getTime();
-
-            var viewableTime = (maxViewableTime - minViewableTime);
-
-            var ratio = timelineWindowWidth/viewableTime;
-            return ratio;
-        }
-
         /**
          *
          */
@@ -279,6 +276,9 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                    convertTimeUnitsToPixels(drawEndTime - centerPointTime) < timelineWindowWidth/2 ;
         }
 
+        /**
+         *
+         */
         function redraw() {
             if (convertTimeUnitsToPixels(drawEndTime - centerPointTime) < timelineWindowWidth/2) {
                 drawEndTime += convertPixelsToTimeUnits(margin);
@@ -303,7 +303,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
          */
         function moveByPixels(pixelsDelta) {
             $(all).css("left", $(all).position().left+pixelsDelta);
-            centerPointTime -= convertPixelsToTimeUnits(pixelsDelta);
+            centerPointTime += convertPixelsToTimeUnits(pixelsDelta);
         }
 
         dragGrab.addEventListener("mousedown", function(e) {
@@ -336,169 +336,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
     /** SVG VERSION */
     function timeline(id, timelineData) {
-        var SVGDocument = document.getElementById(id),
-            SVGNamespace = "http://www.w3.org/2000/svg",
-            all,
-            dragGrab,
-            minTime,
-            maxTime,
-            timelineWindowWidth = SVGDocument.parentNode.clientWidth,
-            viewableAreaRatio,
-            conversionFactor = 1/6000
-            ;
 
-        init();
-
-        function init() {
-            dragGrab = createSVGElement("rect", {
-                id: "drag-grab",
-                height: "100%",
-                width: "100%",
-                x: "0",
-                y: "0",
-                fill: "#ffff00"
-            });
-            SVGDocument.appendChild(dragGrab);
-
-            all = createSVGElement("g", {
-                id: "all"
-            });
-            SVGDocument.appendChild(all);
-
-            updateTimelineGroup();
-        }
-
-        /**
-         *
-         */
-        function updateTimelineGroup() {
-            emptySVGElement(all);
-            drawTickMarks();
-        }
-
-        function getTimeRange() {
-            var minDate = new Date(1969, 3, 4, 1, 1, 3, 0);
-            var maxDate  = new Date(1979, 3, 4, 1, 1, 3, 0);
-            minTime = minDate.getTime();
-            maxTime = maxDate.getTime();
-
-            return (maxTime - minTime) * conversionFactor;
-        }
-
-        function calculateViewableAreaRatio() {
-            var minViewableDate = new Date(1975, 3, 4, 1, 1, 3, 0);
-            var maxViewableDate = new Date(1978, 3, 4, 1, 1, 3, 0);
-
-            var minViewableTime = minViewableDate.getTime();
-            var maxViewableTime = maxViewableDate.getTime();
-
-            var viewableWidth = (maxViewableTime - minViewableTime) * conversionFactor;
-
-            var ratio = timelineWindowWidth/viewableWidth;
-            return ratio;
-
-
-/*
-            var pixelToSecond = timelineWindowWidth/(maxViewableTime-minViewableTime);
-
-            return pixelToSecond;
-
-            var pixelDistanceForTick = 20;
-            if (pixelToSecond > pixelDistanceForTick) {
-                console.log("show seconds")
-            }
-            else if (pixelToSecond > (pixelDistanceForTick/60) ) {
-                console.log("show minutes")
-            }
-            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60)) ) {
-                console.log("show hours")
-            }
-            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60 * 24)) ) {
-                console.log("show days")
-            }
-            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60 * 24 * 30)) ) {
-                console.log("show months")
-            }
-            else if (pixelToSecond > (pixelDistanceForTick/(60 * 60 * 24 * 365)) ) {
-                console.log("show years")
-            }
-            var totalWidth = (maxTime-minTime) * pixelToSecond;
-            return totalWidth;
-            */
-        }
-
-        /**
-         *
-         */
-        function drawTickMarks() {
-            var ticks = createSVGElement("g", {
-                id: "ticks"
-            });
-
-            var totalPixelWidth = getTimeRange();
-
-            // 8388607 is the greatest width that can be managed by Firefox --
-            // due to floating-point representation (I believe)
-            // so the plan is going to be -- what is the smallest, most precise unit of time we want to represent?
-            // if milliseconds or seconds or minutes, it reduces the range of time we're able to represent.
-            // we also need a conversion factor from unixtime seconds
-
-            // 8388607 seconds ~= 2330 hours ~= 97 days ~= 3 months
-            // 8388607 minutes ~= 139810 hours ~= 5825 days ~= 15 years
-            // 8388607 hours ~= 349525 days ~= 957 years
-            // 8388607 days ~= 22982 years
-
-            // BUUUUT....
-            // if the unit of time is seconds, we need more than one pixel width per second.
-            // so these figures will be divided by whatever our maximum display width per unit is
-            // i.e. if we can zoom down to 100px/sec, we can only fit 83886 seconds on our timeline ~= 24 hours
-
-            //totalPixelWidth = 8388607;
-
-            totalPixelWidth = 100;
-            viewableAreaRatio = 50;
-
-            var tickmarks = createSVGElement("rect", {
-                x: "0",
-                y: "0",
-                width: totalPixelWidth,
-                height: "110",
-                fill: "#ff00ff"
-            });
-
-            var tickmark1 = createSVGElement("line", {
-                x1: 400,
-                y1: 0,
-                x2: 400,
-                y2: 100,
-                stroke: "#ff0000",
-                /*"vector-effect": "non-scaling-stroke",*/
-                "stroke-width": "1"
-            });
-            ticks.appendChild(tickmarks);
-            ticks.appendChild(tickmark1);
-
-            //viewableAreaRatio = calculateViewableAreaRatio();
-
-            console.log(totalPixelWidth, viewableAreaRatio);
-
-            // greatest size calculation that can be managed by Firefox
-            // maybe switch only at scale thresholds?
-            // totalPixelWidth = 10000000;
-            // viewableAreaRatio = 0.00001;
-            all.appendChild(ticks);
-            scale(all, viewableAreaRatio, 1, true);
-        }
-
-        /**
-         *
-         * @param {SVGElement} element
-         */
-        function emptySVGElement(element) {
-            while (element.childNodes.length > 0) {
-                element.removeChild(all.childNodes[0])
-            }
-        }
 
         /**
          *
@@ -731,42 +569,6 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 svgElement.setAttribute("transform", "matrix(" + calculatedMatrix.join(",") + ")");
             }
         }
-
-
-        /**
-         *
-         * @param {Number} pixelsDelta
-         */
-        function moveByPixels(pixelsDelta) {
-            translate(all, pixelsDelta / viewableAreaRatio, 0);
-        }
-
-        /**
-         *
-         * @param {Number} millisecondsDelta
-         */
-        function moveByTime(millisecondsDelta) {
-        }
-
-        dragGrab.addEventListener("mousedown", function(e) {
-            var previousDragX,
-                currentDragX = e.clientX;
-
-            document.addEventListener("mouseup", onMouseUp);
-            document.addEventListener("mousemove", onMouseMove);
-
-
-            function onMouseMove(e) {
-                previousDragX = currentDragX;
-                currentDragX = e.clientX;
-                moveByPixels(currentDragX - previousDragX);
-            }
-
-            function onMouseUp(e) {
-                document.removeEventListener("mouseup", onMouseUp);
-                document.removeEventListener("mousemove", onMouseMove);
-            }
-        });
     }
 }
 
