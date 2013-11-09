@@ -21,6 +21,9 @@
          * @param event
          */
         this.inEvent = function(event) {
+            if (!(event instanceof yuga.Event)) {
+                throw new TypeError("argument to yuga.Aspect.inEvent() must be a yuga.Event");
+            }
             return jQuery.inArray(event, this.events) > -1;
         };
 
@@ -29,6 +32,9 @@
          * @param type
          */
         this.isType = function(type) {
+            if (!(type instanceof yuga.Type)) {
+                throw new TypeError("argument to yuga.Aspect.isType() must be a yuga.Type");
+            }
             return this.typeId === type.id;
         };
 
