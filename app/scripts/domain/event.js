@@ -24,6 +24,8 @@
         /**
          *
          * @param event
+         *
+         * ALSO containsEvent // temporallyContainsEvent
          */
         this.intersectsEvent = function(event) {
 
@@ -88,6 +90,13 @@
          */
         this.getEndTimeUnits = function() {
             return Date.parse(this.end).getTime();
+        };
+
+        /**
+         *
+         */
+        this.clone = function() {
+
         };
 
         angular.extend(this, initProperties);

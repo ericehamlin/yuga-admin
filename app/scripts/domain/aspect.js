@@ -84,6 +84,11 @@
             return this.events;
         };
 
+        /**
+         *
+         * @param fieldId
+         * @param returnDefault
+         */
         this.getFieldValue = function(fieldId, returnDefault) {
             if (this[fieldId] !== undefined) {
                 return this[fieldId]
@@ -94,6 +99,22 @@
             else {
                 return null;
             }
+        };
+
+        /**
+         *
+         */
+        this.clone = function() {
+            var ignoreProperties = ["tempData", "events"],
+                newAspect = new yuga.Aspect();
+            for (var prop in this) {
+                if (this.hasOwnProperty(prop) &&
+                    !(this[prop] instanceof Function) &&
+                    $.inArray(prop, ignoreProperties) === -1) {
+                    newAspect[prop] = this[prop];
+                }
+            }
+            return newAspect;
         };
 
         angular.extend(this, initProperties);

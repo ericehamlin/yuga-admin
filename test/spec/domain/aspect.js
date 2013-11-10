@@ -53,10 +53,15 @@ describe('yuga.Aspect', function () {
     });
 
     describe("getType", function() {
-        // todo spy
         // todo should throw an error when no type set?
         it("should call yuga.Timeline.getTypeById()", function() {
-
+            var timeline = {
+                getTypeById: function() {}
+            };
+            aspect.timeline = timeline;
+            spyOn(timeline, 'getTypeById');
+            aspect.getType();
+            expect(timeline.getTypeById).toHaveBeenCalled();
         });
     });
 
@@ -80,5 +85,10 @@ describe('yuga.Aspect', function () {
 
     });
 
-
+    describe("clone", function() {
+        it("should", function() {
+            var newAspect = aspect.clone();
+            console.log(newAspect);
+        });
+    });
 });
