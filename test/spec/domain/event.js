@@ -1,7 +1,10 @@
 'use strict';
 
 describe('yuga.Event', function () {
+    var event;
+
     beforeEach(function() {
+        event = new yuga.Event();
     });
 
     describe("containsAspect", function() {
@@ -37,7 +40,10 @@ describe('yuga.Event', function () {
     });
 
     describe("clone", function() {
-
+        it("should", function() {
+            var newEvent = event.clone();
+            console.log(newEvent);
+        });
     });
 
 });

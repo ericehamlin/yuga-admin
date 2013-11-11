@@ -52,6 +52,13 @@
             return fieldTypes;
         };
 
+        /**
+         *
+         */
+        this.clone = function() {
+
+        };
+
         angular.extend(this, initProperties);
     };
 

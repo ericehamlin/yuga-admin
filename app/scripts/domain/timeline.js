@@ -219,8 +219,8 @@
         /**
          *
          */
-        this.getPrecision = function() {
-            return this.precision;
+        this.clone = function() {
+
         };
 
         angular.extend(this, initProperties);

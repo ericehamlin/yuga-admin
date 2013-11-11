@@ -96,7 +96,16 @@
          *
          */
         this.clone = function() {
-
+            var ignoreProperties = ["tempData", "aspects"],
+                newEvent = new yuga.Event();
+            for (var prop in this) {
+                if (this.hasOwnProperty(prop) &&
+                    !(this[prop] instanceof Function) &&
+                    $.inArray(prop, ignoreProperties) === -1) {
+                    newEvent[prop] = this[prop];
+                }
+            }
+            return newEvent;
         };
 
         angular.extend(this, initProperties);
