@@ -52,8 +52,8 @@ describe('yuga.Aspect', function () {
         });
     });
 
+    // todo should throw an error when no type set?
     describe("getType", function() {
-        // todo should throw an error when no type set?
         it("should call yuga.Timeline.getTypeById()", function() {
             var timeline = {
                 getTypeById: function() {}
@@ -86,9 +86,9 @@ describe('yuga.Aspect', function () {
     });
 
     describe("clone", function() {
-        it("should", function() {
+        it("should make a complete clone of the original aspect, minus references to other domain objects", function() {
             var newAspect = aspect.clone();
-            console.log(newAspect);
+            //todo expect
         });
     });
 });

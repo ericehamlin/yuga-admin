@@ -39,7 +39,7 @@
         };
 
         /**
-         *
+         * todo should throw an error when no type set?
          */
         this.getType = function() {
             return this.timeline.getTypeById(this.typeId);
@@ -64,7 +64,7 @@
         };
 
         /**
-         *
+         * todo -- should reciprocate on event side?
          * @param event
          */
         this.removeEvent = function(event) {
@@ -94,7 +94,7 @@
                 return this[fieldId]
             }
             else if (returnDefault) {
-                return field.defaultValue;
+                return field.defaultValue; // todo: say what? this doesn't work.
             }
             else {
                 return null;
@@ -108,9 +108,11 @@
             var ignoreProperties = ["tempData", "events"],
                 newAspect = new yuga.Aspect();
             for (var prop in this) {
-                if (this.hasOwnProperty(prop) &&
+                if (
+                    this.hasOwnProperty(prop) &&
                     !(this[prop] instanceof Function) &&
-                    $.inArray(prop, ignoreProperties) === -1) {
+                    $.inArray(prop, ignoreProperties) === -1
+                    ) {
                     newAspect[prop] = this[prop];
                 }
             }
