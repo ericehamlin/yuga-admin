@@ -5,7 +5,7 @@
     </div>
     <yg-drop-target yg-drop-callback="addAspect" data-yg-drop-accept=".aspect" class="section-body">
         <label for="start">{{resourceBundle().START}}</label>
-        <input type="text" name="start" id="start" yg-date yg-model-object="event"  yg-model-property="start" id="{{getFieldId(aspect, field)}}" />
+        <input type="text" name="start" id="start" yg-date yg-model-object="event"  yg-model-property="start" id="{{getFieldId(localAspect, field)}}" />
 
         <label for="end">{{resourceBundle().END}}</label>
         <input type="text" name="end" id="end" yg-date yg-model-object="event"  yg-model-property="end" />
@@ -14,30 +14,30 @@
         <textarea name="description" id="description" yg-model-object="event"  yg-model-property="description"></textarea>
 
         <div id="edit-event-aspects" class="edit-sub-elements" yg-accordion yg-accordion-header=".edit-sub-element-header" yg-accordion-refresh="refresh">
-            <div ng-repeat="aspect in event.getAspects()" class="edit-sub-element">
+            <div ng-repeat="localAspect in event.localAspects" class="edit-sub-element">
                 <div class="edit-sub-element-header">
-                    <h5>{{aspect.name}}</h5>
+                    <h5>{{localAspect.aspect.name}}</h5>
                 </div>
                 <div class="edit-sub-element-body">
-                    <div ng-repeat="field in aspect.getType().fields">
-                        <label for="{{getFieldId(aspect, field)}}">{{field.name}}</label>
+                    <div ng-repeat="field in localAspect.aspect.getType().fields">
+                        <label for="{{getFieldId(localAspect, field)}}">{{field.name}}</label>
 
                         <ng-switch on="field.type">
 
                             <div ng-switch-when="text">
-                                <input type="text" yg-model-object="getLocalAspect(aspect)"  yg-model-property="{{getFieldId(aspect,field)}}" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
+                                <input type="text" yg-model-object="localAspect"  yg-model-property="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" name="{{getFieldId(localAspect, field)}}" placeholder="{{field.defaultValue}}" />
                             </div>
 
-                            <textarea ng-switch-when="textarea" type="text" yg-model-object="getLocalAspect(aspect)"  yg-model-property="{{getFieldId(aspect,field)}}" id="{{getFieldId(aspect, field)}}" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
+                            <textarea ng-switch-when="textarea" type="text" yg-model-object="localAspect"  yg-model-property="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" name="{{getFieldId(localAspect, field)}}" placeholder="{{field.defaultValue}}" />
 
-                            <input ng-switch-when="number" type="number" yg-model-object="getLocalAspect(aspect)"  yg-model-property="{{getFieldId(aspect,field)}}" id="{{getFieldId(aspect, field)}}" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" />
+                            <input ng-switch-when="number" type="number" yg-model-object="localAspect"  yg-model-property="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" name="{{getFieldId(localAspect, field)}}" placeholder="{{field.defaultValue}}" />
 
-                            <input type="text" ng-switch-when="date" yg-date yg-model-object="getLocalAspect(aspect)"  yg-model-property="{{getFieldId(aspect,field)}}" id="{{getFieldId(aspect, field)}}" />
+                            <input type="text" ng-switch-when="date" yg-date yg-model-object="localAspect"  yg-model-property="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" />
 
-                            <yg-datetime ng-switch-when="datetime" yg-model-object="getLocalAspect(aspect)"  yg-model-property="{{getFieldId(aspect,field)}}" id="{{getFieldId(aspect, field)}}" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}"></yg-datetime>
+                            <yg-datetime ng-switch-when="datetime" yg-model-object="localAspect"  yg-model-property="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" id="{{getFieldId(localAspect, field)}}" name="{{getFieldId(localAspect, field)}}"></yg-datetime>
 
                         </ng-switch>
-                        ({{aspect.getFieldValue(getFieldId(aspect,field))}})
+                        ({{localAspect.aspect.getFieldValue(getFieldId(localAspect,field))}})
                     </div>
                 </div>
             </div>

@@ -27,29 +27,11 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
     /**
      *
-     * @param globalAspect
-     */
-    $scope.getLocalAspect = function(globalAspect) {
-        return $scope.event.getLocalAspectById(globalAspect.id);
-    };
-
-    /**
-     *
-     * @param globalAspect
-     * @param field
-     */
-    $scope.getLocalAspectField = function(globalAspect, field) {
-        //Error: Non-assignable model expression: getLocalAspectField(aspect, field) (<input ng-switch-when="text" type="text" ng-model="getLocalAspectField(aspect, field)" id="{{getFieldId(aspect, field)}}" name="{{getFieldId(aspect, field)}}" placeholder="{{field.defaultValue}}" class="ng-scope">)
-        return $scope.getLocalAspect(globalAspect).getFieldValue( $scope.getFieldId(globalAspect, field) );
-    };
-
-    /**
-     *
      * @param aspect
      * @param field
      */
-    $scope.getFieldId = function(aspect, field) {
-        return aspect.getType().getFieldId(field);
+    $scope.getFieldId = function(localAspect, field) {
+        return localAspect.aspect.getType().getFieldId(field);
     };
 
     /**
