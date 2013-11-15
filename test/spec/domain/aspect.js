@@ -15,7 +15,7 @@ describe('yuga.Aspect', function () {
         aspect = new yuga.Aspect({
             id:1,
             events:[event1, event2],
-            typeId: 6
+            type: type1
         });
     });
 
@@ -54,15 +54,6 @@ describe('yuga.Aspect', function () {
 
     // todo should throw an error when no type set?
     describe("getType", function() {
-        it("should call yuga.Timeline.getTypeById()", function() {
-            var timeline = {
-                getTypeById: function() {}
-            };
-            aspect.timeline = timeline;
-            spyOn(timeline, 'getTypeById');
-            aspect.getType();
-            expect(timeline.getTypeById).toHaveBeenCalled();
-        });
     });
 
     describe("setType", function() {

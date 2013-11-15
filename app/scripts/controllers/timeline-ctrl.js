@@ -42,17 +42,16 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
         init();
 
         /**
-         * TODO: why isn't this keeping our center point?
          * @param zoomDelta
          */
         this.zoomBy = function(zoomDelta) {
-            console.log(pixelToTimeUnitRatio);
             beginningCenterPointTime = centerPointTime;
             pixelToTimeUnitRatio *= Math.pow(1.5, zoomDelta);
             drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
             drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
-            console.log(pixelToTimeUnitRatio);
             redraw();
+            positionCenter();
+
         };
 
         function init() {
@@ -88,8 +87,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
             drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
 
-            console.log("at beginning", new Date(drawBeginningTime), new Date(drawEndTime));
-            $(all).css("left", (timelineWindowWidth / 2) + "px");
+            positionCenter();
             updateTimelineGroup();
         }
 
@@ -102,10 +100,11 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
             drawEvents();
         }
 
-        /**
-         *
-         */
-        function drawTickMarks() {
+        function positionCenter() {
+            $(all).css("left", (timelineWindowWidth / 2) + "px");
+        }
+
+        function getScale() {
             var scale;
 
             if (pixelToTimeUnitRatio > 0.00001) { // 0.000013460840841860077 // labeled hours
@@ -175,7 +174,14 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 };
             }
 
+            return scale;
+        }
 
+        /**
+         *
+         */
+        function drawTickMarks() {
+            var scale = getScale();
 
             var drawBeginningDate = new Date(drawBeginningTime);
             drawBeginningDate.set(scale.initialize);
@@ -217,18 +223,17 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
         function drawEvents() {
             for (var i=0; i<timelineData.events.length; i++) {
+                timelineData.events[i].tempData.displayY = Math.round(Math.random() * 200);
                 drawEvent(timelineData.events[i]);
             }
         }
 
         function drawEvent(event) {
             if (event.start && event.end) {
-                var eventDiv;
                 var $eventDiv;
                 if ($("#timeline-event-" + event.id).length == 0) {
-                    eventDiv = document.createElement("div");
-                    var $eventDiv = $(eventDiv);
-                    $eventDiv.css({position: "absolute", height: "25px", "background-color": "#ff0000", "top": Math.round(Math.random() * 200) + "px"});
+                    var $eventDiv = $("<div/>");
+                    $eventDiv.css({position: "absolute", height: "25px", "background-color": "#ff0000", "top": event.tempData.displayY+ "px"});
                     $eventDiv.attr("id", "timeline-event-" + event.id);
                 }
                 else {
@@ -282,9 +287,11 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
         function redraw() {
             if (convertTimeUnitsToPixels(drawEndTime - centerPointTime) < timelineWindowWidth/2) {
                 drawEndTime += convertPixelsToTimeUnits(margin);
+                console.log("END TIME");
             }
             else if (convertTimeUnitsToPixels(centerPointTime - drawBeginningTime) < timelineWindowWidth/2) {
                 drawBeginningTime -= convertPixelsToTimeUnits(margin);
+                console.log("BEGINNING TIME");
             }
             drawEvents();
             drawTickMarks();
@@ -303,7 +310,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
          */
         function moveByPixels(pixelsDelta) {
             $(all).css("left", $(all).position().left+pixelsDelta);
-            centerPointTime += convertPixelsToTimeUnits(pixelsDelta);
+            centerPointTime -= convertPixelsToTimeUnits(pixelsDelta);
         }
 
         dragGrab.addEventListener("mousedown", function(e) {
@@ -323,7 +330,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                     redraw();
                 }
 
-                timeDisplay.innerHTML = centerPointTime;
+                timeDisplay.innerHTML = new Date(centerPointTime);
             }
 
             function onMouseUp(e) {
