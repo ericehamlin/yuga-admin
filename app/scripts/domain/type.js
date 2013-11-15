@@ -34,6 +34,7 @@
         };
 
         /**
+         * TODO -- this doesn't work because what happens when the user changes the name? duhhh....
          *
          * @param field
          */

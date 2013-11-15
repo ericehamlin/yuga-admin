@@ -35,14 +35,14 @@
             if (!(type instanceof yuga.Type)) {
                 throw new TypeError("argument to yuga.Aspect.isType() must be a yuga.Type");
             }
-            return this.typeId === type.id;
+            return this.type === type;
         };
 
         /**
          * todo should throw an error when no type set?
          */
         this.getType = function() {
-            return this.timeline.getTypeById(this.typeId);
+            return this.type;
         };
 
         /**
@@ -50,7 +50,7 @@
          * @param type
          */
         this.setType = function(type) {
-            this.typeId = type.id;
+            this.type = type;
         };
 
         /**
