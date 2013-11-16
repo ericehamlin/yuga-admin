@@ -1,6 +1,6 @@
 'use strict';
 
-function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
+function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState, Commander) {
     $scope.$on(ApplicationEvents.TIMELINE_MODIFIED, function() {
     });
 
@@ -8,6 +8,12 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
     $timeout(function() {
         widget = new timelineWidget("timeline-widget", ApplicationState.timeline);
+        widget.addEventListener("selectEvent", function(args) {
+            var command = new yuga.SelectElementCommand(args[0]);
+            $scope.$apply(function() {
+                Commander.execute(command);
+            });
+        });
     });
 
 
@@ -23,7 +29,8 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
     function timelineWidget(id, timelineData) {
         var widget = document.getElementById(id);
-        var all,
+        var that = this,
+            all,
             dragGrab,
             ticks,
             timeDisplay,
@@ -107,7 +114,20 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
         function getScale() {
             var scale;
 
-            if (pixelToTimeUnitRatio > 0.00001) { // 0.000013460840841860077 // labeled hours
+            if (pixelToTimeUnitRatio > 0.0001) {
+                scale = {
+                    initialize: {hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "MMM d, yyyy h:mmtt",
+                        add: {hours: 1}
+                    },
+                    subTick : {
+                        format: "h:mmtt",
+                        add: {minutes: 10}
+                    }
+                };
+            }
+            else if (pixelToTimeUnitRatio > 0.00001) { // 0.000013460840841860077 // labeled hours
                 scale = {
                     initialize: {hour: 0, minute: 0, second: 0},
                     tick : {
@@ -119,7 +139,6 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                         add: {hours: 1} // why doesn't this work on webkit?
                     }
                 };
-
             }
             else if (pixelToTimeUnitRatio > 0.000001) { //0.0000033652102104650194
                 scale = {
@@ -160,7 +179,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                     }
                 };
             }
-            else {
+            else if (pixelToTimeUnitRatio > 0.000000009) {
                 scale = {
                     initialize: {month: 0, day: 1, hour: 0, minute: 0, second: 0},
                     tick : {
@@ -170,6 +189,33 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                     subTick : {
                         format: "MMM",
                         add: {months: 1}
+                    }
+                };
+            }
+            else if (pixelToTimeUnitRatio > 0.000000002) {
+                scale = {
+                    initialize: {month: 0, day: 1, hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "yyyy",
+                        add: {years: 1}
+                    },
+                    subTick : {
+                        format: "",
+                        add: {months: 1}
+                    }
+                };
+            }
+            else {
+                scale = {
+                    //TODO calculate year
+                    initialize: {year: 1940, month: 0, day: 1, hour: 0, minute: 0, second: 0},
+                    tick : {
+                        format: "yyyy",
+                        add: {years: 10}
+                    },
+                    subTick : {
+                        format: "",
+                        add: {years: 1}
                     }
                 };
             }
@@ -230,14 +276,55 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
 
         function drawEvent(event) {
             if (event.start && event.end) {
-                var $eventDiv;
+                var $eventDiv,
+                    $eventBarDiv,
+                    $eventTitle;
+
                 if ($("#timeline-event-" + event.id).length == 0) {
-                    var $eventDiv = $("<div/>");
-                    $eventDiv.css({position: "absolute", height: "25px", "background-color": "#ff0000", "top": event.tempData.displayY+ "px"});
+                    $eventDiv = $("<div/>");
                     $eventDiv.attr("id", "timeline-event-" + event.id);
+                    $eventDiv.addClass("timeline-event");
+                    $eventDiv.css({"top": event.tempData.displayY+ "px"});
+
+                    $eventTitle = $("<div/>");
+                    $eventTitle.attr("id", "timeline-event-title-" + event.id);
+                    $eventTitle.addClass("timeline-event-title");
+                    $eventDiv.append($eventTitle);
+
+                    $eventBarDiv = $("<div/>");
+                    $eventBarDiv.attr("id", "timeline-event-bar-" + event.id);
+                    $eventBarDiv.addClass("timeline-event-bar");
+                    $eventBarDiv.css({height: "10px", "background-color": "#" + event.color});
+
+                    $eventDiv.append($eventBarDiv);
+
+
+                    // TODO clean this shit up
+
+                    var timeout, heldDown, mouseDown;
+
+                    $eventDiv.on("mousedown", function() {
+                        mouseDown = true;
+                        function onHeldDown() {
+                            heldDown = true;
+                            clearTimeout(timeout);
+                        }
+                        timeout = setTimeout(onHeldDown, 500);
+                    });
+
+                    $eventDiv.on("mouseup", function() {
+                        clearTimeout(timeout);
+                        if (!heldDown && mouseDown) {
+                            that.fireEvent("selectEvent", event);
+                        }
+                        mouseDown = false;
+                    });
+
                 }
                 else {
                     $eventDiv = $("#timeline-event-" + event.id);
+                    $eventBarDiv = $("#timeline-event-bar-" + event.id);
+                    $eventTitle = $("#timeline-event-title-" + event.id);
                 }
 
                 var left, right;
@@ -251,7 +338,7 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                         width: convertTimeUnitsToPixels(right - left) + "px"
                     });
 
-                    $eventDiv.html(event.name);
+                    $eventTitle.html(event.name);
                     $(all).append($eventDiv);
                 }
             }
@@ -338,6 +425,34 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
                 document.removeEventListener("mousemove", onMouseMove);
             }
         });
+
+        this.widgetEvents = {};
+
+        this.addEventListener = function(event, func) {
+            if (this.widgetEvents[event] == undefined) {
+                this.widgetEvents[event] = [];
+            }
+            this.widgetEvents[event].push(func);
+        };
+
+        this.removeEventListener = function(event, func) {
+            if (this.widgetEvents[event] != undefined) {
+                for (var i=0; i<this.widgetEvents[event].length; i++) {
+                    if (this.widgetEvents[event][i] === func) {
+                        this.widgetEvents[event].splice(i, 1);
+                    }
+                }
+            }
+        };
+
+        this.fireEvent = function(event) {
+            var args = Array.prototype.slice.call(arguments).slice(1);
+            if (this.widgetEvents[event] != undefined) {
+                for (var i=0; i<this.widgetEvents[event].length; i++) {
+                    this.widgetEvents[event][i](args);
+                }
+            }
+        };
     }
 
 
@@ -579,4 +694,4 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState) {
     }
 }
 
-TimelineCtrl.$inject = ['$scope', '$timeout', 'ApplicationEvents', 'ApplicationState'];
+TimelineCtrl.$inject = ['$scope', '$timeout', 'ApplicationEvents', 'ApplicationState', 'Commander'];
