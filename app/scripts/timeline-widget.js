@@ -27,7 +27,7 @@ function timelineWidget(id, timelineData) {
         beginningCenterPointTime = centerPointTime;
         pixelToTimeUnitRatio *= Math.pow(1.5, zoomDelta);
         this.setBeginningAndEndDrawTimes();
-        redraw();
+        this.redraw();
         positionCenter();
 
     };
@@ -66,7 +66,7 @@ function timelineWidget(id, timelineData) {
 
                 moveByPixels(currentDragX - previousDragX);
                 if (needsRedrawing()) {
-                    redraw();
+                    that.redraw();
                 }
 
                 $timeDisplay.html(new Date(centerPointTime));
@@ -336,6 +336,13 @@ function timelineWidget(id, timelineData) {
                 $eventTitle = $("#timeline-event-title-" + event.id);
             }
 
+            if (event.isSelected()) {
+                $eventDiv.addClass("selected");
+            }
+            else {
+                $eventDiv.removeClass("selected");
+            }
+
             var left, right;
 
             left = event.getStartTimeUnits() > drawBeginningTime ? event.getStartTimeUnits() : drawBeginningTime;
@@ -380,7 +387,7 @@ function timelineWidget(id, timelineData) {
     /**
      *
      */
-    function redraw() {
+    this.redraw = function() {
         if (convertTimeUnitsToPixels(drawEndTime - centerPointTime) < timelineWindowWidth/2) {
             drawEndTime += convertPixelsToTimeUnits(margin);
             console.log("END TIME");
