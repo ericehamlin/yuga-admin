@@ -1,12 +1,13 @@
 function timelineWidget(id, timelineData) {
-    var widget = document.getElementById(id);
+    var $widget = document.getElementById(id);
     var that = this,
-        all,
+        $centerLine,
+        $all,
         dragGrab,
         ticks,
         timeDisplay,
         pixelToTimeUnitRatio,
-        timelineWindowWidth = $(widget).width(),
+        timelineWindowWidth = $($widget).width(),
         centerPointTime,
         margin = 2000,
         maxTime,
@@ -17,7 +18,7 @@ function timelineWidget(id, timelineData) {
         drawEndTime
         ;
 
-    init();
+    this.widgetEvents = {};
 
     /**
      * @param zoomDelta
@@ -25,34 +26,70 @@ function timelineWidget(id, timelineData) {
     this.zoomBy = function(zoomDelta) {
         beginningCenterPointTime = centerPointTime;
         pixelToTimeUnitRatio *= Math.pow(1.5, zoomDelta);
-        drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
-        drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+        this.setBeginningAndEndDrawTimes();
         redraw();
         positionCenter();
 
     };
 
-    function init() {
+    /**
+     *
+     */
+    this.setBeginningAndEndDrawTimes = function() {
+        drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+        drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+    };
+
+    /**
+     *
+     */
+    this.init = function() {
         dragGrab = document.createElement("div");
         dragGrab.setAttribute("style", "width:100%; height:100%; z-index: 2; position:absolute;");
-        widget.appendChild(dragGrab);
+        $widget.appendChild(dragGrab);
 
-        all = document.createElement("div");
-        all.setAttribute("style", "position:absolute; height:100%; z-index: 3;");
-        widget.appendChild(all);
+        $(dragGrab).on("mousedown", function(e) {
+            var previousDragX,
+                currentDragX = e.clientX;
+
+            $(document).on("mouseup", onMouseUp);
+            $(document).on("mousemove", onMouseMove);
+
+
+            function onMouseMove(e) {
+                previousDragX = currentDragX;
+                currentDragX = e.clientX;
+
+                moveByPixels(currentDragX - previousDragX);
+                if (needsRedrawing()) {
+                    redraw();
+                }
+
+                timeDisplay.innerHTML = new Date(centerPointTime);
+            }
+
+            function onMouseUp(e) {
+                $(document).off("mouseup", onMouseUp);
+                $(document).off("mousemove", onMouseMove);
+            }
+        });
+
+        $all = document.createElement("div");
+        $all.setAttribute("style", "position:absolute; height:100%; z-index: 3;");
+        $widget.appendChild($all);
 
         ticks = document.createElement("div");
         ticks.setAttribute("style", "position:absolute; height:45px; bottom:0px;");
-        all.appendChild(ticks);
+        $all.appendChild(ticks);
 
         timeDisplay = document.createElement("div");
         timeDisplay.setAttribute("style", "position:absolute; height:45px; bottom:0px;");
-        widget.appendChild(timeDisplay);
+        $widget.appendChild(timeDisplay);
 
-        var $centerLine = $("<div/>").
+        $centerLine = $("<div/>").
             css({width: "1px", position: "absolute", "background-color": "#000", height: "100%", left: (timelineWindowWidth/2) + "px"});
 
-        $(widget).append($centerLine);
+        $($widget).append($centerLine);
 
         maxTime = timelineData.getLatestEventTime();
         minTime = timelineData.getEarliestEventTime();
@@ -61,9 +98,7 @@ function timelineWidget(id, timelineData) {
         centerPointTime = (maxTime + minTime) / 2;
         beginningCenterPointTime = centerPointTime;
 
-
-        drawBeginningTime = centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
-        drawEndTime = centerPointTime + convertPixelsToTimeUnits((timelineWindowWidth/2) + margin);
+        this.setBeginningAndEndDrawTimes();
 
         positionCenter();
         updateTimelineGroup();
@@ -79,7 +114,7 @@ function timelineWidget(id, timelineData) {
     }
 
     function positionCenter() {
-        $(all).css("left", (timelineWindowWidth / 2) + "px");
+        $($all).css("left", (timelineWindowWidth / 2) + "px");
     }
 
     function getScale() {
@@ -310,7 +345,7 @@ function timelineWidget(id, timelineData) {
                 });
 
                 $eventTitle.html(event.name);
-                $(all).append($eventDiv);
+                $($all).append($eventDiv);
             }
         }
     }
@@ -367,37 +402,9 @@ function timelineWidget(id, timelineData) {
      * @param {Number} pixelsDelta
      */
     function moveByPixels(pixelsDelta) {
-        $(all).css("left", $(all).position().left+pixelsDelta);
+        $($all).css("left", $($all).position().left+pixelsDelta);
         centerPointTime -= convertPixelsToTimeUnits(pixelsDelta);
     }
-
-    dragGrab.addEventListener("mousedown", function(e) {
-        var previousDragX,
-            currentDragX = e.clientX;
-
-        document.addEventListener("mouseup", onMouseUp);
-        document.addEventListener("mousemove", onMouseMove);
-
-
-        function onMouseMove(e) {
-            previousDragX = currentDragX;
-            currentDragX = e.clientX;
-
-            moveByPixels(currentDragX - previousDragX);
-            if (needsRedrawing()) {
-                redraw();
-            }
-
-            timeDisplay.innerHTML = new Date(centerPointTime);
-        }
-
-        function onMouseUp(e) {
-            document.removeEventListener("mouseup", onMouseUp);
-            document.removeEventListener("mousemove", onMouseMove);
-        }
-    });
-
-    this.widgetEvents = {};
 
     this.addEventListener = function(event, func) {
         if (this.widgetEvents[event] == undefined) {
@@ -424,4 +431,7 @@ function timelineWidget(id, timelineData) {
             }
         }
     };
+
+
+    this.init();
 }
