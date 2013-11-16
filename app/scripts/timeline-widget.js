@@ -1,13 +1,13 @@
 function timelineWidget(id, timelineData) {
-    var $widget = document.getElementById(id);
+    var $widget = $("#" + id);
     var that = this,
         $centerLine,
         $all,
-        dragGrab,
-        ticks,
-        timeDisplay,
+        $dragGrab,
+        $ticks,
+        $timeDisplay,
         pixelToTimeUnitRatio,
-        timelineWindowWidth = $($widget).width(),
+        timelineWindowWidth = $widget.width(),
         centerPointTime,
         margin = 2000,
         maxTime,
@@ -44,11 +44,11 @@ function timelineWidget(id, timelineData) {
      *
      */
     this.init = function() {
-        dragGrab = document.createElement("div");
-        dragGrab.setAttribute("style", "width:100%; height:100%; z-index: 2; position:absolute;");
-        $widget.appendChild(dragGrab);
+        $dragGrab = $("<div/>");
+        $dragGrab.css({width: "100%", height: "100%", "z-index": 2, position: "absolute"});
+        $widget.append($dragGrab);
 
-        $(dragGrab).on("mousedown", function(e) {
+        $dragGrab.on("mousedown", function(e) {
             var previousDragX,
                 currentDragX = e.clientX;
 
@@ -56,6 +56,10 @@ function timelineWidget(id, timelineData) {
             $(document).on("mousemove", onMouseMove);
 
 
+            /**
+             * TODO: check to see whether mouse button is still down
+             * @param e
+             */
             function onMouseMove(e) {
                 previousDragX = currentDragX;
                 currentDragX = e.clientX;
@@ -65,7 +69,7 @@ function timelineWidget(id, timelineData) {
                     redraw();
                 }
 
-                timeDisplay.innerHTML = new Date(centerPointTime);
+                $timeDisplay.html(new Date(centerPointTime));
             }
 
             function onMouseUp(e) {
@@ -74,22 +78,21 @@ function timelineWidget(id, timelineData) {
             }
         });
 
-        $all = document.createElement("div");
-        $all.setAttribute("style", "position:absolute; height:100%; z-index: 3;");
-        $widget.appendChild($all);
+        $all = $("<div/>");
+        $all.css({position: "absolute", height: "100%", "z-index": 3});
+        $widget.append($all);
 
-        ticks = document.createElement("div");
-        ticks.setAttribute("style", "position:absolute; height:45px; bottom:0px;");
-        $all.appendChild(ticks);
+        $ticks = $("<div/>");
+        $ticks.css({position: "absolute", height: "45px", bottom: "0px"});
+        $all.append($ticks);
 
-        timeDisplay = document.createElement("div");
-        timeDisplay.setAttribute("style", "position:absolute; height:45px; bottom:0px;");
-        $widget.appendChild(timeDisplay);
+        $timeDisplay = $("<div/>");
+        $timeDisplay.css({position: "absolute", height: "45px", bottom: "0px"});
+        $widget.append($timeDisplay);
 
         $centerLine = $("<div/>").
             css({width: "1px", position: "absolute", "background-color": "#000", height: "100%", left: (timelineWindowWidth/2) + "px"});
-
-        $($widget).append($centerLine);
+        $widget.append($centerLine);
 
         maxTime = timelineData.getLatestEventTime();
         minTime = timelineData.getEarliestEventTime();
@@ -114,7 +117,7 @@ function timelineWidget(id, timelineData) {
     }
 
     function positionCenter() {
-        $($all).css("left", (timelineWindowWidth / 2) + "px");
+        $all.css("left", (timelineWindowWidth / 2) + "px");
     }
 
     function getScale() {
@@ -269,7 +272,7 @@ function timelineWidget(id, timelineData) {
             }
 
             drawBeginningDate = nextTickDate;
-            $(ticks).append($tick);
+            $($ticks).append($tick);
         }
     }
 
@@ -345,7 +348,7 @@ function timelineWidget(id, timelineData) {
                 });
 
                 $eventTitle.html(event.name);
-                $($all).append($eventDiv);
+                $all.append($eventDiv);
             }
         }
     }
@@ -402,7 +405,7 @@ function timelineWidget(id, timelineData) {
      * @param {Number} pixelsDelta
      */
     function moveByPixels(pixelsDelta) {
-        $($all).css("left", $($all).position().left+pixelsDelta);
+        $all.css("left", $($all).position().left+pixelsDelta);
         centerPointTime -= convertPixelsToTimeUnits(pixelsDelta);
     }
 
