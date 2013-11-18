@@ -214,10 +214,16 @@ function timelineWidget(id, timelineData) {
                 }
             };
         }
-        else {
+        else if (pixelToTimeUnitRatio > 0.0000000002) {
             scale = {
-                //TODO calculate year
-                initialize: {year: 1940, month: 0, day: 1, hour: 0, minute: 0, second: 0},
+                initialize: {
+                    year: Math.floor(new Date(centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin)).getFullYear() / 10) * 10,
+                    month: 0,
+                    day: 1,
+                    hour: 0,
+                    minute: 0,
+                    second: 0
+                },
                 tick : {
                     format: "yyyy",
                     add: {years: 10}
@@ -225,6 +231,46 @@ function timelineWidget(id, timelineData) {
                 subTick : {
                     format: "",
                     add: {years: 1}
+                }
+            };
+        }
+        else if (pixelToTimeUnitRatio > 0.00000000009) {
+            scale = {
+                initialize: {
+                    year: Math.floor(new Date(centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin)).getFullYear() / 100) * 100,
+                    month: 0,
+                    day: 1,
+                    hour: 0,
+                    minute: 0,
+                    second: 0
+                },
+                tick : {
+                    format: "yyyy",
+                    add: {years: 100}
+                },
+                subTick : {
+                    format: "yyyy",
+                    add: {years: 10}
+                }
+            };
+        }
+        else {
+            scale = {
+                initialize: {
+                    year: Math.floor(new Date(centerPointTime - convertPixelsToTimeUnits((timelineWindowWidth/2) + margin)).getFullYear() / 100) * 100,
+                    month: 0,
+                    day: 1,
+                    hour: 0,
+                    minute: 0,
+                    second: 0
+                },
+                tick : {
+                    format: "yyyy",
+                    add: {years: 100}
+                },
+                subTick : {
+                    format: "",
+                    add: {years: 10}
                 }
             };
         }
@@ -276,11 +322,14 @@ function timelineWidget(id, timelineData) {
         }
     }
 
-    function drawEvents() {
+    this.traverseEvents = function(callback) {
         for (var i=0; i<timelineData.events.length; i++) {
-            timelineData.events[i].tempData.displayY = Math.round(Math.random() * 200);
-            drawEvent(timelineData.events[i]);
+            callback(timelineData.events[i]);
         }
+    }
+
+    function drawEvents() {
+        that.traverseEvents(drawEvent);
     }
 
     function drawEvent(event) {
@@ -290,6 +339,10 @@ function timelineWidget(id, timelineData) {
                 $eventTitle;
 
             if ($("#timeline-event-" + event.id).length == 0) {
+
+                // TODO Calculate this somewhere else
+                event.tempData.displayY = Math.round(Math.random() * 200);
+
                 $eventDiv = $("<div/>");
                 $eventDiv.attr("id", "timeline-event-" + event.id);
                 $eventDiv.addClass("timeline-event");
@@ -336,12 +389,7 @@ function timelineWidget(id, timelineData) {
                 $eventTitle = $("#timeline-event-title-" + event.id);
             }
 
-            if (event.isSelected()) {
-                $eventDiv.addClass("selected");
-            }
-            else {
-                $eventDiv.removeClass("selected");
-            }
+            that.selectDeselectEvent(event, $eventDiv);
 
             var left, right;
 
@@ -360,13 +408,37 @@ function timelineWidget(id, timelineData) {
         }
     }
 
+    this.selectDeselectEvent = function(event, $eventDiv) {
+        if (!$eventDiv) {
+            $eventDiv = $("#timeline-event-" + event.id);
+        }
+
+        if ($eventDiv.length === 0) {
+            return;
+        }
+
+        if (event.isSelected()) {
+            $eventDiv.addClass("selected");
+        }
+        else {
+            $eventDiv.removeClass("selected");
+        }
+
+        if (event.isSelectedSecondary()) {
+            $eventDiv.addClass("selected-secondary");
+        }
+        else {
+            $eventDiv.removeClass("selected-secondary");
+        }
+    };
+
     /**
      *
      * @param {Number} pixels
      */
     function convertPixelsToTimeUnits(pixels) {
         return pixels / pixelToTimeUnitRatio;
-    };
+    }
 
     /**
      *
@@ -374,7 +446,7 @@ function timelineWidget(id, timelineData) {
      */
     function convertTimeUnitsToPixels(timeUnits) {
         return timeUnits * pixelToTimeUnitRatio;
-    };
+    }
 
     /**
      *
@@ -412,7 +484,7 @@ function timelineWidget(id, timelineData) {
      * @param {Number} pixelsDelta
      */
     function moveByPixels(pixelsDelta) {
-        $all.css("left", $($all).position().left+pixelsDelta);
+        $all.css("left", $($all).position().left + pixelsDelta);
         centerPointTime -= convertPixelsToTimeUnits(pixelsDelta);
     }
 
