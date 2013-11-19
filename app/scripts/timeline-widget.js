@@ -5,6 +5,7 @@ function timelineWidget(id, timelineData) {
         $all,
         $dragGrab,
         $ticks,
+        $events,
         $timeDisplay,
         pixelToTimeUnitRatio,
         timelineWindowWidth = $widget.width(),
@@ -86,6 +87,10 @@ function timelineWidget(id, timelineData) {
         $ticks.css({position: "absolute", height: "45px", bottom: "0px"});
         $all.append($ticks);
 
+        $events = $("<div/>");
+        $events.css({position: "absolute", top: "0px", bottom: "45px"});
+        $all.append($events);
+
         $timeDisplay = $("<div/>");
         $timeDisplay.css({position: "absolute", height: "45px", bottom: "0px"});
         $widget.append($timeDisplay);
@@ -103,8 +108,26 @@ function timelineWidget(id, timelineData) {
 
         this.setBeginningAndEndDrawTimes();
 
+        this.assignEventsToYs();
+
         positionCenter();
         updateTimelineGroup();
+    }
+
+    this.assignEventsToYs = function() {
+        var eventHeight = 30;
+        var numSlots = Math.round($events.height()/eventHeight);
+        var slots = [];
+        for (var i=0; i<timelineData.events.length; i++) {
+            var event = timelineData.events[i];
+            for (var j=0; j<numSlots; j++) {
+                if (slots[j] === undefined) {
+                    slots[j] = event;
+                    event.tempData.displayY = eventHeight * j;
+                    break;
+                }
+            }
+        }
     }
 
     /**
@@ -340,9 +363,6 @@ function timelineWidget(id, timelineData) {
 
             if ($("#timeline-event-" + event.id).length == 0) {
 
-                // TODO Calculate this somewhere else
-                event.tempData.displayY = Math.round(Math.random() * 200);
-
                 $eventDiv = $("<div/>");
                 $eventDiv.attr("id", "timeline-event-" + event.id);
                 $eventDiv.addClass("timeline-event");
@@ -403,7 +423,7 @@ function timelineWidget(id, timelineData) {
                 });
 
                 $eventTitle.html(event.name);
-                $all.append($eventDiv);
+                $events.append($eventDiv);
             }
         }
     }
