@@ -501,24 +501,56 @@ h6 {
     height: 30px;
     position: absolute;
     .user-select(none);
+    cursor: pointer;
 
-    &.selected {
+
+
+    &:hover {
+        .timeline-event-bar-cover {
+            display: none;
+        }
+        /*
         .timeline-event-bar {
             box-shadow: 5px 5px 1px #888888;
         }
+        */
+    }
+
+    &.selected {
+        .timeline-event-bar-cover {
+            display: none;
+        }
+        /*.timeline-event-bar {
+            box-shadow: 5px 5px 1px #888888;
+        }*/
     }
 
     &.selected-secondary {
+        .timeline-event-bar-cover {
+            opacity: 0.5;
+        }
+        /*
         .timeline-event-bar {
             box-shadow: 5px 5px 1px #ccc;
         }
+        */
     }
 
     .timeline-title {
     }
 
     .timeline-event-bar {
-        height: 10px;
+        height: 5px;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+    }
+
+    .timeline-event-bar-cover {
+        height: 5px;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
     }
 }
 

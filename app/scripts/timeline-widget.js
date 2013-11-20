@@ -376,9 +376,16 @@ function timelineWidget(id, timelineData) {
                 $eventBarDiv = $("<div/>");
                 $eventBarDiv.attr("id", "timeline-event-bar-" + event.id);
                 $eventBarDiv.addClass("timeline-event-bar");
-                $eventBarDiv.css({height: "10px", "background-color": "#" + event.color});
+                $eventBarDiv.css({"background-color": "#" + event.color});
 
                 $eventDiv.append($eventBarDiv);
+
+                var $eventBarCoverDiv = $("<div/>");
+                $eventBarCoverDiv.attr("id", "timeline-event-bar-cover-" + event.id);
+                $eventBarCoverDiv.addClass("timeline-event-bar-cover");
+                $eventBarCoverDiv.css({"background-color": "#" + desaturate(event.color, 0 )});
+
+                $eventDiv.append($eventBarCoverDiv);
 
 
                 // TODO clean this shit up
@@ -427,6 +434,38 @@ function timelineWidget(id, timelineData) {
             }
         }
     }
+
+    function desaturate(color, sat) {
+        var col = hexToRgb(color);
+        var gray = col.r * 0.3086 + col.g * 0.6094 + col.b * 0.0820;
+
+        col.r = Math.round(col.r * sat + gray * (1-sat));
+        col.g = Math.round(col.g * sat + gray * (1-sat));
+        col.b = Math.round(col.b * sat + gray * (1-sat));
+
+        var out = rgbToHex(col.r,col.g,col.b);
+
+        return out;
+    }
+
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(r, g, b) {
+        return componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+
 
     this.selectDeselectEvent = function(event, $eventDiv) {
         if (!$eventDiv) {

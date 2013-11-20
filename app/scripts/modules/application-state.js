@@ -55,21 +55,21 @@ angular.module('yugaAdmin')
                 name: "Event Name",
                 start: "1972-05-05 05:06:23",
                 end: "1999-06-07 01:30:30",
-                color: "f00"
+                color: "ff0000"
             }),
             new yuga.Event({
                 id: 2,
                 name: "Revent Name",
                 start: "1990-05-05 05:06:23",
                 end: "2012-06-07 01:30:30",
-                color: "0f0"
+                color: "00ff00"
             }),
             new yuga.Event({
                 id: 3,
                 name: "Herve Villachez",
                 start: "1965-05-05 05:06:23",
                 end: "2000-06-07 01:30:30",
-                color: "00f"
+                color: "0000ff"
             })
         ];
 
