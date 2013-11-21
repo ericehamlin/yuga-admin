@@ -86,6 +86,15 @@
 
         /**
          *
+         * @param key
+         * @param val
+         */
+        this.setProperty = function(key, val) {
+            yuga.Aspect.prototype.setProperty.call(this, key, val);
+        };
+
+        /**
+         *
          * @param fieldId
          * @param returnDefault
          */

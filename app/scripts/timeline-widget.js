@@ -406,14 +406,31 @@ function timelineWidget(id, timelineData) {
                     $dragDiv.css("left", $dragDiv.position().left + currentDragX - previousDragX)
                 }
 
+                function onHeldDown(e) {
+                    currentDragX = startDragX = e.clientX;
+                    isDraggingEvent = true;
+                    clearTimeout(timeout);
+                    $dragDiv = $eventDiv.clone();
+                    $dragDiv.attr("id", "timeline-event-drag-" + event.id);
+                    $dragDiv.addClass("selected");
+                    $events.append($dragDiv);
+
+                    $eventDiv.css({opacity: 0.5});
+                    $(document).off("mousemove", onHeldDown);
+                    $(document).on("mousemove", onDragEvent);
+                }
+
                 function onMouseUp(e) {
                     clearTimeout(timeout);
                     $(document).off("mousemove", onDragEvent);
+                    $(document).off("mousemove", onHeldDown);
 
                     if (!isDraggingEvent && isMouseDown) {
                         that.fireEvent("selectEvent", event);
                     }
                     else if (isMouseDown && isDraggingEvent) {
+                        $eventDiv.css({opacity: 1, left: $dragDiv.position().left});
+                        $dragDiv.remove();
                         var difference = convertPixelsToTimeUnits(currentDragX - startDragX);
                         that.fireEvent("changeEventProperty", event, {start: event.getStartTimeUnits() + difference, end: event.getEndTimeUnits() + difference});
                     }
@@ -422,20 +439,8 @@ function timelineWidget(id, timelineData) {
 
                 $eventDiv.on("mousedown", function(e) {
                     isMouseDown = true;
-                    function onHeldDown() {
-                        currentDragX = startDragX = e.clientX;
-                        isDraggingEvent = true;
-                        clearTimeout(timeout);
-                        $dragDiv = $eventDiv.clone();
-                        $dragDiv.attr("id", "timeline-event-drag-" + event.id);
-                        $dragDiv.addClass("selected");
-                        $events.append($dragDiv);
-
-                        $eventDiv.css({opacity: 0.5});
-                        $(document).on("mousemove", onDragEvent);
-                    }
-                    timeout = setTimeout(onHeldDown, 500);
-
+                    timeout = setTimeout(function() { onHeldDown(e); }, 500);
+                    $(document).on("mousemove", onHeldDown);
                     $(document).on("mouseup", onMouseUp);
                 });
             }
@@ -460,6 +465,14 @@ function timelineWidget(id, timelineData) {
 
                 $eventTitle.html(event.name);
                 $events.append($eventDiv);
+            }
+
+            // TODO should probably short-circuit all of this
+            if (event.isHidden()) {
+                $eventDiv.css({display: "none"});
+            }
+            else {
+                $eventDiv.css({display: "block"});
             }
         }
     }

@@ -78,10 +78,18 @@
         };
 
         /**
+         *
+         * @param {String} date
+         */
+        this.getTimeUnits = function(date) {
+            return Date.parse(date).getTime();
+        };
+
+        /**
          * @returns {Number} (usually milliseconds)
          */
         this.getStartTimeUnits = function() {
-            return Date.parse(this.start).getTime();
+            return this.getTimeUnits(this.start);
         };
 
 
@@ -89,7 +97,16 @@
          * @returns {Number} (usually milliseconds)
          */
         this.getEndTimeUnits = function() {
-            return Date.parse(this.end).getTime();
+            return this.getTimeUnits(this.end);
+        };
+
+        /**
+         *
+         * @param key
+         * @param val
+         */
+        this.setProperty = function(key, val) {
+            yuga.Event.prototype.setProperty.call(this, key, val);
         };
 
         /**

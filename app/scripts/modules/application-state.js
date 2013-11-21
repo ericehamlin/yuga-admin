@@ -20,10 +20,10 @@ angular.module('yugaAdmin')
                 name: "Thing",
                 icon: '&#xf02d;',
                 fields: [
-                    {
+                    new yuga.Field({
                         name: "boobak",
                         defaultText: "rambalamba"
-                    }
+                    })
                 ]
             })
         ];
