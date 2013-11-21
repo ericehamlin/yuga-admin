@@ -13,6 +13,10 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState, Com
             });
         });
 
+        widget.addEventListener("changeEventProperty", function(args) {
+            console.log(args);
+        });
+
         $scope.$on(ApplicationEvents.TIMELINE_MODIFIED, function() {
             widget.redraw();
         });

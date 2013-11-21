@@ -388,27 +388,56 @@ function timelineWidget(id, timelineData) {
                 $eventDiv.append($eventBarCoverDiv);
 
 
+
+
                 // TODO clean this shit up
+                // also TODO don't recreate these functions for each damn event
+                var timeout,
+                    isDraggingEvent,
+                    isMouseDown,
+                    startDragX,
+                    previousDragX,
+                    currentDragX,
+                    $dragDiv;
 
-                var timeout, heldDown, mouseDown;
+                function onDragEvent(e) {
+                    previousDragX = currentDragX;
+                    currentDragX = e.clientX;
+                    $dragDiv.css("left", $dragDiv.position().left + currentDragX - previousDragX)
+                }
 
-                $eventDiv.on("mousedown", function() {
-                    mouseDown = true;
-                    function onHeldDown() {
-                        heldDown = true;
-                        clearTimeout(timeout);
-                    }
-                    timeout = setTimeout(onHeldDown, 500);
-                });
-
-                $eventDiv.on("mouseup", function() {
+                function onMouseUp(e) {
                     clearTimeout(timeout);
-                    if (!heldDown && mouseDown) {
+                    $(document).off("mousemove", onDragEvent);
+
+                    if (!isDraggingEvent && isMouseDown) {
                         that.fireEvent("selectEvent", event);
                     }
-                    mouseDown = false;
-                });
+                    else if (isMouseDown && isDraggingEvent) {
+                        var difference = convertPixelsToTimeUnits(currentDragX - startDragX);
+                        that.fireEvent("changeEventProperty", event, {start: event.getStartTimeUnits() + difference, end: event.getEndTimeUnits() + difference});
+                    }
+                    isMouseDown = false;
+                }
 
+                $eventDiv.on("mousedown", function(e) {
+                    isMouseDown = true;
+                    function onHeldDown() {
+                        currentDragX = startDragX = e.clientX;
+                        isDraggingEvent = true;
+                        clearTimeout(timeout);
+                        $dragDiv = $eventDiv.clone();
+                        $dragDiv.attr("id", "timeline-event-drag-" + event.id);
+                        $dragDiv.addClass("selected");
+                        $events.append($dragDiv);
+
+                        $eventDiv.css({opacity: 0.5});
+                        $(document).on("mousemove", onDragEvent);
+                    }
+                    timeout = setTimeout(onHeldDown, 500);
+
+                    $(document).on("mouseup", onMouseUp);
+                });
             }
             else {
                 $eventDiv = $("#timeline-event-" + event.id);
