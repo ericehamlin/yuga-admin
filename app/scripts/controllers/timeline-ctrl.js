@@ -16,7 +16,17 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState, Com
         widget.addEventListener("changeEventProperty", function(args) {
             var event = args[0];
             var params = args[1];
-            var command = new yuga.ChangePropertiesCommand(event, {start: (new Date(params.start)).toString("yyyy-MM-dd hh:mm:ss"), end: (new Date(params.end)).toString("yyyy-MM-dd hh:mm:ss")});
+
+            var command;
+            if (params.start && params.end) {
+                command = new yuga.ChangePropertiesCommand(event, {start: (new Date(params.start)).toString("yyyy-MM-dd hh:mm:ss"), end: (new Date(params.end)).toString("yyyy-MM-dd hh:mm:ss")});
+            }
+            else if (params.start) {
+                command = new yuga.ChangePropertiesCommand(event, {start: (new Date(params.start)).toString("yyyy-MM-dd hh:mm:ss")});
+            }
+            else {
+                command = new yuga.ChangePropertiesCommand(event, {end: (new Date(params.end)).toString("yyyy-MM-dd hh:mm:ss")});
+            }
             $scope.$apply(function() {
                 Commander.execute(command);
             });

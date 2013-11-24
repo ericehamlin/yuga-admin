@@ -38,17 +38,20 @@ function TitleBarCtrl($scope, Commander, ApplicationState) {
         }
 
         $scope.$apply(function() {
-        ApplicationState.addFilter(filter);
+            //TODO make this a command
+            ApplicationState.addFilter(filter);
         });
     };
 
     $scope.removeFilter = function(filterId) {
+        //TODO make this a command
         ApplicationState.removeFilter(filterId);
     };
 
     $scope.$watch("searchText", function(newValue, oldValue) {
         if (newValue !== undefined) {
 
+            //TODO make this a command
             ApplicationState.addFilter({
                 id: "searchText",
                 filter: function(element) {

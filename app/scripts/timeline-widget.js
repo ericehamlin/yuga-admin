@@ -47,6 +47,7 @@ function timelineWidget(id, timelineData) {
     this.init = function() {
         $dragGrab = $("<div/>");
         $dragGrab.css({width: "100%", height: "100%", "z-index": 2, position: "absolute"});
+        $dragGrab.addClass("timeline-drag-grab");
         $widget.append($dragGrab);
 
         $dragGrab.on("mousedown", function(e) {
@@ -359,7 +360,11 @@ function timelineWidget(id, timelineData) {
         if (event.start && event.end) {
             var $eventDiv,
                 $eventBarDiv,
-                $eventTitle;
+                $eventTitle,
+                $eventBarCoverDiv,
+                $eventBarDragLeft,
+                $eventBarDragRight
+                ;
 
             if ($("#timeline-event-" + event.id).length == 0) {
 
@@ -377,15 +382,23 @@ function timelineWidget(id, timelineData) {
                 $eventBarDiv.attr("id", "timeline-event-bar-" + event.id);
                 $eventBarDiv.addClass("timeline-event-bar");
                 $eventBarDiv.css({"background-color": "#" + event.color});
-
                 $eventDiv.append($eventBarDiv);
 
-                var $eventBarCoverDiv = $("<div/>");
+                $eventBarCoverDiv = $("<div/>");
                 $eventBarCoverDiv.attr("id", "timeline-event-bar-cover-" + event.id);
                 $eventBarCoverDiv.addClass("timeline-event-bar-cover");
                 $eventBarCoverDiv.css({"background-color": "#" + desaturate(event.color, 0 )});
+                $eventBarDiv.append($eventBarCoverDiv);
 
-                $eventDiv.append($eventBarCoverDiv);
+                $eventBarDragLeft = $("<div/>");
+                $eventBarDragLeft.attr("id", "timeline-event-bar-drag-left-" + event.id);
+                $eventBarDragLeft.addClass("timeline-event-bar-drag-left");
+                $eventBarDiv.append($eventBarDragLeft);
+
+                $eventBarDragRight = $("<div/>");
+                $eventBarDragRight.attr("id", "timeline-event-bar-drag-right-" + event.id);
+                $eventBarDragRight.addClass("timeline-event-bar-drag-right");
+                $eventBarDiv.append($eventBarDragRight);
 
 
 
@@ -403,7 +416,7 @@ function timelineWidget(id, timelineData) {
                 function onDragEvent(e) {
                     previousDragX = currentDragX;
                     currentDragX = e.clientX;
-                    $dragDiv.css("left", $dragDiv.position().left + currentDragX - previousDragX)
+                    $dragDiv.css("left", $dragDiv.position().left + currentDragX - previousDragX);
                 }
 
                 function onHeldDown(e) {
@@ -412,7 +425,7 @@ function timelineWidget(id, timelineData) {
                     clearTimeout(timeout);
                     $dragDiv = $eventDiv.clone();
                     $dragDiv.attr("id", "timeline-event-drag-" + event.id);
-                    $dragDiv.addClass("selected");
+                    $dragDiv.addClass("selected timeline-event-drag");
                     $events.append($dragDiv);
 
                     $eventDiv.css({opacity: 0.5});
@@ -443,6 +456,49 @@ function timelineWidget(id, timelineData) {
                     timeout = setTimeout(function() { onHeldDown(e); }, 500);
                     $(document).on("mousemove", onHeldDown);
                     $(document).on("mouseup", onMouseUp);
+                });
+
+
+
+                function onDragLeft(e) {
+                    previousDragX = currentDragX;
+                    currentDragX = e.clientX;
+                    $eventDiv.css({left: $eventDiv.position().left + currentDragX - previousDragX, width: $eventDiv.width() + previousDragX - currentDragX});
+                }
+
+                function onDropLeft(e) {
+                    $(document).off("mousemove", onDragLeft);
+                    $(document).off("mouseup", onDropLeft);
+                    var difference = convertPixelsToTimeUnits(currentDragX - startDragX);
+                    that.fireEvent("changeEventProperty", event, {start: event.getStartTimeUnits() + difference});
+                }
+
+                $eventBarDragLeft.on("mousedown", function(e) {
+                    e.stopPropagation();
+                    currentDragX = startDragX = e.clientX;
+                    $(document).on("mousemove", onDragLeft);
+                    $(document).on("mouseup", onDropLeft);
+                });
+
+
+                function onDragRight(e) {
+                    previousDragX = currentDragX;
+                    currentDragX = e.clientX;
+                    $eventDiv.css({width: $eventDiv.width() - previousDragX + currentDragX});
+                }
+
+                function onDropRight(e) {
+                    $(document).off("mousemove", onDragRight);
+                    $(document).off("mouseup", onDropRight);
+                    var difference = convertPixelsToTimeUnits(currentDragX - startDragX);
+                    that.fireEvent("changeEventProperty", event, {end: event.getEndTimeUnits() + difference});
+                }
+
+                $eventBarDragRight.on("mousedown", function(e) {
+                    e.stopPropagation();
+                    currentDragX = startDragX = e.clientX;
+                    $(document).on("mousemove", onDragRight);
+                    $(document).on("mouseup", onDropRight);
                 });
             }
             else {

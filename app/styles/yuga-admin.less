@@ -493,9 +493,10 @@ h6 {
     }
  }
 
-/*
-.dropdown-submenu.pull-left{float:none;}
-.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}*/
+
+.timeline-drag-grab {
+    cursor: move;
+}
 
 .timeline-event {
     height: 30px;
@@ -522,23 +523,45 @@ h6 {
             opacity: 0.5;
         }
     }
+}
 
-    .timeline-title {
-    }
+.timeline-event-title {
+}
 
-    .timeline-event-bar {
-        height: 5px;
-        position: absolute;
-        bottom: 0px;
-        width: 100%;
-    }
+.timeline-event-bar {
+    height: 5px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
 
-    .timeline-event-bar-cover {
-        height: 5px;
-        position: absolute;
-        bottom: 0px;
-        width: 100%;
-    }
+.timeline-event-bar-cover {
+    height: 5px;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.timeline-event-bar-drag-left {
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    background-color: #000000;
+    left: 0px;
+    cursor: w-resize;
+}
+
+.timeline-event-bar-drag-right {
+    position: absolute;
+    width: 3px;
+    height: 100%;
+    background-color: #000000;
+    right: 0px;
+    cursor: e-resize;
+}
+
+.timeline-event-drag {
+    cursor: col-resize;
 }
 
 .tick {
