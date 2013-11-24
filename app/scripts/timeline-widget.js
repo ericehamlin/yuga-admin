@@ -3,6 +3,10 @@ function timelineWidget(id, timelineData) {
     var that = this,
         $centerLine,
         $all,
+        $eventGuideLeft,
+        $eventGuideLeftLabel,
+        $eventGuideRight,
+        $eventGuideRightLabel,
         $dragGrab,
         $ticks,
         $events,
@@ -91,6 +95,20 @@ function timelineWidget(id, timelineData) {
         $events = $("<div/>");
         $events.css({position: "absolute", top: "0px", bottom: "45px"});
         $all.append($events);
+
+        $eventGuideLeftLabel = $("<div/>").addClass("timeline-event-guide-label");
+        $eventGuideLeft = $("<div/>").
+                            attr("id", "timeline-event-guide-left").
+                            addClass("timeline-event-guide-left").
+                            append($eventGuideLeftLabel);
+        $all.append($eventGuideLeft);
+
+        $eventGuideRightLabel = $("<div/>").addClass("timeline-event-guide-label");
+        $eventGuideRight = $("<div/>").
+                            attr("id", "timeline-event-guide-right").
+                            addClass("timeline-event-guide-right").
+                            append($eventGuideRightLabel);
+        $all.append($eventGuideRight);
 
         $timeDisplay = $("<div/>");
         $timeDisplay.css({position: "absolute", height: "45px", bottom: "0px"});
@@ -417,9 +435,13 @@ function timelineWidget(id, timelineData) {
                     previousDragX = currentDragX;
                     currentDragX = e.clientX;
                     $dragDiv.css("left", $dragDiv.position().left + currentDragX - previousDragX);
+                    drawLeftGuide($dragDiv);
+                    drawRightGuide($dragDiv);
                 }
 
                 function onHeldDown(e) {
+
+
                     currentDragX = startDragX = e.clientX;
                     isDraggingEvent = true;
                     clearTimeout(timeout);
@@ -428,6 +450,12 @@ function timelineWidget(id, timelineData) {
                     $dragDiv.addClass("selected timeline-event-drag");
                     $events.append($dragDiv);
 
+                    drawLeftGuide($dragDiv);
+                    $eventGuideLeft.css({display: "block"});
+                    drawRightGuide($dragDiv);
+                    $eventGuideRight.css({display: "block"});
+
+                    $eventDiv.removeClass("selected");
                     $eventDiv.css({opacity: 0.5});
                     $(document).off("mousemove", onHeldDown);
                     $(document).on("mousemove", onDragEvent);
@@ -437,7 +465,8 @@ function timelineWidget(id, timelineData) {
                     clearTimeout(timeout);
                     $(document).off("mousemove", onDragEvent);
                     $(document).off("mousemove", onHeldDown);
-
+                    $eventGuideLeft.css({display: "none"});
+                    $eventGuideRight.css({display: "none"});
                     if (!isDraggingEvent && isMouseDown) {
                         that.fireEvent("selectEvent", event);
                     }
@@ -464,18 +493,23 @@ function timelineWidget(id, timelineData) {
                     previousDragX = currentDragX;
                     currentDragX = e.clientX;
                     $eventDiv.css({left: $eventDiv.position().left + currentDragX - previousDragX, width: $eventDiv.width() + previousDragX - currentDragX});
+                    drawLeftGuide($eventDiv);
                 }
 
                 function onDropLeft(e) {
                     $(document).off("mousemove", onDragLeft);
                     $(document).off("mouseup", onDropLeft);
                     var difference = convertPixelsToTimeUnits(currentDragX - startDragX);
+                    $eventGuideLeft.css({display: "none"});
                     that.fireEvent("changeEventProperty", event, {start: event.getStartTimeUnits() + difference});
                 }
 
                 $eventBarDragLeft.on("mousedown", function(e) {
                     e.stopPropagation();
                     currentDragX = startDragX = e.clientX;
+                    drawLeftGuide($eventDiv);
+                    $eventGuideLeft.css({display: "block"});
+
                     $(document).on("mousemove", onDragLeft);
                     $(document).on("mouseup", onDropLeft);
                 });
@@ -484,12 +518,14 @@ function timelineWidget(id, timelineData) {
                 function onDragRight(e) {
                     previousDragX = currentDragX;
                     currentDragX = e.clientX;
+                    drawRightGuide($eventDiv);
                     $eventDiv.css({width: $eventDiv.width() - previousDragX + currentDragX});
                 }
 
                 function onDropRight(e) {
                     $(document).off("mousemove", onDragRight);
                     $(document).off("mouseup", onDropRight);
+                    $eventGuideRight.css({display: "none"});
                     var difference = convertPixelsToTimeUnits(currentDragX - startDragX);
                     that.fireEvent("changeEventProperty", event, {end: event.getEndTimeUnits() + difference});
                 }
@@ -497,6 +533,8 @@ function timelineWidget(id, timelineData) {
                 $eventBarDragRight.on("mousedown", function(e) {
                     e.stopPropagation();
                     currentDragX = startDragX = e.clientX;
+                    drawRightGuide($eventDiv);
+                    $eventGuideRight.css({display: "block"});
                     $(document).on("mousemove", onDragRight);
                     $(document).on("mouseup", onDropRight);
                 });
@@ -565,6 +603,16 @@ function timelineWidget(id, timelineData) {
         } : null;
     }
 
+    /* TODO accuracy! */
+    function drawLeftGuide($div) {
+        $eventGuideLeftLabel.html(new Date(centerPointTime + convertPixelsToTimeUnits( $all.position().left - timelineWindowWidth/2 + $div.position().left)));
+        $eventGuideLeft.css({left: $div.position().left - $eventGuideLeft.width()});
+    }
+
+    function drawRightGuide($div) {
+        $eventGuideRight.css({left: $div.position().left + $div.width()});
+        $eventGuideRightLabel.html(new Date(centerPointTime + convertPixelsToTimeUnits( $all.position().left - timelineWindowWidth/2 + $div.position().left + $div.width())));
+    }
 
     this.selectDeselectEvent = function(event, $eventDiv) {
         if (!$eventDiv) {
