@@ -11,6 +11,7 @@ angular.module('yugaAdmin')
             SELECTED_ELEMENT_CHANGED :  "selectedElementChanged",
             ASPECT_ADDED_TO_EVENT :     "aspectAddedToEvent",
             PROPERTY_CHANGED :          "propertyChanged",
+            PROPERTIES_CHANGED :        "propertiesChanged",
             FIELD_ADDED_TO_TYPE :       "fieldAddedToType",
             NEW_EVENT :                 "newEvent",
             NEW_TYPE :                  "newType",

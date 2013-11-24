@@ -23,6 +23,7 @@
         COMMAND_ADD_FIELD_TO_TYPE :             "add field to type",
         COMMAND_CHANGE_LOCAL_ASPECT_PROPERTY :  "text change",
         COMMAND_CHANGE_PROPERTY :               "text change",
+        COMMAND_CHANGE_PROPERTIES :             "text change",
         COMMAND_NEW_ASPECT :                    "new aspect",
         COMMAND_NEW_EVENT :                     "new event",
         COMMAND_NEW_TYPE :                      "new type"

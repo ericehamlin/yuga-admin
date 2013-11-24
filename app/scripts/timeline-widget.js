@@ -435,6 +435,7 @@ function timelineWidget(id, timelineData) {
                         that.fireEvent("changeEventProperty", event, {start: event.getStartTimeUnits() + difference, end: event.getEndTimeUnits() + difference});
                     }
                     isMouseDown = false;
+                    isDraggingEvent = false;
                 }
 
                 $eventDiv.on("mousedown", function(e) {

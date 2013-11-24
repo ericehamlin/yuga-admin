@@ -14,10 +14,13 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState, Com
         });
 
         widget.addEventListener("changeEventProperty", function(args) {
-           /* var event = args[0];
+            var event = args[0];
             var params = args[1];
-            var command1 = new yuga.ChangePropertyCommand(args[0], "start", )
-            */
+            var command = new yuga.ChangePropertiesCommand(event, {start: (new Date(params.start)).toString("yyyy-MM-dd hh:mm:ss"), end: (new Date(params.end)).toString("yyyy-MM-dd hh:mm:ss")});
+            $scope.$apply(function() {
+                Commander.execute(command);
+            });
+
         });
 
         $scope.$on(ApplicationEvents.TIMELINE_MODIFIED, function() {
