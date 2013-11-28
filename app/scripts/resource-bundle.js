@@ -26,6 +26,7 @@
         COMMAND_CHANGE_PROPERTIES :             "text change",
         COMMAND_NEW_ASPECT :                    "new aspect",
         COMMAND_NEW_EVENT :                     "new event",
-        COMMAND_NEW_TYPE :                      "new type"
+        COMMAND_NEW_TYPE :                      "new type",
+        COMMAND_DELETE_EVENT :                  "delete event"
     };
 }(window.yuga = window.yuga || {}));

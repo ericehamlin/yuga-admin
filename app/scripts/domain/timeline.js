@@ -218,6 +218,14 @@
 
         /**
          *
+         * @param event
+         */
+        this.deleteEvent = function(event) {
+
+        };
+
+        /**
+         *
          */
         this.clone = function() {
 

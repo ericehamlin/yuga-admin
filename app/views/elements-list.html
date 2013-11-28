@@ -8,7 +8,10 @@
 
         <div class="list-title">
             <h5>{{resourceBundle().EVENTS}}</h5>
-            <button ng-click="newEvent()">+</button>
+            <nav>
+                <button ng-click="deleteSelectedEvent()" ng-show="isEventSelected()" title="Delete Selected Event">x</button>
+                <button ng-click="newEvent()" title="Add New Event">+</button>
+            </nav>
         </div>
         <div class="list" id="list-events">
             <div class="list-header" yg-sortable-header yg-sort-var="sortEvents" yg-sort-reverse="sortEventsReverse">
@@ -35,7 +38,10 @@
 
         <div class="list-title">
             <h5>{{resourceBundle().TYPES}}</h5>
-            <button ng-click="newType()">+</button>
+            <nav>
+                <button ng-click="deleteType(getSelectedType())" ng-show="isTypeSelected()" title="Delete Selected Type">x</button>
+                <button ng-click="newType()" title="Add New Type">+</button>
+            </nav>
         </div>
         <div class="list" id="list-types">
             <div class="list-header" yg-sortable-header yg-sort-var="sortTypes" yg-sort-reverse="sortTypesReverse">
@@ -54,7 +60,10 @@
 
         <div class="list-title">
             <h5>{{resourceBundle().ASPECTS}}</h5>
-            <button ng-click="newAspect()">+</button>
+            <nav>
+                <button ng-click="deleteAspect(getSelectedAspect())" ng-show="isAspectSelected()" title="Delete Selected Aspect">x</button>
+                <button ng-click="newAspect()" title="Add New Aspect">+</button>
+            </nav>
         </div>
         <div class="list" id="list-aspects">
             <div class="list-header" yg-sortable-header yg-sort-var="sortAspects" yg-sort-reverse="sortAspectsReverse">

@@ -2,7 +2,6 @@
 
 /**
  * TODO:
- * respond to resized window
  * velocity scrolling
  * error with re-creating anytime picker
  * make sure that dragging event cannot cross over line of visibility

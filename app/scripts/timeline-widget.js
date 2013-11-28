@@ -427,7 +427,24 @@ function timelineWidget(id, timelineData) {
                 $eventBarDiv.append($eventBarDragRight);
 
 
+                /**
+                 * TODO: finish drop on event
+                 *
+                function isAppropriateDroppable($element) {
+                    console.log($element.originalEvent.dataTransfer.getData('text/plain'));
+                    return true;
+                }
 
+                $eventDiv.on('dragenter', function(e) { console.log("enter")});
+                $eventDiv.on('dragover', function(e) {
+                    if (e.preventDefault && isAppropriateDroppable(e)) {
+                        e.preventDefault(); // Necessary. Allows us to drop.
+                        console.log("over");
+                    }
+                });
+                $eventDiv.on('dragleave', function(e) { console.log("leave")});
+                $eventDiv.on('drop', function(e) { console.log("drop")});
+                */
 
                 // TODO clean this shit up
                 // also TODO don't recreate these functions for each damn event
