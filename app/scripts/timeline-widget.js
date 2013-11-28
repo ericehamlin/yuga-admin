@@ -115,7 +115,7 @@ function timelineWidget(id, timelineData) {
         $widget.append($timeDisplay);
 
         $centerLine = $("<div/>").
-            css({width: "1px", position: "absolute", "background-color": "#000", height: "100%", left: (timelineWindowWidth/2) + "px"});
+            css({width: "1px", position: "absolute", "background-color": "#000", height: "100%", left: "50%"});
         $widget.append($centerLine);
 
         maxTime = timelineData.getLatestEventTime();
@@ -131,6 +131,14 @@ function timelineWidget(id, timelineData) {
 
         positionCenter();
         updateTimelineGroup();
+
+        $(window).on("resize", function() {
+            timelineWindowWidth = $widget.width();
+            beginningCenterPointTime = centerPointTime;
+            that.setBeginningAndEndDrawTimes();
+            that.redraw();
+            positionCenter();
+        });
     }
 
     this.assignEventsToYs = function() {
