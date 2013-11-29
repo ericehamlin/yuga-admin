@@ -1,5 +1,4 @@
 /**
- * TODO: remove events not in timeline
  *
  * @param id
  * @param timelineData
@@ -385,6 +384,7 @@ function timelineWidget(id, timelineData) {
     }
 
     function drawEvents() {
+        $(".timeline-event").detach();
         that.traverseEvents(drawEvent);
     }
 
