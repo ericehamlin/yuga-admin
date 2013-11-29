@@ -2,11 +2,12 @@
 
 /**
  * TODO:
+ * deep-linking
  * velocity scrolling
  * error with re-creating anytime picker
  * make sure that dragging event cannot cross over line of visibility
  * overview timeline
- * delete event, aspect, etc
+ * COMPLETE delete event, aspect, etc
  * delete field
  * fluid transitions in timeline
  * zoom with scroll wheel
