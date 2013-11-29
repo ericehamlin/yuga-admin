@@ -146,10 +146,18 @@
         this.selectElement = function(element) {
             if (element instanceof yuga.Event) {
                 this.selectEvent(element);
-            } else if (element instanceof yuga.Type) {
+            }
+            else if (element instanceof yuga.Type) {
                 this.selectType(element);
-            } else if (element instanceof yuga.Aspect) {
+            }
+            else if (element instanceof yuga.Aspect) {
                 this.selectAspect(element);
+            }
+            else {
+                this.traverseElements(function(element) {
+                    element.select(false);
+                    element.selectSecondary(false);
+                });
             }
         };
 
@@ -220,8 +228,72 @@
          *
          * @param event
          */
-        this.deleteEvent = function(event) {
+        this.attachEvent = function(event) {
+            event.attach(this);
+            this.events.push(event);
+        };
 
+        /**
+         *
+         * @param event
+         */
+        this.detachEvent = function(event) {
+            for (var i=0; i<this.events.length; i++) {
+                if (this.events[i] === event) {
+                    this.events.splice(i, 1);
+                    event.detach();
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        /**
+         *
+         * @param aspect
+         */
+        this.attachAspect = function(aspect) {
+            aspect.attach(this);
+            this.aspects.push(aspect);
+        };
+
+        /**
+         *
+         * @param aspect
+         */
+        this.detachAspect = function(aspect) {
+            for (var i=0; i<this.aspects.length; i++) {
+                if (this.aspects[i] === aspect) {
+                    this.aspects.splice(i, 1);
+                    aspect.detach();
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        /**
+         *
+         * @param type
+         */
+        this.attachType = function(type) {
+            type.attach(this);
+            this.types.push(type);
+        };
+
+        /**
+         *
+         * @param type
+         */
+        this.detachType = function(type) {
+            for (var i=0; i<this.types.length; i++) {
+                if (this.types[i] === type) {
+                    this.types.splice(i, 1);
+                    type.detach();
+                    return true;
+                }
+            }
+            return false;
         };
 
         /**

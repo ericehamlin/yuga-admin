@@ -1,8 +1,8 @@
 (function (yuga) {
 
-    yuga.DeleteEventCommand = function(event) {
+    yuga.DeleteAspectCommand = function(aspect) {
 
-        this.name = yuga.ResourceBundle.COMMAND_DELETE_EVENT;
+        this.name = yuga.ResourceBundle.COMMAND_DELETE_ASPECT;
 
         this.isUndoable = true;
 
@@ -14,15 +14,15 @@
         this.execute = function(ApplicationState, ApplicationEvents, Commander) {
             var command = new yuga.SelectElementCommand();
             Commander.execute(command);
-            ApplicationState.timeline.detachEvent(event);
+            ApplicationState.timeline.detachAspect(aspect);
         };
 
         this.unexecute = function(ApplicationState, ApplicationEvents, Commander) {
-            ApplicationState.timeline.attachEvent(event);
-            var command = new yuga.SelectElementCommand(event);
+            ApplicationState.timeline.attachAspect(aspect);
+            var command = new yuga.SelectElementCommand(aspect);
             Commander.execute(command);
         };
     };
-    yuga.DeleteEventCommand.prototype = new yuga.Command();
+    yuga.DeleteAspectCommand.prototype = new yuga.Command();
 
 }(window.yuga = window.yuga || {}));

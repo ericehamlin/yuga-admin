@@ -112,6 +112,27 @@
 
         /**
          *
+         * @param timeline
+         */
+        this.attach = function(timeline) {
+            this.timeline = timeline;
+            for (var i=0; i<this.events.length; i++) {
+                this.events[i].addAspect(this);
+            }
+        };
+
+        /**
+         * TODO remove localAspect
+         */
+        this.detach = function() {
+            this.timeline = null;
+            for (var i=0; i<this.events.length; i++) {
+                this.events[i].removeAspect(this);
+            }
+        };
+
+        /**
+         *
          */
         this.clone = function() {
             var ignoreProperties = ["tempData", "events"],

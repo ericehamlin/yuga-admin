@@ -44,6 +44,7 @@
         };
 
         /**
+         * todo remove local aspect in such a way that it can be undone
          *
          * @param aspect
          */
@@ -51,6 +52,7 @@
             for (var i=0; i<this.aspects.length; i++) {
                 if (this.aspects[i] === aspect) {
                     this.aspects.splice(i, 1);
+                    this.localAspects[aspect.id] = null;
                     return true;
                 }
             }
@@ -107,6 +109,27 @@
          */
         this.setProperty = function(key, val) {
             yuga.Event.prototype.setProperty.call(this, key, val);
+        };
+
+        /**
+         *
+         * @param timeline
+         */
+        this.attach = function(timeline) {
+            this.timeline = timeline;
+            for (var i=0; i<this.aspects.length; i++) {
+                this.aspects[i].addEvent(this);
+            }
+        };
+
+        /**
+         *
+         */
+        this.detach = function() {
+            this.timeline = null;
+            for (var i=0; i<this.aspects.length; i++) {
+                this.aspects[i].removeEvent(this);
+            }
         };
 
         /**

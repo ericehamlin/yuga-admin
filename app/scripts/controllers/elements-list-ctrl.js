@@ -59,6 +59,23 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
         return ApplicationState.selectedElement instanceof yuga.Aspect;
     };
 
+    $scope.getSelectedAspect = function() {
+        if (!$scope.isAspectSelected()) {
+            return null;
+        }
+        return ApplicationState.selectedElement;
+    };
+
+    $scope.deleteSelectedAspect = function() {
+        var aspect = $scope.getSelectedAspect();
+        $scope.deleteAspect(aspect);
+    };
+
+    $scope.deleteAspect = function(aspect) {
+        var command = new yuga.DeleteAspectCommand(aspect);
+        Commander.execute(command);
+    };
+
 
     /** TYPES */
 
@@ -69,6 +86,23 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
 
     $scope.isTypeSelected = function() {
         return ApplicationState.selectedElement instanceof yuga.Type;
+    };
+
+    $scope.getSelectedType = function() {
+        if (!$scope.isTypeSelected()) {
+            return null;
+        }
+        return ApplicationState.selectedElement;
+    };
+
+    $scope.deleteSelectedType = function() {
+        var type = $scope.getSelectedType();
+        $scope.deleteType(type);
+    };
+
+    $scope.deleteType = function(type) {
+        var command = new yuga.DeleteTypeCommand(type);
+        Commander.execute(command);
     };
 }
 

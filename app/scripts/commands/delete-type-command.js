@@ -1,8 +1,8 @@
 (function (yuga) {
 
-    yuga.DeleteEventCommand = function(event) {
+    yuga.DeleteTypeCommand = function(type) {
 
-        this.name = yuga.ResourceBundle.COMMAND_DELETE_EVENT;
+        this.name = yuga.ResourceBundle.COMMAND_DELETE_TYPE;
 
         this.isUndoable = true;
 
@@ -14,15 +14,15 @@
         this.execute = function(ApplicationState, ApplicationEvents, Commander) {
             var command = new yuga.SelectElementCommand();
             Commander.execute(command);
-            ApplicationState.timeline.detachEvent(event);
+            ApplicationState.timeline.detachType(type);
         };
 
         this.unexecute = function(ApplicationState, ApplicationEvents, Commander) {
-            ApplicationState.timeline.attachEvent(event);
-            var command = new yuga.SelectElementCommand(event);
+            ApplicationState.timeline.attachType(type);
+            var command = new yuga.SelectElementCommand(type);
             Commander.execute(command);
         };
     };
-    yuga.DeleteEventCommand.prototype = new yuga.Command();
+    yuga.DeleteTypeCommand.prototype = new yuga.Command();
 
 }(window.yuga = window.yuga || {}));

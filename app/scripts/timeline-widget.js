@@ -1,3 +1,9 @@
+/**
+ * TODO: remove events not in timeline
+ *
+ * @param id
+ * @param timelineData
+ */
 function timelineWidget(id, timelineData) {
     var $widget = $("#" + id);
     var that = this,

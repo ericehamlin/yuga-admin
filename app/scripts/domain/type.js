@@ -54,6 +54,22 @@
         };
 
         /**
+         * todo add type to affected aspects
+         *
+         * @param timeline
+         */
+        this.attach = function(timeline) {
+            this.timeline = timeline;
+        };
+
+        /**
+         * todo remove type from affected aspects
+         */
+        this.detach = function() {
+            this.timeline = null;
+        };
+
+        /**
          *
          */
         this.clone = function() {

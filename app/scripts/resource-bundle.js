@@ -27,6 +27,8 @@
         COMMAND_NEW_ASPECT :                    "new aspect",
         COMMAND_NEW_EVENT :                     "new event",
         COMMAND_NEW_TYPE :                      "new type",
-        COMMAND_DELETE_EVENT :                  "delete event"
+        COMMAND_DELETE_EVENT :                  "delete event",
+        COMMAND_DELETE_ASPECT :                 "delete aspect",
+        COMMAND_DELETE_TYPE :                   "delete type",
     };
 }(window.yuga = window.yuga || {}));
