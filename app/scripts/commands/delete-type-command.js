@@ -2,7 +2,7 @@
 
     yuga.DeleteTypeCommand = function(type) {
 
-        this.name = yuga.ResourceBundle.COMMAND_DELETE_TYPE;
+        this.name = yuga.ResourceBundle.get("COMMAND_DELETE_TYPE");
 
         this.isUndoable = true;
 

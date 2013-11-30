@@ -11,7 +11,7 @@
             {{event.name}}
         </div>
 
-        <label for="aspect-type">{{resourceBundle().TYPE}}</label>
+        <label for="aspect-type">{{resourceBundle().get("TYPE")}}</label>
         <div class="btn-group" id="aspect-type">
             <button type="button" class="btn"><span class="icon" ng-bind-html-unsafe="aspect.getType().icon"></span> {{aspect.getType().name}}</button>
             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
@@ -22,7 +22,7 @@
             </ul>
         </div>
 
-        <label for="colorpicker">{{resourceBundle().COLOR}}</label>
+        <label for="colorpicker">{{resourceBundle().get("COLOR")}}</label>
         <input id="colorpicker" type="hidden" yg-model-object="aspect" yg-model-property="color" />
 
         <div ng-repeat="field in aspect.getType().fields">

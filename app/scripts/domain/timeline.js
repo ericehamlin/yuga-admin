@@ -5,7 +5,7 @@
         this.events = [];
         this.types = [];
         this.aspects = [];
-        this.precision = 1;
+        this.precision = 1;  // TODO need this?
 
 
         /**

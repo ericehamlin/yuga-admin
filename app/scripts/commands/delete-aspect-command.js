@@ -2,7 +2,7 @@
 
     yuga.DeleteAspectCommand = function(aspect) {
 
-        this.name = yuga.ResourceBundle.COMMAND_DELETE_ASPECT;
+        this.name = yuga.ResourceBundle.get("COMMAND_DELETE_ASPECT");
 
         this.isUndoable = true;
 

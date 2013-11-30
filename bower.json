@@ -15,7 +15,8 @@
     "bootstrap": "~3.0.0",
     "jquery.colorpicker": "~4.9.2",
     "datejs": "*",
-    "ama3-anytime": "*"
+    "ama3-anytime": "*",
+    "sprintf": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",

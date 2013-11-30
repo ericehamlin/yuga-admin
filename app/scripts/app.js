@@ -2,6 +2,8 @@
 
 /**
  * TODO:
+ * throw exceptions
+ * fix field ids based on text
  * deep-linking
  * velocity scrolling
  * error with re-creating anytime picker

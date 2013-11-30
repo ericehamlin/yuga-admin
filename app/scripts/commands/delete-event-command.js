@@ -2,7 +2,7 @@
 
     yuga.DeleteEventCommand = function(event) {
 
-        this.name = yuga.ResourceBundle.COMMAND_DELETE_EVENT;
+        this.name = yuga.ResourceBundle.get("COMMAND_DELETE_EVENT");
 
         this.isUndoable = true;
 

@@ -1,5 +1,17 @@
 (function (yuga) {
     yuga.ResourceBundle = {
+
+        /**
+         *
+         * @param key
+         */
+        get : function(key) {
+            if (!this[key]) {
+                throw new ReferenceError('There is no property "' + key + '" in ResourceBundle.');
+            }
+            return vsprintf(this[key], Array.prototype.slice.call(arguments, 1));
+        },
+
         NEW :           "New",
         FILE :          "File",
         EDIT :          "Edit",
@@ -29,6 +41,6 @@
         COMMAND_NEW_TYPE :                      "new type",
         COMMAND_DELETE_EVENT :                  "delete event",
         COMMAND_DELETE_ASPECT :                 "delete aspect",
-        COMMAND_DELETE_TYPE :                   "delete type",
+        COMMAND_DELETE_TYPE :                   "delete type"
     };
 }(window.yuga = window.yuga || {}));

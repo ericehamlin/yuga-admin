@@ -2,7 +2,7 @@
 
     yuga.ChangeLocalAspectPropertyCommand = function(localAspect, property, from, to) {
 
-        this.name = yuga.ResourceBundle.COMMAND_CHANGE_LOCAL_ASPECT_PROPERTY;
+        this.name = yuga.ResourceBundle.get("COMMAND_CHANGE_LOCAL_ASPECT_PROPERTY");
 
         this.isUndoable = true;
 

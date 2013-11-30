@@ -7,7 +7,7 @@
     <div class="section-body" yg-accordion yg-accordion-header=".list-title" yg-accordion-height-style="fill">
 
         <div class="list-title">
-            <h5>{{resourceBundle().EVENTS}}</h5>
+            <h5>{{resourceBundle().get("EVENTS")}}</h5>
             <nav>
                 <button ng-click="deleteSelectedEvent()" ng-show="isEventSelected()" title="Delete Selected Event">x</button>
                 <button ng-click="newEvent()" title="Add New Event">+</button>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="list-title">
-            <h5>{{resourceBundle().TYPES}}</h5>
+            <h5>{{resourceBundle().get("TYPES")}}</h5>
             <nav>
                 <button ng-click="deleteType(getSelectedType())" ng-show="isTypeSelected()" title="Delete Selected Type">x</button>
                 <button ng-click="newType()" title="Add New Type">+</button>
@@ -59,7 +59,7 @@
         </div>
 
         <div class="list-title">
-            <h5>{{resourceBundle().ASPECTS}}</h5>
+            <h5>{{resourceBundle().get("ASPECTS")}}</h5>
             <nav>
                 <button ng-click="deleteAspect(getSelectedAspect())" ng-show="isAspectSelected()" title="Delete Selected Aspect">x</button>
                 <button ng-click="newAspect()" title="Add New Aspect">+</button>

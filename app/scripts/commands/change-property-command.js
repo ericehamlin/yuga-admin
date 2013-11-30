@@ -2,7 +2,7 @@
 
     yuga.ChangePropertyCommand = function(obj, property, from, to) {
 
-        this.name = yuga.ResourceBundle.COMMAND_CHANGE_PROPERTY;
+        this.name = yuga.ResourceBundle.get("COMMAND_CHANGE_PROPERTY");
 
         this.isUndoable = true;
 
