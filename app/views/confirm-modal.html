@@ -1,0 +1,13 @@
+<div class="modal fade" role="dialog" id="confirm-modal" ng-controller="ConfirmModalCtrl">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                {{message}}
+                <div>
+                    <button ng-click="cancelFunction()">{{cancelLabel}}</button>
+                    <button ng-click="confirmFunction()">{{confirmLabel}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

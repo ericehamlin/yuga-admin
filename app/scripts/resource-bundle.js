@@ -12,6 +12,8 @@
             return vsprintf(this[key], Array.prototype.slice.call(arguments, 1));
         },
 
+        YES :           "Yes",
+        NO :            "No",
         NEW :           "New",
         FILE :          "File",
         EDIT :          "Edit",

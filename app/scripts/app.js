@@ -17,6 +17,8 @@
  * drag-n-drop aspects into timeline
  * show local values when scrolling timeline
  *
+ * popup
+ *
  */
 
 angular.module('yugaAdmin', ['Command'])
@@ -32,8 +34,12 @@ angular.module('yugaAdmin', ['Command'])
         });
     })
 
-    .run(function($rootScope) {
+    .run(function($rootScope, ApplicationEvents) {
         $rootScope.resourceBundle = function() {
             return yuga.ResourceBundle;
+        };
+
+        $rootScope.confirm = function(args) {
+            ApplicationEvents.broadcast(ApplicationEvents.LAUNCH_CONFIRM_MODAL, args);
         };
     });

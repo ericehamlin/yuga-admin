@@ -15,6 +15,9 @@ angular.module('yugaAdmin')
             FIELD_ADDED_TO_TYPE :       "fieldAddedToType",
             NEW_EVENT :                 "newEvent",
             NEW_TYPE :                  "newType",
-            NEW_ASPECT :                "newAspect"
+            NEW_ASPECT :                "newAspect",
+            LAUNCH_MODAL :              "launchModal",
+            LAUNCH_CONFIRM_MODAL :      "launchConfirmModal",
+            LAUNCH_ALERT_MODAL :        "launchAlertModal"
         }
     }]);

@@ -43,8 +43,13 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     };
 
     $scope.deleteEvent = function(event) {
-        var command = new yuga.DeleteEventCommand(event);
-        Commander.execute(command);
+        $scope.confirm({
+            message: "Are you sure you want to delete this Event?",
+            confirmFunction: function() {
+                var command = new yuga.DeleteEventCommand(event);
+                Commander.execute(command);
+            }
+        });
     };
 
 
@@ -72,8 +77,13 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     };
 
     $scope.deleteAspect = function(aspect) {
-        var command = new yuga.DeleteAspectCommand(aspect);
-        Commander.execute(command);
+        $scope.confirm({
+            message: "Are you sure you want to delete this Aspect?",
+            confirmFunction: function() {
+                var command = new yuga.DeleteAspectCommand(aspect);
+                Commander.execute(command);
+            }
+        });
     };
 
 
@@ -101,8 +111,14 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     };
 
     $scope.deleteType = function(type) {
-        var command = new yuga.DeleteTypeCommand(type);
-        Commander.execute(command);
+        $scope.confirm({
+            message: "Are you sure you want to delete this Type?",
+            confirmFunction: function() {
+                var command = new yuga.DeleteTypeCommand(type);
+                Commander.execute(command);
+            }
+        });
+
     };
 }
 
