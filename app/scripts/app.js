@@ -17,7 +17,7 @@
  * drag-n-drop aspects into timeline
  * show local values when scrolling timeline
  *
- * popup
+ * alert popup
  *
  */
 

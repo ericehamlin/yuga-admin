@@ -117,6 +117,7 @@ angular.module('yugaAdmin')
                 timeline.traverseElements(filters[i].filter);
                 console.log("filters", i, filters[i])
             }
+            ApplicationEvents.broadcast(ApplicationEvents.TIMELINE_MODIFIED);
         }
 
         /**
