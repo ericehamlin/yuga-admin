@@ -9,6 +9,7 @@
         <div class="list-title">
             <h5>{{resourceBundle().get("EVENTS")}}</h5>
             <nav>
+                <button ng-click="cloneEvent(getSelectedEvent())" ng-show="isEventSelected()" title="Clone Selected Event">=</button>
                 <button ng-click="deleteSelectedEvent()" ng-show="isEventSelected()" title="Delete Selected Event">x</button>
                 <button ng-click="newEvent()" title="Add New Event">+</button>
             </nav>
@@ -39,6 +40,7 @@
         <div class="list-title">
             <h5>{{resourceBundle().get("TYPES")}}</h5>
             <nav>
+                <button ng-click="cloneType(getSelectedType())" ng-show="isTypeSelected()" title="Clone Selected Type">=</button>
                 <button ng-click="deleteType(getSelectedType())" ng-show="isTypeSelected()" title="Delete Selected Type">x</button>
                 <button ng-click="newType()" title="Add New Type">+</button>
             </nav>

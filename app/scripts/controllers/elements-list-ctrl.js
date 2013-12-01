@@ -42,6 +42,11 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
         $scope.deleteEvent(event);
     };
 
+    $scope.cloneEvent = function(event) {
+        var command = new yuga.CloneEventCommand(event);
+        Commander.execute(command);
+    };
+
     $scope.deleteEvent = function(event) {
         $scope.confirm({
             message: "Are you sure you want to delete this Event?",
@@ -108,6 +113,11 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     $scope.deleteSelectedType = function() {
         var type = $scope.getSelectedType();
         $scope.deleteType(type);
+    };
+
+    $scope.cloneType = function(type) {
+        var command = new yuga.CloneTypeCommand(type);
+        Commander.execute(command);
     };
 
     $scope.deleteType = function(type) {

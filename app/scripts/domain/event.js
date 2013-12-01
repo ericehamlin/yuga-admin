@@ -145,7 +145,7 @@
          *
          */
         this.clone = function() {
-            var ignoreProperties = ["tempData", "aspects"],
+            var ignoreProperties = ["tempData", "aspects", "localAspects"],
                 newEvent = new yuga.Event();
             for (var prop in this) {
                 if (this.hasOwnProperty(prop) &&
@@ -154,6 +154,9 @@
                     newEvent[prop] = this[prop];
                 }
             }
+
+            // TODO: id
+            newEvent.id = 9898;
             return newEvent;
         };
 

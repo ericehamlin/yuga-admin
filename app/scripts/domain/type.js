@@ -73,7 +73,19 @@
          *
          */
         this.clone = function() {
+            var ignoreProperties = ["tempData"],
+                newType = new yuga.Type();
+            for (var prop in this) {
+                if (this.hasOwnProperty(prop) &&
+                    !(this[prop] instanceof Function) &&
+                    $.inArray(prop, ignoreProperties) === -1) {
+                    newType[prop] = this[prop];
+                }
+            }
 
+            // TODO: id
+            newType.id = 99999;
+            return newType;
         };
 
         angular.extend(this, initProperties);

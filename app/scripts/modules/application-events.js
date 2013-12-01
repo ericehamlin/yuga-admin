@@ -19,6 +19,8 @@ angular.module('yugaAdmin')
             NEW_ASPECT :                "newAspect",
             LAUNCH_MODAL :              "launchModal",
             LAUNCH_CONFIRM_MODAL :      "launchConfirmModal",
-            LAUNCH_ALERT_MODAL :        "launchAlertModal"
+            LAUNCH_ALERT_MODAL :        "launchAlertModal",
+            EVENT_CLONED :              "eventCloned",
+            TYPE_CLONED :               "typeCloned"
         }
     }]);
