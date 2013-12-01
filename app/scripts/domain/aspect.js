@@ -144,7 +144,7 @@
          *
          */
         this.clone = function() {
-            var ignoreProperties = ["tempData", "events"],
+            var ignoreProperties = ["tempData", "events", "localAspects"],
                 newAspect = new yuga.Aspect();
             for (var prop in this) {
                 if (
@@ -155,6 +155,10 @@
                     newAspect[prop] = this[prop];
                 }
             }
+
+            // TODO: id
+            newAspect.id = 0980980;
+
             return newAspect;
         };
 

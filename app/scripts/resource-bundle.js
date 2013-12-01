@@ -46,6 +46,7 @@
         COMMAND_DELETE_ASPECT :                 "delete aspect",
         COMMAND_DELETE_TYPE :                   "delete type",
         COMMAND_CLONE_EVENT :                   "clone event",
-        COMMAND_CLONE_TYPE :                    "clone type"
+        COMMAND_CLONE_TYPE :                    "clone type",
+        COMMAND_CLONE_ASPECT :                  "clone aspect"
     };
 }(window.yuga = window.yuga || {}));

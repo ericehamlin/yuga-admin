@@ -63,6 +63,7 @@
         <div class="list-title">
             <h5>{{resourceBundle().get("ASPECTS")}}</h5>
             <nav>
+                <button ng-click="cloneAspect(getSelectedAspect())" ng-show="isAspectSelected()" title="Clone Selected Aspect">=</button>
                 <button ng-click="deleteAspect(getSelectedAspect())" ng-show="isAspectSelected()" title="Delete Selected Aspect">x</button>
                 <button ng-click="newAspect()" title="Add New Aspect">+</button>
             </nav>

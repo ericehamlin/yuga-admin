@@ -73,7 +73,7 @@
          *
          */
         this.clone = function() {
-            var ignoreProperties = ["tempData"],
+            var ignoreProperties = ["tempData", "fields"],
                 newType = new yuga.Type();
             for (var prop in this) {
                 if (this.hasOwnProperty(prop) &&
@@ -81,6 +81,10 @@
                     $.inArray(prop, ignoreProperties) === -1) {
                     newType[prop] = this[prop];
                 }
+            }
+
+            for (var i=0; i<this.fields.length; i++) {
+                newType.fields.push(this.fields[i].clone());
             }
 
             // TODO: id

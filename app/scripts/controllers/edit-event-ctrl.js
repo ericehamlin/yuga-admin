@@ -21,6 +21,7 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
             var aspect = ApplicationState.timeline.getAspectById(aspectId);
             var command = new yuga.AddAspectToEventCommand($scope.event, aspect);
             Commander.execute(command);
+            console.log($scope.event, aspect);
         });
     };
 

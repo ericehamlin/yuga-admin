@@ -81,6 +81,11 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
         $scope.deleteAspect(aspect);
     };
 
+    $scope.cloneAspect = function(aspect) {
+        var command = new yuga.CloneAspectCommand(aspect);
+        Commander.execute(command);
+    };
+
     $scope.deleteAspect = function(aspect) {
         $scope.confirm({
             message: "Are you sure you want to delete this Aspect?",

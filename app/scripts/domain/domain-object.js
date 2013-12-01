@@ -4,6 +4,10 @@
 
         this.tempData = {};
 
+        /**
+         *
+         * @param selected
+         */
         this.select = function(selected) {
             if (selected !== false && selected !== true) {
                 selected = true;
@@ -11,6 +15,10 @@
             this.tempData.selected = selected;
         };
 
+        /**
+         *
+         * @param selectedSecondary
+         */
         this.selectSecondary = function(selectedSecondary) {
             if (selectedSecondary !== false) {
                 selectedSecondary = true;
@@ -18,22 +26,37 @@
             this.tempData.selectedSecondary = selectedSecondary;
         };
 
+        /**
+         *
+         */
         this.isSelected = function() {
             return this.tempData.selected;
         };
 
+        /**
+         *
+         */
         this.isSelectedSecondary = function() {
             return this.tempData.selectedSecondary;
         };
 
+        /**
+         *
+         */
         this.show = function() {
             this.tempData.hidden = false;
         };
 
+        /**
+         *
+         */
         this.hide = function() {
             this.tempData.hidden = true;
         };
 
+        /**
+         *
+         */
         this.isHidden = function() {
             return this.tempData.hidden;
         }
