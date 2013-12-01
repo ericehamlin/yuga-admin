@@ -5,6 +5,8 @@
         this.description = "";
 
         this.aspects = [];
+
+        /** indexed by aspect id */
         this.localAspects = {};
 
         this.tempData = {
@@ -37,8 +39,15 @@
          */
         this.addAspect = function(aspect) {
             if (!this.containsAspect(aspect)) {
+                var localAspect;
+
                 this.aspects[this.aspects.length] = aspect;
-                var localAspect = new yuga.LocalAspect({aspect: aspect, event: this});
+                if (aspect.localAspects[this.id] != undefined) {
+                    localAspect = aspect.localAspects[this.id];
+                }
+                else {
+                    localAspect = new yuga.LocalAspect({aspect: aspect, event: this});
+                }
                 this.localAspects[aspect.id] = localAspect;
             }
         };
@@ -52,7 +61,7 @@
             for (var i=0; i<this.aspects.length; i++) {
                 if (this.aspects[i] === aspect) {
                     this.aspects.splice(i, 1);
-                    this.localAspects[aspect.id] = null;
+                    this.localAspects[aspect.id] = undefined;
                     return true;
                 }
             }

@@ -6,9 +6,10 @@
         this.color = "000000";
         this.description = "";
 
-        //todo -- probably eliminate this. Shouldn't have to update both arrays
-        // on the other hand, shouldn't have to scrounge through two levels of arrays to get this result
         this.events = [];
+
+        /** indexed by event id */
+        this.localAspects = {};
 
         this.tempData = {
             hidden: false,
@@ -59,18 +60,26 @@
          */
         this.addEvent = function(event) {
             if (!this.inEvent(event)) {
+                var localAspect;
                 this.events[this.events.length] = event;
+                if (event.localAspects[this.id] != undefined) {
+                    localAspect = event.localAspects[this.id];
+                }
+                else {
+                    localAspect = new yuga.LocalAspect({aspect: this, event: event});
+                }
+                this.localAspects[event.id] = localAspect;
             }
         };
 
         /**
-         * todo -- should reciprocate on event side?
          * @param event
          */
         this.removeEvent = function(event) {
             for (var i=0; i<this.events.length; i++) {
                 if (this.events[i] === event) {
                     this.events.splice(i, 1);
+                    this.localAspects[event.id] = undefined;
                     return true;
                 }
             }

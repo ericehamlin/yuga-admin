@@ -17,6 +17,8 @@
  * drag-n-drop aspects into timeline
  * show local values when scrolling timeline
  *
+ * make sure filters are accurate
+ *
  * alert popup
  *
  */
