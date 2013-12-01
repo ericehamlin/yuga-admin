@@ -9,7 +9,7 @@
  * error with re-creating anytime picker
  * make sure that dragging event cannot cross over line of visibility
  * overview timeline
- * COMPLETE delete event, aspect, etc
+ * COMPLETE delete type
  * delete field
  * fluid transitions in timeline
  * zoom with scroll wheel

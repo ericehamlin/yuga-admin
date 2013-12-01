@@ -34,6 +34,7 @@
         DESCRIPTION :   "Description",
 
         COMMAND_ADD_ASPECT_TO_EVENT :           "add aspect to event",
+        COMMAND_REMOVE_ASPECT_FROM_EVENT :      "remove aspect from event",
         COMMAND_ADD_FIELD_TO_TYPE :             "add field to type",
         COMMAND_CHANGE_LOCAL_ASPECT_PROPERTY :  "text change",
         COMMAND_CHANGE_PROPERTY :               "text change",

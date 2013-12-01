@@ -10,6 +10,7 @@ angular.module('yugaAdmin')
             TIMELINE_MODIFIED :         "timelineModified",
             SELECTED_ELEMENT_CHANGED :  "selectedElementChanged",
             ASPECT_ADDED_TO_EVENT :     "aspectAddedToEvent",
+            ASPECT_REMOVED_FROM_EVENT : "aspectRemovedFromEvent",
             PROPERTY_CHANGED :          "propertyChanged",
             PROPERTIES_CHANGED :        "propertiesChanged",
             FIELD_ADDED_TO_TYPE :       "fieldAddedToType",

@@ -17,6 +17,7 @@
             <div ng-repeat="localAspect in event.localAspects" class="edit-sub-element">
                 <div class="edit-sub-element-header">
                     <h5>{{localAspect.aspect.name}}</h5>
+                    <button ng-click="removeAspect(localAspect.aspect)">x</button>
                 </div>
                 <div class="edit-sub-element-body">
                     <div ng-repeat="field in localAspect.aspect.getType().fields">

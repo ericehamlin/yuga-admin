@@ -79,7 +79,7 @@
             for (var i=0; i<this.events.length; i++) {
                 if (this.events[i] === event) {
                     this.events.splice(i, 1);
-                    this.localAspects[event.id] = undefined;
+                    delete this.localAspects[event.id];
                     return true;
                 }
             }

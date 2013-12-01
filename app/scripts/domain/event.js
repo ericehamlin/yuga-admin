@@ -61,7 +61,7 @@
             for (var i=0; i<this.aspects.length; i++) {
                 if (this.aspects[i] === aspect) {
                     this.aspects.splice(i, 1);
-                    this.localAspects[aspect.id] = undefined;
+                    delete this.localAspects[aspect.id];
                     return true;
                 }
             }

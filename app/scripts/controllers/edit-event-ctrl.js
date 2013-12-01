@@ -24,6 +24,17 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
         });
     };
 
+    /**
+     *
+     * @param aspect
+     */
+    $scope.removeAspect = function(aspect) {
+        //$scope.$apply(function() {
+            var command = new yuga.RemoveAspectFromEventCommand($scope.event, aspect);
+            Commander.execute(command);
+        //});
+    };
+
 
     /**
      *
