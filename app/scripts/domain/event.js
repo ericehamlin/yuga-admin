@@ -142,7 +142,7 @@
         };
 
         /**
-         *
+         * TODO eliminate extraneous properties that we can't prepare for
          */
         this.clone = function() {
             var ignoreProperties = ["tempData", "aspects", "localAspects"],
@@ -160,7 +160,38 @@
             return newEvent;
         };
 
+        /**
+         * TODO eliminate extraneous properties that we can't prepare for
+         */
+        this.serialize = function() {
+            var serializedEvent = {},
+                ignoreProperties = ["timeline", "type", "tempData", "aspects", "localAspects"];
+
+            for (var prop in this) {
+                if ($.inArray(prop, ignoreProperties) === -1 &&
+                    !(this[prop] instanceof Function)) {
+                    serializedEvent[prop] = this[prop];
+                }
+            }
+            return JSON.stringify(serializedEvent);
+        };
+
         angular.extend(this, initProperties);
+    };
+
+    /**
+     * TODO eliminate extraneous properties that we can't prepare for
+     *
+     * @param {String|Object} serializedEvent
+     *
+     * @returns {yuga.Event}
+     */
+    yuga.Event.deserialize = function(serializedEvent) {
+        var event = new yuga.Event(),
+            ignoreProperties = ["tempData", "aspects", "localAspects"];
+
+        event.tempData.aspects = yuga.DomainObject.parseJSON(serializedEvent).aspects;
+        return yuga.DomainObject.deserialize(event, serializedEvent, ignoreProperties);
     };
 
     yuga.Event.prototype = new yuga.DomainObject();

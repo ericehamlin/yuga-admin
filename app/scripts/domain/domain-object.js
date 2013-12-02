@@ -124,5 +124,39 @@
         };
     }
 
+    /**
+     * @param {String|Object} json
+     *
+     * @returns {Object}
+     */
+    yuga.DomainObject.parseJSON = function(json) {
+        if (typeof json === "string") {
+            json = JSON.parse(json);
+        }
+        return json;
+    };
+
+    /**
+     * TODO eliminate extraneous properties that we can't prepare for
+     *
+     * @param {yuga.DomainObject} newObject
+     * @param {String|Object} serializedObject
+     * @param {Array} ignoreProperties
+     *
+     * @returns {yuga.DomainObject}
+     */
+    yuga.DomainObject.deserialize = function(newObject, serializedObject, ignoreProperties) {
+
+        serializedObject = yuga.DomainObject.parseJSON(serializedObject);
+
+        for (var prop in serializedObject) {
+            if ($.inArray(prop, ignoreProperties) === -1) {
+                newObject[prop] = serializedObject[prop];
+            }
+        }
+
+        return newObject;
+    };
+
 
 }(window.yuga = window.yuga || {}));

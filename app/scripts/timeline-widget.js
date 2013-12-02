@@ -61,7 +61,11 @@ function timelineWidget(id, timelineData) {
 
         $dragGrab.on("mousedown", function(e) {
             var previousDragX,
-                currentDragX = e.clientX;
+                previousTimeStamp,
+                currentDragX = e.clientX,
+                currentTimeStamp = e.timeStamp,
+                velocity,
+                scrollTimeout;
 
             $(document).on("mouseup", onMouseUp);
             $(document).on("mousemove", onMouseMove);
@@ -74,6 +78,9 @@ function timelineWidget(id, timelineData) {
             function onMouseMove(e) {
                 previousDragX = currentDragX;
                 currentDragX = e.clientX;
+                previousTimeStamp = currentTimeStamp;
+                currentTimeStamp = e.timeStamp;
+
 
                 moveByPixels(currentDragX - previousDragX);
                 if (needsRedrawing()) {
@@ -83,9 +90,26 @@ function timelineWidget(id, timelineData) {
                 $timeDisplay.html(new Date(centerPointTime));
             }
 
+            function velocityScroll() {
+                moveByPixels(velocity * 10);
+                if (needsRedrawing()) {
+                    that.redraw();
+                }
+                velocity *= 0.8;
+                if (Math.abs(velocity) > 0.1) {
+                    scrollTimeout = setTimeout(velocityScroll, 10);
+                }
+            }
+
             function onMouseUp(e) {
                 $(document).off("mouseup", onMouseUp);
                 $(document).off("mousemove", onMouseMove);
+
+                velocity = (currentDragX - previousDragX)/(currentTimeStamp - previousTimeStamp) * 0.9;
+
+                if (Math.abs(velocity) > 1) {
+                    velocityScroll()
+                }
             }
         });
 

@@ -4,8 +4,11 @@
  * TODO:
  * throw exceptions
  * fix field ids based on text
- * deep-linking
- * velocity scrolling
+ *
+ * deep-linking -- USE
+ *
+ * velocity scrolling for timeline
+ *
  * error with re-creating anytime picker
  * make sure that dragging event cannot cross over line of visibility
  * overview timeline

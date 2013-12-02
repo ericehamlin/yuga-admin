@@ -6,6 +6,7 @@ angular.module('yugaAdmin')
         var editScreen = 'views/edit-timeline.html';
         var lastRoute = $route.current;
 
+        // TODO base this on location rather than events
         $scope.$on(ApplicationEvents.SELECTED_ELEMENT_CHANGED, function($event, element){
             if (element == undefined) {
                 editScreen = 'views/edit-timeline.html';

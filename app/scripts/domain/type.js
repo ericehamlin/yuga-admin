@@ -95,6 +95,20 @@
         angular.extend(this, initProperties);
     };
 
+    /**
+     * TODO eliminate extraneous properties that we can't prepare for
+     *
+     * @param {String|Object} serializedType
+     *
+     * @returns {yuga.Type}
+     */
+    yuga.Type.deserialize = function(serializedType) {
+        var type = new yuga.Type(),
+            ignoreProperties = ["tempData"];
+
+        return yuga.DomainObject.deserialize(type, serializedType, ignoreProperties);
+    };
+
     yuga.Type.prototype = new yuga.DomainObject();
 
 }(window.yuga = window.yuga || {}));

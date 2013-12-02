@@ -142,6 +142,7 @@
 
         /**
          *
+         * @return {yuga.Aspect}
          */
         this.clone = function() {
             var ignoreProperties = ["tempData", "events", "localAspects"],
@@ -162,8 +163,41 @@
             return newAspect;
         };
 
+        /**
+         * TODO eliminate extraneous properties that we can't prepare for
+         *
+         * @returns {String}
+         */
+        this.serialize = function() {
+            var serializedAspect = {},
+                ignoreProperties = ["timeline", "type", "tempData", "events", "localAspects"];
+
+            for (var prop in this) {
+                if ($.inArray(prop, ignoreProperties) === -1 &&
+                    !(this[prop] instanceof Function)) {
+                    serializedAspect[prop] = this[prop];
+                }
+            }
+            return JSON.stringify(serializedAspect);
+        };
+
         angular.extend(this, initProperties);
 
+    };
+
+    /**
+     * TODO eliminate extraneous properties that we can't prepare for
+     *
+     * @param {String|Object} serializedAspect
+     *
+     * @returns {yuga.Aspect}
+     */
+    yuga.Aspect.deserialize = function(serializedAspect) {
+        var aspect = new yuga.Aspect(),
+            ignoreProperties = ["tempData", "events", "localAspects"];
+
+        aspect.tempData.events = yuga.DomainObject.parseJSON(serializedAspect).events;
+        return yuga.DomainObject.deserialize(aspect, serializedAspect, ignoreProperties);
     };
 
     yuga.Aspect.prototype = new yuga.DomainObject();
