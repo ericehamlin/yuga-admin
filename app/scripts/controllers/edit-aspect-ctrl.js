@@ -57,7 +57,23 @@ function EditAspectCtrl($scope, $timeout, ApplicationState, ApplicationEvents, C
     function reset() {
         $scope.aspect = ApplicationState.selectedElement;
 
-        console.log(yuga.Event.deserialize({"fry": "bag", "id": 132, "aspects": ["foo", "ling"]}));
+        console.log(yuga.Timeline.deserialize({
+            "name": "bag",
+            "id": 132,
+            "aspects": [
+                {"id": 1, "name": "John", type: 5},
+                {"id": 2, "name": "India"}
+            ],
+            "events": [
+                {"id": 3, "name": "alert"},
+                {"id": 4, "name": "boom"}
+            ],
+            "types" : [
+                {"id": 5, "name": "person"},
+                {"id": 6, "name": "place"}
+            ]
+        }));
+
 
         $scope.editName = false;
 

@@ -119,6 +119,16 @@
             angular.extend(this, properties);
         };
 
+        /**
+         *
+         */
+        this.clone = function() {
+
+        };
+
+        /**
+         *
+         */
         this.serialize = function() {
             return JSON.stringify(this);
         };

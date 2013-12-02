@@ -13,7 +13,7 @@
         };
 
         /**
-         *
+         * @returns {yuga.Field}
          */
         this.clone = function() {
             var ignoreProperties = [],
@@ -28,7 +28,39 @@
             return newField;
         };
 
+        /**
+         * TODO eliminate extraneous properties that we can't prepare for
+         *
+         * @returns {yuga.Field}
+         */
+        this.serialize = function() {
+            var serializedField = {},
+                ignoreProperties = ["tempData"];
+
+            for (var prop in this) {
+                if ($.inArray(prop, ignoreProperties) === -1 &&
+                    !(this[prop] instanceof Function)) {
+                    serializedField[prop] = this[prop];
+                }
+            }
+            return JSON.stringify(serializedField);
+        };
+
         angular.extend(this, initProperties);
+    };
+
+    /**
+     * TODO eliminate extraneous properties that we can't prepare for
+     *
+     * @param {String|Object} serializedType
+     *
+     * @returns {yuga.Field}
+     */
+    yuga.Field.deserialize = function(serializedField) {
+        var field = new yuga.Field(),
+            ignoreProperties = ["tempData"];
+
+        return yuga.DomainObject.deserialize(field, serializedField, ignoreProperties);
     };
 
     yuga.Field.prototype = new yuga.DomainObject();

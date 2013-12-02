@@ -5,7 +5,6 @@
         this.events = [];
         this.types = [];
         this.aspects = [];
-        this.precision = 1;  // TODO need this?
 
 
         /**
@@ -304,6 +303,41 @@
         };
 
         angular.extend(this, initProperties);
+    };
+
+    /**
+     *
+     * @param serializedTimeline
+     *
+     * @returns {yuga.Timeline}
+     */
+    yuga.Timeline.deserialize = function(serializedTimeline) {
+        var timeline = new yuga.Timeline(),
+            ignoreProperties = ["tempData", "events", "aspects", "types"],
+            serializedTimelineObject = yuga.DomainObject.parseJSON(serializedTimeline);
+
+        for (var i=0; i<serializedTimelineObject.types.length; i++) {
+            timeline.types.push(yuga.Type.deserialize(serializedTimelineObject.types[i]));
+        }
+
+        for (var i=0; i<serializedTimelineObject.events.length; i++) {
+            timeline.events.push(yuga.Event.deserialize(serializedTimelineObject.events[i]));
+        }
+
+        for (var i=0; i<serializedTimelineObject.aspects.length; i++) {
+            var aspect = yuga.Aspect.deserialize(serializedTimelineObject.aspects[i]);
+
+            for (var j=0; j<timeline.types.length; j++) {
+                if (timeline.types[j].id = serializedTimelineObject.aspects[i].type) {
+                    aspect.type = timeline.types[j];
+                    break;
+                }
+            }
+
+            timeline.aspects.push(aspect);
+        }
+
+        return yuga.DomainObject.deserialize(timeline, serializedTimeline, ignoreProperties);
     };
 
     yuga.Timeline.prototype = new yuga.DomainObject();

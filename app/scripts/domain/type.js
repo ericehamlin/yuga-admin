@@ -104,9 +104,22 @@
      */
     yuga.Type.deserialize = function(serializedType) {
         var type = new yuga.Type(),
-            ignoreProperties = ["tempData"];
+            ignoreProperties = ["tempData", "fields"],
+            serializedTypeObject = yuga.DomainObject.parseJSON(serializedType);
+
+        for (var i=0; serializedTypeObject.fields !== undefined && i<serializedTypeObject.fields.length; i++) {
+            type.fields.push(yuga.Field.deserialize(serializedTypeObject.fields[i]));
+        }
 
         return yuga.DomainObject.deserialize(type, serializedType, ignoreProperties);
+    };
+
+    /**
+     * TODO
+     * @param serializedTypeObject
+     */
+    yuga.Type.validateJSON = function(serializedTypeObject) {
+
     };
 
     yuga.Type.prototype = new yuga.DomainObject();
