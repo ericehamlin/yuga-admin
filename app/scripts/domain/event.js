@@ -173,6 +173,12 @@
                     serializedEvent[prop] = this[prop];
                 }
             }
+
+            for (var i=0; i<this.events.length; i++) {
+                var event = this.events[i];
+                serializedEvent.aspects.push({id: event.id, localAspect: this.localAspects[event.id].serialize()});
+            }
+
             return JSON.stringify(serializedEvent);
         };
 
@@ -188,9 +194,16 @@
      */
     yuga.Event.deserialize = function(serializedEvent) {
         var event = new yuga.Event(),
-            ignoreProperties = ["tempData", "aspects", "localAspects"];
+            ignoreProperties = ["tempData", "aspects", "localAspects"],
+            serializedEventObject = yuga.DomainObject.parseJSON(serializedEvent);
 
+        ignoreProperties = [];
         event.tempData.aspects = yuga.DomainObject.parseJSON(serializedEvent).aspects;
+        for (var i=0; event.tempData.aspects && i<event.tempData.aspects.length; i++) {
+            var localAspect = yuga.LocalAspect.deserialize(event.tempData.aspects[i].localAspect);
+            localAspect.event = event;
+            event.localAspects[event.tempData.aspects[i].id] = localAspect;
+        }
         return yuga.DomainObject.deserialize(event, serializedEvent, ignoreProperties);
     };
 

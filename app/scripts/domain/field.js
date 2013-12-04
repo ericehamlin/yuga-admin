@@ -60,6 +60,8 @@
         var field = new yuga.Field(),
             ignoreProperties = ["tempData"];
 
+        ignoreProperties = [];
+
         return yuga.DomainObject.deserialize(field, serializedField, ignoreProperties);
     };
 

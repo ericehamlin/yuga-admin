@@ -107,10 +107,13 @@
             ignoreProperties = ["tempData", "fields"],
             serializedTypeObject = yuga.DomainObject.parseJSON(serializedType);
 
+        ignoreProperties = [];
+
         for (var i=0; serializedTypeObject.fields !== undefined && i<serializedTypeObject.fields.length; i++) {
             type.fields.push(yuga.Field.deserialize(serializedTypeObject.fields[i]));
         }
 
+        delete serializedTypeObject.fields;
         return yuga.DomainObject.deserialize(type, serializedType, ignoreProperties);
     };
 

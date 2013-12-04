@@ -306,6 +306,33 @@
     };
 
     /**
+     * sample timeline JSON
+     *  {
+     *      id : xxx
+     *      name : xxx
+     *      events : [
+     *          {
+     *              id : xxx,
+     *              name : xxx,
+     *              etc : xxx,
+     *              localAspect : {
+     *                  id : xxx,
+     *                  etc : xxx
+     *              }
+     *          },
+     *          ...
+     *      ],
+     *      types : [
+     *          {
+     *          },
+     *          ...
+     *      ],
+     *      aspects : [
+     *          {
+     *          },
+     *          ...
+     *      ]
+     *  }
      *
      * @param serializedTimeline
      *
@@ -316,12 +343,12 @@
             ignoreProperties = ["tempData", "events", "aspects", "types"],
             serializedTimelineObject = yuga.DomainObject.parseJSON(serializedTimeline);
 
-        for (var i=0; i<serializedTimelineObject.types.length; i++) {
-            timeline.types.push(yuga.Type.deserialize(serializedTimelineObject.types[i]));
-        }
-
         for (var i=0; i<serializedTimelineObject.events.length; i++) {
             timeline.events.push(yuga.Event.deserialize(serializedTimelineObject.events[i]));
+        }
+
+        for (var i=0; i<serializedTimelineObject.types.length; i++) {
+            timeline.types.push(yuga.Type.deserialize(serializedTimelineObject.types[i]));
         }
 
         for (var i=0; i<serializedTimelineObject.aspects.length; i++) {

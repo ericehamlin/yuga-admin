@@ -59,13 +59,13 @@ function EditAspectCtrl($scope, $timeout, ApplicationState, ApplicationEvents, C
 
         console.log(yuga.Timeline.deserialize({
             "name": "bag",
-            "id": 132,
+            "id": 10,
             "aspects": [
                 {"id": 1, "name": "John", type: 5},
                 {"id": 2, "name": "India"}
             ],
             "events": [
-                {"id": 3, "name": "alert"},
+                {"id": 3, "name": "alert", aspects: [{id: 1, localAspect: {id: 23, allboy: "voo"} }]},
                 {"id": 4, "name": "boom"}
             ],
             "types" : [
