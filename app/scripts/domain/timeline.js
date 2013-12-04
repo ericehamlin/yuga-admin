@@ -303,10 +303,27 @@
         };
 
         /**
-         * 
+         *
          */
         this.serialize = function() {
+            var serializedTimeline = yuga.Timeline.prototype.serialize.call(this);
 
+            serializedTimeline.events = [];
+            for (var i=0; i<this.events.length; i++) {
+                serializedTimeline.events.push(this.events[i].serialize());
+            }
+
+            serializedTimeline.types = [];
+            for (var i=0; i<this.types.length; i++) {
+                serializedTimeline.types.push(this.types[i].serialize());
+            }
+
+            serializedTimeline.aspects = [];
+            for (var i=0; i<this.aspects.length; i++) {
+                serializedTimeline.aspects.push(this.aspects[i].serialize());
+            }
+
+            return serializedTimeline;
         };
 
         angular.extend(this, initProperties);

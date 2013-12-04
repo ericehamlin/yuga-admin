@@ -2,7 +2,11 @@
 
     yuga.DomainObject = function () {
 
-        this.tempData = {};
+        var ignoreProperties = ["$$hashKey", "tempData", "timeline", "events", "types", "type", "aspects", "localAspects"];
+
+        this.tempData = {
+        };
+
 
         /**
          *
@@ -129,8 +133,22 @@
         /**
          *
          */
-        this.serialize = function() {
-            return JSON.stringify(this);
+        this.serialize = function(ignoreAdditionalProperties) {
+            var ignore,
+                serializedObject = {};
+
+            if (!ignoreAdditionalProperties) {
+                ignoreAdditionalProperties = [];
+            }
+            ignore = ignoreProperties.concat(ignoreAdditionalProperties);
+
+            for (var prop in this) {
+                if ($.inArray(prop, ignore) === -1 &&
+                    !(this[prop] instanceof Function)) {
+                    serializedObject[prop] = this[prop];
+                }
+            }
+            return serializedObject;
         };
     }
 

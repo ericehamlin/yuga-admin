@@ -169,15 +169,10 @@
          * @returns {String}
          */
         this.serialize = function() {
-            var serializedAspect = {},
-                ignoreProperties = ["timeline", "type", "tempData", "events", "localAspects", "$$hashKey"];
+            var serializedAspect = yuga.Aspect.prototype.serialize.call(this);
 
-            for (var prop in this) {
-                if ($.inArray(prop, ignoreProperties) === -1 &&
-                    !(this[prop] instanceof Function)) {
-                    serializedAspect[prop] = this[prop];
-                }
-            }
+            serializedAspect.type = this.type.id;
+
             return serializedAspect;
         };
 
