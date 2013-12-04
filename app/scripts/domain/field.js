@@ -35,7 +35,7 @@
          */
         this.serialize = function() {
             var serializedField = {},
-                ignoreProperties = ["tempData"];
+                ignoreProperties = ["tempData","$$hashKey"];
 
             for (var prop in this) {
                 if ($.inArray(prop, ignoreProperties) === -1 &&

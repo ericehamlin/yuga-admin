@@ -170,7 +170,7 @@
          */
         this.serialize = function() {
             var serializedAspect = {},
-                ignoreProperties = ["timeline", "type", "tempData", "events", "localAspects"];
+                ignoreProperties = ["timeline", "type", "tempData", "events", "localAspects", "$$hashKey"];
 
             for (var prop in this) {
                 if ($.inArray(prop, ignoreProperties) === -1 &&
@@ -178,7 +178,7 @@
                     serializedAspect[prop] = this[prop];
                 }
             }
-            return JSON.stringify(serializedAspect);
+            return serializedAspect;
         };
 
         angular.extend(this, initProperties);

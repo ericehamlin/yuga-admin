@@ -302,6 +302,13 @@
 
         };
 
+        /**
+         * 
+         */
+        this.serialize = function() {
+
+        };
+
         angular.extend(this, initProperties);
     };
 

@@ -164,8 +164,8 @@
          * TODO eliminate extraneous properties that we can't prepare for
          */
         this.serialize = function() {
-            var serializedEvent = {},
-                ignoreProperties = ["timeline", "type", "tempData", "aspects", "localAspects"];
+            var serializedEvent = {aspects: []},
+                ignoreProperties = ["timeline", "tempData", "aspects", "localAspects", "$$hashKey"];
 
             for (var prop in this) {
                 if ($.inArray(prop, ignoreProperties) === -1 &&
@@ -174,12 +174,11 @@
                 }
             }
 
-            for (var i=0; i<this.events.length; i++) {
-                var event = this.events[i];
-                serializedEvent.aspects.push({id: event.id, localAspect: this.localAspects[event.id].serialize()});
+            for (var i=0; i<this.aspects.length; i++) {
+                var aspect = this.aspects[i];
+                serializedEvent.aspects.push({id: aspect.id, localAspect: this.localAspects[aspect.id].serialize()});
             }
-
-            return JSON.stringify(serializedEvent);
+            return serializedEvent;
         };
 
         angular.extend(this, initProperties);

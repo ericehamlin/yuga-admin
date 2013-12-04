@@ -24,7 +24,7 @@
 
         this.serialize = function() {
             var serializedLocalAspect = {},
-                ignoreProperties = ["tempData", "event", "aspect"];
+                ignoreProperties = ["tempData", "event", "aspect", "$$hashKey"];
 
             for (var prop in this) {
                 if ($.inArray(prop, ignoreProperties) === -1 &&
@@ -32,7 +32,7 @@
                     serializedLocalAspect[prop] = this[prop];
                 }
             }
-            return JSON.stringify(serializedLocalAspect);
+            return serializedLocalAspect;
         };
 
         angular.extend(this, initProperties);
