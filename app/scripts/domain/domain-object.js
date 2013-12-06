@@ -130,8 +130,10 @@
 
         };
 
+
         /**
          *
+         * @param ignoreAdditionalProperties
          */
         this.serialize = function(ignoreAdditionalProperties) {
             var ignore,
@@ -167,13 +169,14 @@
     /**
      * TODO eliminate extraneous properties that we can't prepare for
      *
-     * @param {yuga.DomainObject} newObject
      * @param {String|Object} serializedObject
      * @param {Array} ignoreProperties
      *
      * @returns {yuga.DomainObject}
      */
-    yuga.DomainObject.deserialize = function(newObject, serializedObject, ignoreProperties) {
+    yuga.DomainObject.deserialize = function(serializedObject, ignoreProperties) {
+
+        var newObject = {};
 
         serializedObject = yuga.DomainObject.parseJSON(serializedObject);
 

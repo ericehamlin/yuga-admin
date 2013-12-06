@@ -227,6 +227,15 @@
          *
          * @param event
          */
+        this.addEvent = function(event) {
+            event.timeline = this;
+            this.events.push(event);
+        };
+
+        /**
+         *
+         * @param event
+         */
         this.attachEvent = function(event) {
             event.attach(this);
             this.events.push(event);
@@ -251,6 +260,15 @@
          *
          * @param aspect
          */
+        this.addAspect = function(aspect) {
+            aspect.timeline = this;
+            this.aspects.push(aspect);
+        };
+
+        /**
+         *
+         * @param aspect
+         */
         this.attachAspect = function(aspect) {
             aspect.attach(this);
             this.aspects.push(aspect);
@@ -269,6 +287,15 @@
                 }
             }
             return false;
+        };
+
+        /**
+         *
+         * @param type
+         */
+        this.addType = function(type) {
+            type.timeline = this;
+            this.types.push(type);
         };
 
         /**
@@ -363,16 +390,14 @@
      * @returns {yuga.Timeline}
      */
     yuga.Timeline.deserialize = function(serializedTimeline) {
-        var timeline = new yuga.Timeline(),
-            ignoreProperties = ["tempData", "events", "aspects", "types"],
+        var timeline,
+            ignoreProperties = ["events", "aspects", "types"],
             serializedTimelineObject = yuga.DomainObject.parseJSON(serializedTimeline);
 
-        for (var i=0; i<serializedTimelineObject.events.length; i++) {
-            timeline.events.push(yuga.Event.deserialize(serializedTimelineObject.events[i]));
-        }
+        timeline = new yuga.Timeline(yuga.DomainObject.deserialize(serializedTimeline, ignoreProperties));
 
         for (var i=0; i<serializedTimelineObject.types.length; i++) {
-            timeline.types.push(yuga.Type.deserialize(serializedTimelineObject.types[i]));
+            timeline.addType(yuga.Type.deserialize(serializedTimelineObject.types[i]));
         }
 
         for (var i=0; i<serializedTimelineObject.aspects.length; i++) {
@@ -385,10 +410,20 @@
                 }
             }
 
-            timeline.aspects.push(aspect);
+            timeline.addAspect(aspect);
         }
 
-        return yuga.DomainObject.deserialize(timeline, serializedTimeline, ignoreProperties);
+        for (var i=0; i<serializedTimelineObject.events.length; i++) {
+            var event = yuga.Event.deserialize(serializedTimelineObject.events[i]);
+            for (aspectId in event.localAspects) {
+                var aspect = timeline.getAspectById(aspectId);
+                event.addAspect(aspect);
+                aspect.addEvent(event);
+            }
+            timeline.addEvent(event);
+        }
+
+        return timeline;
     };
 
     yuga.Timeline.prototype = new yuga.DomainObject();

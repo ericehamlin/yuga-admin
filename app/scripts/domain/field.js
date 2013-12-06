@@ -57,12 +57,8 @@
      * @returns {yuga.Field}
      */
     yuga.Field.deserialize = function(serializedField) {
-        var field = new yuga.Field(),
-            ignoreProperties = ["tempData"];
-
-        ignoreProperties = [];
-
-        return yuga.DomainObject.deserialize(field, serializedField, ignoreProperties);
+        var field = new yuga.Field(yuga.DomainObject.deserialize(serializedField));
+        return field;
     };
 
     yuga.Field.prototype = new yuga.DomainObject();

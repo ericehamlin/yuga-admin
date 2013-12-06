@@ -45,10 +45,8 @@
      * @returns {yuga.LocalAspect}
      */
     yuga.LocalAspect.deserialize = function(serializedLocalAspect) {
-        var localAspect = new yuga.LocalAspect(),
-            ignoreProperties = [];
-
-        return yuga.DomainObject.deserialize(localAspect, serializedLocalAspect, ignoreProperties);
+        var localAspect = new yuga.LocalAspect(yuga.DomainObject.deserialize(serializedLocalAspect));
+        return localAspect;
     };
 
     yuga.LocalAspect.prototype = new yuga.DomainObject();

@@ -22,6 +22,7 @@ angular.module('yugaAdmin')
                 fields: [
                     new yuga.Field({
                         name: "boobak",
+                        type: "text",
                         defaultText: "rambalamba"
                     })
                 ]

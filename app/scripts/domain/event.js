@@ -42,7 +42,12 @@
                 var localAspect;
 
                 this.aspects[this.aspects.length] = aspect;
-                if (aspect.localAspects[this.id] != undefined) {
+                if (this.localAspects[aspect.id] !== undefined) {
+                    localAspect = this.localAspects[aspect.id];
+                    localAspect.aspect = aspect;
+                    return;
+                }
+                else if (aspect.localAspects[this.id] != undefined) {
                     localAspect = aspect.localAspects[this.id];
                 }
                 else {
@@ -192,18 +197,19 @@
      * @returns {yuga.Event}
      */
     yuga.Event.deserialize = function(serializedEvent) {
-        var event = new yuga.Event(),
-            ignoreProperties = ["tempData", "aspects", "localAspects"],
+        var event,
+            ignoreProperties = ["aspects"],
             serializedEventObject = yuga.DomainObject.parseJSON(serializedEvent);
 
-        ignoreProperties = [];
-        event.tempData.aspects = yuga.DomainObject.parseJSON(serializedEvent).aspects;
-        for (var i=0; event.tempData.aspects && i<event.tempData.aspects.length; i++) {
-            var localAspect = yuga.LocalAspect.deserialize(event.tempData.aspects[i].localAspect);
+        event = new yuga.Event(yuga.DomainObject.deserialize(serializedEvent, ignoreProperties));
+
+        var aspects = yuga.DomainObject.parseJSON(serializedEvent).aspects;
+        for (var i=0; aspects && i<aspects.length; i++) {
+            var localAspect = yuga.LocalAspect.deserialize(aspects[i].localAspect);
             localAspect.event = event;
-            event.localAspects[event.tempData.aspects[i].id] = localAspect;
+            event.localAspects[aspects[i].id] = localAspect;
         }
-        return yuga.DomainObject.deserialize(event, serializedEvent, ignoreProperties);
+        return event;
     };
 
     yuga.Event.prototype = new yuga.DomainObject();

@@ -188,12 +188,7 @@
      * @returns {yuga.Aspect}
      */
     yuga.Aspect.deserialize = function(serializedAspect) {
-        var aspect = new yuga.Aspect(),
-            ignoreProperties = ["tempData", "events", "localAspects"];
-
-        ignoreProperties = [];
-        //aspect.tempData.events = yuga.DomainObject.parseJSON(serializedAspect).events;
-        return yuga.DomainObject.deserialize(aspect, serializedAspect, ignoreProperties);
+        return new yuga.Aspect(yuga.DomainObject.deserialize(serializedAspect));
     };
 
     yuga.Aspect.prototype = new yuga.DomainObject();
