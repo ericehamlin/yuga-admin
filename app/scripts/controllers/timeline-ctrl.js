@@ -36,6 +36,11 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState, Com
         $scope.$on(ApplicationEvents.TIMELINE_MODIFIED, function() {
             widget.redraw();
         });
+
+        $scope.$on(ApplicationEvents.NEW_TIMELINE, function() {
+            widget.timelineData = ApplicationState.timeline;
+            widget.redraw();
+        });
     });
 
 

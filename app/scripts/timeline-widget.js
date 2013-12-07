@@ -4,8 +4,8 @@
  * @param timelineData
  */
 function timelineWidget(id, timelineData) {
-    var $widget = $("#" + id);
-    var that = this,
+    var that = this;
+    var $widget = $("#" + id),
         $centerLine,
         $all,
         $eventGuideLeft,
@@ -28,6 +28,7 @@ function timelineWidget(id, timelineData) {
         drawEndTime
         ;
 
+    this.timelineData = timelineData;
     this.widgetEvents = {};
 
     /**
@@ -147,8 +148,10 @@ function timelineWidget(id, timelineData) {
             css({width: "1px", position: "absolute", "background-color": "#000", height: "100%", left: "50%"});
         $widget.append($centerLine);
 
-        maxTime = timelineData.getLatestEventTime();
-        minTime = timelineData.getEarliestEventTime();
+        console.log(that);
+
+        maxTime = that.timelineData.getLatestEventTime();
+        minTime = that.timelineData.getEarliestEventTime();
 
         pixelToTimeUnitRatio =  (timelineWindowWidth + (2500 * margin))/(maxTime - minTime);
         centerPointTime = (maxTime + minTime) / 2;
@@ -174,8 +177,8 @@ function timelineWidget(id, timelineData) {
         var eventHeight = 30;
         var numSlots = Math.round($events.height()/eventHeight);
         var slots = [];
-        for (var i=0; i<timelineData.events.length; i++) {
-            var event = timelineData.events[i];
+        for (var i=0; i<that.timelineData.events.length; i++) {
+            var event = that.timelineData.events[i];
             for (var j=0; j<numSlots; j++) {
                 if (slots[j] === undefined) {
                     slots[j] = event;
@@ -402,8 +405,8 @@ function timelineWidget(id, timelineData) {
     }
 
     this.traverseEvents = function(callback) {
-        for (var i=0; i<timelineData.events.length; i++) {
-            callback(timelineData.events[i]);
+        for (var i=0; i<that.timelineData.events.length; i++) {
+            callback(that.timelineData.events[i]);
         }
     }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-function HeaderCtrl($scope, Commander) {
+function HeaderCtrl($scope, ApplicationEvents, ApplicationState, Commander, Timeline) {
 
     $scope.canUndo = function() {
         return Commander.canUndo();
@@ -43,6 +43,13 @@ function HeaderCtrl($scope, Commander) {
         Commander.execute(command);
     };
 
+    $scope.newTimeline = function() {
+        var timelinePromise =  Timeline.create();
+        timelinePromise.then(function(result){
+            ApplicationState.timeline = yuga.Timeline.deserialize(result.data);
+            ApplicationEvents.broadcast(ApplicationEvents.NEW_TIMELINE);
+        });
+    };
 }
 
-HeaderCtrl.$inject = ['$scope', 'Commander'];
+HeaderCtrl.$inject = ['$scope', 'ApplicationEvents', 'ApplicationState', 'Commander', 'Timeline'];
