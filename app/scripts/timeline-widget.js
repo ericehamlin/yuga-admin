@@ -777,6 +777,18 @@ function timelineWidget(id, timelineData) {
         }
     };
 
+    /**
+     *
+     * @param timelineData
+     */
+    this.setTimelineData = function(timelineData) {
+        this.timelineData = timelineData;
+        this.setBeginningAndEndDrawTimes();
+
+        this.assignEventsToYs();
+        this.redraw();
+        positionCenter();
+    };
 
     this.init();
 }

@@ -24,6 +24,10 @@ angular.module('yugaAdmin')
             }
         });
 
+        $scope.$on(ApplicationEvents.NEW_TIMELINE, function() {
+            editScreen = 'views/edit-timeline.html';
+        });
+
         $scope.showEditScreen = function() {
             return editScreen;
         };

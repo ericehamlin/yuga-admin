@@ -1,6 +1,6 @@
 'use strict';
 
-function ElementsListCtrl($scope, ApplicationState, Commander) {
+function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
 
     $scope.events = ApplicationState.timeline.events;
 
@@ -13,6 +13,17 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     $scope.sortTypes = "name";
     $scope.sortTypesReverse = false;
 
+
+    $scope.$on(ApplicationEvents.NEW_TIMELINE, function() {
+        $scope.events = ApplicationState.timeline.events;
+        $scope.types = ApplicationState.timeline.types;
+        $scope.aspects = ApplicationState.timeline.aspects;
+    });
+
+    /**
+     *
+     * @param element
+     */
     $scope.selectElement = function(element) {
         var command = new yuga.SelectElementCommand(element);
         Commander.execute(command);
@@ -137,4 +148,4 @@ function ElementsListCtrl($scope, ApplicationState, Commander) {
     };
 }
 
-ElementsListCtrl.$inject = ['$scope', 'ApplicationState', 'Commander'];
+ElementsListCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents', 'Commander'];
