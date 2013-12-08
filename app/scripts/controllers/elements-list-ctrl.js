@@ -14,7 +14,7 @@ function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander
     $scope.sortTypesReverse = false;
 
 
-    $scope.$on(ApplicationEvents.NEW_TIMELINE, function() {
+    $scope.$on(ApplicationEvents.TIMELINE_CHANGED, function() {
         $scope.events = ApplicationState.timeline.events;
         $scope.types = ApplicationState.timeline.types;
         $scope.aspects = ApplicationState.timeline.aspects;

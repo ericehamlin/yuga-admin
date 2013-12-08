@@ -7,7 +7,7 @@ angular.module('yugaAdmin')
                 $rootScope.$broadcast.apply($rootScope, arguments);
             },
 
-            NEW_TIMELINE :              "newTimeline",
+            TIMELINE_CHANGED :          "timelineChanged",
             TIMELINE_MODIFIED :         "timelineModified",
             SELECTED_ELEMENT_CHANGED :  "selectedElementChanged",
             ASPECT_ADDED_TO_EVENT :     "aspectAddedToEvent",

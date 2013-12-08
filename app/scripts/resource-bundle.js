@@ -15,6 +15,7 @@
         YES :                                   "Yes",
         NO :                                    "No",
         NEW :                                   "New",
+        OPEN :                                  "Open",
         FILE :                                  "File",
         EDIT :                                  "Edit",
         UNDO :                                  "Undo",
