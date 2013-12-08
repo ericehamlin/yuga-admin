@@ -404,7 +404,7 @@
             var aspect = yuga.Aspect.deserialize(serializedTimelineObject.aspects[i]);
 
             for (var j=0; j<timeline.types.length; j++) {
-                if (timeline.types[j].id = serializedTimelineObject.aspects[i].type) {
+                if (timeline.types[j].id == serializedTimelineObject.aspects[i].type) {
                     aspect.type = timeline.types[j];
                     break;
                 }

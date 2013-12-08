@@ -46,7 +46,9 @@ function HeaderCtrl($scope, ApplicationEvents, ApplicationState, Commander, Time
     $scope.newTimeline = function() {
         var timelinePromise =  Timeline.create();
         timelinePromise.then(function(result){
-            ApplicationState.timeline = yuga.Timeline.deserialize(result.data);
+            var timeline = yuga.Timeline.deserialize(result.data);
+            console.log(timeline);
+            ApplicationState.timeline = timeline;
             ApplicationEvents.broadcast(ApplicationEvents.NEW_TIMELINE);
         });
     };
