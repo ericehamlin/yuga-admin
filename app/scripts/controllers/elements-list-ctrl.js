@@ -1,6 +1,6 @@
 'use strict';
 
-function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
+function ElementsListCtrl($scope, $location, ApplicationState, ApplicationEvents, Commander) {
 
     $scope.events = ApplicationState.timeline.events;
 
@@ -20,14 +20,6 @@ function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander
         $scope.aspects = ApplicationState.timeline.aspects;
     });
 
-    /**
-     *
-     * @param element
-     */
-    $scope.selectElement = function(element) {
-        var command = new yuga.SelectElementCommand(element);
-        Commander.execute(command);
-    };
 
 
     /** EVENTS */
@@ -35,6 +27,14 @@ function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander
     $scope.newEvent = function() {
         var command = new yuga.NewEventCommand();
         Commander.execute(command);
+    };
+
+    /**
+     *
+     * @param event
+     */
+    $scope.selectEvent = function(event) {
+        $location.path("/event/" + event.id)
     };
 
     $scope.isEventSelected = function() {
@@ -76,6 +76,14 @@ function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander
         Commander.execute(command);
     };
 
+    /**
+     *
+     * @param aspect
+     */
+    $scope.selectAspect = function(aspect) {
+        $location.path("/aspect/" + aspect.id)
+    };
+
     $scope.isAspectSelected = function() {
         return ApplicationState.selectedElement instanceof yuga.Aspect;
     };
@@ -115,6 +123,15 @@ function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander
         Commander.execute(command);
     };
 
+    /**
+     *
+     * @param type
+     */
+    $scope.selectType = function(type) {
+        $location.path("/type/" + type.id)
+    };
+
+
     $scope.isTypeSelected = function() {
         return ApplicationState.selectedElement instanceof yuga.Type;
     };
@@ -148,4 +165,4 @@ function ElementsListCtrl($scope, ApplicationState, ApplicationEvents, Commander
     };
 }
 
-ElementsListCtrl.$inject = ['$scope', 'ApplicationState', 'ApplicationEvents', 'Commander'];
+ElementsListCtrl.$inject = ['$scope', '$location', 'ApplicationState', 'ApplicationEvents', 'Commander'];

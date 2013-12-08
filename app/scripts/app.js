@@ -5,8 +5,6 @@
  * throw exceptions
  * fix field ids based on text
  *
- * deep-linking -- USE
- *
  * velocity scrolling for timeline
  *
  * error with re-creating anytime picker
@@ -36,7 +34,9 @@ angular.module('yugaAdmin', ['Command'])
         });
     })
 
-    .run(function($rootScope, ApplicationEvents) {
+    .run(function($rootScope, $route, $location, ApplicationEvents, ApplicationState, Commander) {
+        var lastRoute = $route.current;
+
         $rootScope.resourceBundle = function() {
             return yuga.ResourceBundle;
         };
@@ -44,4 +44,26 @@ angular.module('yugaAdmin', ['Command'])
         $rootScope.confirm = function(args) {
             ApplicationEvents.broadcast(ApplicationEvents.LAUNCH_CONFIRM_MODAL, args);
         };
+
+        $rootScope.$on(ApplicationEvents.TIMELINE_CHANGED, function() {
+            $location.path("/");
+        });
+
+        $rootScope.$on('$locationChangeSuccess', function(event) {
+            if (!lastRoute) {
+                lastRoute = $route.current;
+                return;
+            }
+
+            $route.current = lastRoute;
+
+            var path = $location.path(),
+                id = path.replace(new RegExp("\/.*\/"), ""),
+                command;
+            if ( (new RegExp("\/aspect\/|\/event\/|\/type\/")).test(path) ) {
+                var element = ApplicationState.timeline.getElementById(id);
+                command = new yuga.SelectElementCommand(element);
+                Commander.execute(command);
+            }
+        });
     });
