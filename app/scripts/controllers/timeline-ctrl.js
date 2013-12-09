@@ -1,15 +1,16 @@
 'use strict';
 
-function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState, Commander) {
+function TimelineCtrl($scope, $timeout, $location, ApplicationEvents, ApplicationState, Commander) {
 
     var widget;
 
     $timeout(function() {
         widget = new timelineWidget("timeline-widget", ApplicationState.timeline);
+
         widget.addEventListener("selectEvent", function(args) {
-            var command = new yuga.SelectElementCommand(args[0]);
+            var event = args[0];
             $scope.$apply(function() {
-                Commander.execute(command);
+                $location.path("/event/" + event.id);
             });
         });
 
@@ -52,4 +53,4 @@ function TimelineCtrl($scope, $timeout, ApplicationEvents, ApplicationState, Com
     };
 }
 
-TimelineCtrl.$inject = ['$scope', '$timeout', 'ApplicationEvents', 'ApplicationState', 'Commander'];
+TimelineCtrl.$inject = ['$scope', '$timeout', '$location', 'ApplicationEvents', 'ApplicationState', 'Commander'];
