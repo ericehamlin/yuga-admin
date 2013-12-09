@@ -23,6 +23,9 @@
  *
  * popup for loading timeline
  *
+ * Modals module
+ * start breaking views,controllers into sub-directories
+ *
  */
 
 angular.module('yugaAdmin', ['Command'])

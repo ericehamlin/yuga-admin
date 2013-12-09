@@ -48,7 +48,7 @@ function HeaderCtrl($scope, ApplicationEvents, ApplicationState, Commander, Time
     };
 
     $scope.openTimeline = function() {
-        ApplicationEvents.broadcast(ApplicationEvents.LAUNCH_MODAL);
+        ApplicationEvents.broadcast(ApplicationEvents.LAUNCH_MODAL, {src: "views/open-timeline-modal.html"});
     };
 }
 
