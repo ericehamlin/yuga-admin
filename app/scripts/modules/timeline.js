@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('yugaAdmin')
-    .factory("Timeline", ["$http", "$q", "ApplicationEvents", "ApplicationState", function($http, $q, ApplicationEvents, ApplicationState) {
+    .factory("Timeline", ["$http", "$q", "$timeout", "ApplicationEvents", "ApplicationState", function($http, $q, $timeout, ApplicationEvents, ApplicationState) {
 
         // TODO
         var timelineId = 34;
@@ -122,6 +122,23 @@ angular.module('yugaAdmin')
             "query" : function(successCallback, errorCallback) {
                 successCallback = setSuccessCallback(successCallback);
                 errorCallback = setErrorCallback(errorCallback);
+
+                var deferredTimelineList = $q.defer();
+                    /*
+                    success(successCallback).
+                    error(errorCallback)
+                    */
+
+
+                $timeout(function() {
+                    deferredTimelineList.resolve([
+                        {id: 5, name: "Hey This is my Timeline"},
+                        {id: 6, name: "Lookee here"},
+                        {id: 7, name: "Shooop"}
+                    ]);
+                });
+
+                return deferredTimelineList.promise;
             },
 
             "getNextTimelineId" : getNextTimelineId

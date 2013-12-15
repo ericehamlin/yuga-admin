@@ -1,6 +1,10 @@
 <div class="modal fade" role="dialog" id="generic-modal" ng-controller="GenericModalCtrl">
     <div class="modal-dialog">
         <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title">{{getModalTitle()}}&nbsp;</h5>
+            </div>
             <div class="modal-body">
                 <ng-include src="getModalBodySrc()"></ng-include>
             </div>

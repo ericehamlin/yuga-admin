@@ -1,5 +1,9 @@
 <div ng-controller="OpenTimelineModalCtrl">
-open timeline
-
+    <div>
+        <div ng-repeat="timeline in timelines" ng-click="openTimeline(timeline.id)">
+            <div>{{timeline.name}}</div>
+            <div></div>
+        </div>
+    </div>
     <button ng-click="closeModal()">Close</button>
 </div>

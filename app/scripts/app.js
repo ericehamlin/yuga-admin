@@ -3,13 +3,13 @@
 /**
  * TODO:
  * throw exceptions
- * fix field ids based on text
+ * !fix field ids based on text
  *
  *
  * error with re-creating anytime picker
  * make sure that dragging event cannot cross over line of visibility
  * overview timeline
- * COMPLETE delete type
+ * COMPLETE delete type so that we check for "cascade" with aspects
  * delete field
  * fluid transitions in timeline
  * zoom with scroll wheel
@@ -21,7 +21,7 @@
  *
  * alert popup
  *
- * popup for loading timeline
+ * !popup for loading timeline
  *
  * Modals module
  * start breaking views,controllers into sub-directories
