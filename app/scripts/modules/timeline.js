@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('yugaAdmin')
-    .factory("Timeline", ["$http", "$q", "$timeout", "ApplicationEvents", "ApplicationState", function($http, $q, $timeout, ApplicationEvents, ApplicationState) {
+angular.module('yugaAdmin').
+
+    factory("Timeline", ["$http", "$q", "$timeout", "ApplicationEvents", "ApplicationState", function($http, $q, $timeout, ApplicationEvents, ApplicationState) {
 
         // TODO
         var timelineId = 34;
@@ -85,11 +86,22 @@ angular.module('yugaAdmin')
                 successCallback = setSuccessCallback(successCallback);
                 errorCallback = setErrorCallback(errorCallback);
 
-                var deferredTimeline = $http.get('/json/timeline-id.json').
+                var deferredTimeline = $q.defer();
+                var loadData = $http.get('/json/timeline-'+ timelineId + '.json').
                     success(successCallback).
                     error(errorCallback);
 
-                return deferredTimeline;
+                loadData.then(function(result) {
+                    var timeline = yuga.Timeline.deserialize(result.data);
+                    timeline.id = getNextTimelineId();
+
+                    // TODO -- this is probably not the right place for these next 2 lines
+                    ApplicationState.setTimeline(timeline);
+                    ApplicationEvents.broadcast(ApplicationEvents.TIMELINE_CHANGED);
+
+                    deferredTimeline.resolve(timeline);
+                });
+                return deferredTimeline.promise;
             },
 
             /**
@@ -132,9 +144,9 @@ angular.module('yugaAdmin')
 
                 $timeout(function() {
                     deferredTimelineList.resolve([
-                        {id: 5, name: "Hey This is my Timeline"},
-                        {id: 6, name: "Lookee here"},
-                        {id: 7, name: "Shooop"}
+                        {id: 20, name: "Hey This is my Timeline"},
+                        {id: 21, name: "Lookee here"},
+                        {id: 22, name: "Shooop"}
                     ]);
                 });
 

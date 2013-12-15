@@ -11,7 +11,10 @@ function OpenTimelineModalCtrl($scope, Timeline) {
     }
 
     $scope.openTimeline = function(timelineId) {
-        Timeline.read(timelineId);
+        var timelineLoaded = Timeline.read(timelineId);
+        timelineLoaded.then(function() {
+            $scope.closeModal();
+        })
     };
 
     loadTimelines();
