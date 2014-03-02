@@ -3,10 +3,11 @@
 /**
  * TODO:
  *
+ * WTF is making everything so slow?
+ *
+ * navigate back to edit timeline
+ *
  * new field -- ids are only numbers?
- *
- *
- * icons missing from types/aspects
  *
  * insertion point in edit-in-place text -- perhaps change to contenteditable as shown at http://docs.angularjs.org/api/ng/type/ngModel.NgModelController -- instead of ngModel include ygModelObject
  *
@@ -15,8 +16,10 @@
  * error with re-creating anytime picker
  * make sure that dragging event cannot cross over line of visibility
  * overview timeline
+ *
  * COMPLETE delete type so that we check for "cascade" with aspects
- * delete field
+ * or delete field cascade
+ *
  * fluid transitions in timeline
  * zoom with scroll wheel
  * responsive animations with drag-n-drop
@@ -32,7 +35,8 @@
  * Modals module
  * start breaking views,controllers into sub-directories
  *
- * creating new element doesn't actually result in that element being selected
+ * creating new element doesn't actually result in that element being selected -- discrepancy between $location
+ * and SelectElementCommand
  *
  */
 

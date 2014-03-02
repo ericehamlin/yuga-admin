@@ -1,7 +1,7 @@
 <section id="edit-aspect" class="edit-screen" ng-controller="EditAspectCtrl">
 
     <div class="section-header">
-        <div class="icon" ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': '#' + aspect.color}"></div>
+        <div class="icon" ng-bind-html="trustAsHtml(aspect.getType().icon)" ng-style="{'color': '#' + aspect.color}"></div>
         <h3 ng-show="!editName" ng-click="toggleEditName()">{{aspect.name}}</h3>
         <h3 ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="aspect-name" id="aspect-name" yg-model-object="aspect" yg-model-property="name"/></h3>
     </div>
@@ -13,12 +13,12 @@
 
         <label for="aspect-type">{{resourceBundle().get("TYPE")}}</label>
         <div class="btn-group" id="aspect-type">
-            <button type="button" class="btn"><span class="icon" ng-bind-html-unsafe="aspect.getType().icon"></span> {{aspect.getType().name}}</button>
+            <button type="button" class="btn"><span class="icon" ng-bind-html="trustAsHtml(aspect.getType().icon)"></span> {{aspect.getType().name}}</button>
             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="type in getTypes()"><a href="javascript:void(0);" ng-click="setType(type)"><span style="font-family:fontawesome;" ng-bind-html-unsafe="type.icon"></span> {{type.name}}</a></li>
+                <li ng-repeat="type in getTypes()"><a href="javascript:void(0);" ng-click="setType(type)"><span style="font-family:fontawesome;" ng-bind-html="trustAsHtml(type.icon)"></span> {{type.name}}</a></li>
             </ul>
         </div>
 

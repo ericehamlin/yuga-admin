@@ -150,7 +150,7 @@
          * TODO eliminate extraneous properties that we can't prepare for
          */
         this.clone = function() {
-            var ignoreProperties = ["tempData", "aspects", "localAspects"],
+            var ignoreProperties = ["$$hashKey", "tempData", "aspects", "localAspects"],
                 newEvent = new yuga.Event();
             for (var prop in this) {
                 if (this.hasOwnProperty(prop) &&
@@ -160,8 +160,7 @@
                 }
             }
 
-            // TODO: id
-            newEvent.id = 9898;
+            newEvent.id = yuga.DomainObject.newId();
             return newEvent;
         };
 

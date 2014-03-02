@@ -15,6 +15,7 @@
             ApplicationState.timeline.attachAspect(clonedAspect);
             ApplicationEvents.broadcast(ApplicationEvents.ASPECT_CLONED, aspect, clonedAspect);
 
+            console.log(ApplicationState.timeline);
             var command = new yuga.SelectElementCommand(clonedAspect);
             Commander.execute(command);
         };

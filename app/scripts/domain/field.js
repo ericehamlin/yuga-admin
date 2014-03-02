@@ -14,12 +14,10 @@
 
         /**
          *
-         * TODO: new id
-         *
          * @returns {yuga.Field}
          */
         this.clone = function() {
-            var ignoreProperties = [],
+            var ignoreProperties = ["$$hashKey"],
                 newField = new yuga.Field();
             for (var prop in this) {
                 if (this.hasOwnProperty(prop) &&
@@ -28,6 +26,8 @@
                     newField[prop] = this[prop];
                 }
             }
+            newField.id = yuga.DomainObject.newId();
+
             return newField;
         };
 

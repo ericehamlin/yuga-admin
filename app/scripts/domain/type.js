@@ -73,7 +73,7 @@
          *
          */
         this.clone = function() {
-            var ignoreProperties = ["tempData", "fields"],
+            var ignoreProperties = ["$$hashKey", "tempData", "fields"],
                 newType = new yuga.Type();
             for (var prop in this) {
                 if (this.hasOwnProperty(prop) &&
@@ -87,8 +87,7 @@
                 newType.fields.push(this.fields[i].clone());
             }
 
-            // TODO: id
-            newType.id = 99999;
+            newType.id = yuga.DomainObject.newId();
             return newType;
         };
 

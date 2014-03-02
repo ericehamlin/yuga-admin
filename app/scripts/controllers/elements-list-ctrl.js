@@ -34,7 +34,7 @@ function ElementsListCtrl($scope, $location, ApplicationState, ApplicationEvents
      * @param event
      */
     $scope.selectEvent = function(event) {
-        $location.path("/event/" + event.id)
+        $location.path("/event/" + event.id);
     };
 
     $scope.isEventSelected = function() {
@@ -81,7 +81,7 @@ function ElementsListCtrl($scope, $location, ApplicationState, ApplicationEvents
      * @param aspect
      */
     $scope.selectAspect = function(aspect) {
-        $location.path("/aspect/" + aspect.id)
+        $location.path("/aspect/" + aspect.id);
     };
 
     $scope.isAspectSelected = function() {
@@ -128,7 +128,7 @@ function ElementsListCtrl($scope, $location, ApplicationState, ApplicationEvents
      * @param type
      */
     $scope.selectType = function(type) {
-        $location.path("/type/" + type.id)
+        $location.path("/type/" + type.id);
     };
 
 
