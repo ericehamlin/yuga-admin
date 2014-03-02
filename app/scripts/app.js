@@ -3,22 +3,27 @@
 /**
  * TODO:
  *
+ * date display on timeline wrong
+ *
+ * dates out of range on timeline sometimes break
+ *
+ * edit menu -- don't enable unless timeline loaded
+ *
  * WTF is making everything so slow?
  *
  * navigate back to edit timeline
  *
- * new field -- ids are only numbers?
+ * new field -- ids are only numbers -- could cause problems with aspects
  *
  * insertion point in edit-in-place text -- perhaps change to contenteditable as shown at http://docs.angularjs.org/api/ng/type/ngModel.NgModelController -- instead of ngModel include ygModelObject
  *
  * throw exceptions
  *
  * error with re-creating anytime picker
- * make sure that dragging event cannot cross over line of visibility
- * overview timeline
  *
- * COMPLETE delete type so that we check for "cascade" with aspects
- * or delete field cascade
+ * make sure that dragging event cannot cross over line of visibility -- sometimes it does
+ *
+ * overview timeline
  *
  * fluid transitions in timeline
  * zoom with scroll wheel

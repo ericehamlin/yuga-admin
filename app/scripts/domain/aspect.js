@@ -5,6 +5,7 @@
         this.name = "";
         this.color = "000000";
         this.description = "";
+        this.type = null;
 
         this.events = [];
 
@@ -170,7 +171,12 @@
         this.serialize = function() {
             var serializedAspect = yuga.Aspect.prototype.serialize.call(this);
 
-            serializedAspect.type = this.type.id;
+            if (!this.type) {
+                serializedAspect.type = null;
+            }
+            else {
+                serializedAspect.type = this.type.id;
+            }
 
             return serializedAspect;
         };

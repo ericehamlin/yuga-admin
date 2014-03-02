@@ -24,7 +24,9 @@ function EditTypeCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
      * @param field
      */
     $scope.deleteField = function(field) {
-        $scope.type.deleteField(field);
+        var command = new yuga.RemoveFieldFromTypeCommand($scope.type, field);
+        Commander.execute(command);
+        //$scope.type.deleteField(field);
     };
 
     /**
