@@ -8,7 +8,7 @@
         this.isUndoable = true;
 
         // todo id for new object
-        var event = new yuga.Event({id: 7777, name: "New Event"});
+        var event = new yuga.Event({id: yuga.DomainObject.newId(), name: "New Event"});
 
         this.execute = function(ApplicationState, ApplicationEvents, Commander) {
             event.timeline = ApplicationState.timeline;

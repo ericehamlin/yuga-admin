@@ -2,9 +2,15 @@
 
 /**
  * TODO:
- * throw exceptions
- * !fix field ids based on text
  *
+ * new field -- ids are only numbers?
+ *
+ *
+ * icons missing from types/aspects
+ *
+ * insertion point in edit-in-place text -- perhaps change to contenteditable as shown at http://docs.angularjs.org/api/ng/type/ngModel.NgModelController -- instead of ngModel include ygModelObject
+ *
+ * throw exceptions
  *
  * error with re-creating anytime picker
  * make sure that dragging event cannot cross over line of visibility
@@ -26,9 +32,11 @@
  * Modals module
  * start breaking views,controllers into sub-directories
  *
+ * creating new element doesn't actually result in that element being selected
+ *
  */
 
-angular.module('yugaAdmin', ['Command'])
+angular.module('yugaAdmin', ['Command', 'ngRoute'])
 
     .config(function ($routeProvider) {
         $routeProvider
@@ -38,7 +46,7 @@ angular.module('yugaAdmin', ['Command'])
         });
     })
 
-    .run(function($rootScope, $route, $location, ApplicationEvents, ApplicationState, Commander) {
+    .run(function($rootScope, $route, $location, $sce, ApplicationEvents, ApplicationState, Commander) {
         var lastRoute = $route.current;
 
         $rootScope.resourceBundle = function() {
@@ -47,6 +55,10 @@ angular.module('yugaAdmin', ['Command'])
 
         $rootScope.confirm = function(args) {
             ApplicationEvents.broadcast(ApplicationEvents.LAUNCH_CONFIRM_MODAL, args);
+        };
+
+        $rootScope.trustAsHtml = function(html) {
+            return $sce.trustAsHtml(html);
         };
 
         $rootScope.$on(ApplicationEvents.TIMELINE_CHANGED, function() {

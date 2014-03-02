@@ -7,7 +7,7 @@
         this.isUndoable = true;
 
         // todo id for new object
-        var type = new yuga.Type({id: 888, name: "New Type"});
+        var type = new yuga.Type({id: yuga.DomainObject.newId(), name: "New Type"});
 
         this.execute = function(ApplicationState, ApplicationEvents, Commander) {
             type.timeline = ApplicationState.timeline;

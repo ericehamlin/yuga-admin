@@ -1,5 +1,6 @@
 <div ng-controller="TitleBarCtrl">
-        <h2 style="display: inline-block;">Timeline Name</h2>
+    <h2 style="display: inline-block;" ng-show="!editName" ng-click="toggleEditName()">{{timeline.name}}</h2>
+    <h2 style="display: inline-block;" ng-show="editName"><input type="text" ng-blur="toggleEditName()" name="timeline-name" id="timeline-name" yg-model-object="timeline" yg-model-property="name"/></h2>
 
         <input type="text" ng-model="searchText" id="search-text"/>
     <yg-drop-target yg-drop-callback="addFilter" data-yg-drop-accept=".aspect, .type, .event" style="height:50px">

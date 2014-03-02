@@ -53,7 +53,7 @@
             <div class="list-body">
                 <ul>
                     <li ng-repeat="type in types | orderBy:sortTypes:sortTypesReverse" class="type" ng-class="{selected: type.isSelected(), 'selected-secondary': type.isSelectedSecondary()}" ng-click="selectType(type)" draggable="true" yg-draggable data-yg-drag-id="{{type.id}}" ng-hide="type.isHidden()">
-                        <div ng-bind-html-unsafe="type.icon"></div>
+                        <div ng-bind-html="trustAsHtml(type.icon)"></div>
                         <div>{{type.name}}</div>
                     </li>
                 </ul>
@@ -77,8 +77,8 @@
             <div class="list-body">
                 <ul>
                     <li ng-repeat="aspect in aspects | orderBy:sortAspects:sortAspectsReverse" class="aspect" ng-class="{selected: aspect.isSelected(), 'selected-secondary': aspect.isSelectedSecondary()}" ng-click="selectAspect(aspect)" draggable="true" yg-draggable data-yg-drag-id="{{aspect.id}}" ng-hide="aspect.isHidden()">
-                        <div ng-bind-html-unsafe="aspect.getType().icon"></div>
-                        <div ng-bind-html-unsafe="aspect.getType().icon" ng-style="{'color': '#' + aspect.color}"></div>
+                        <div ng-bind-html="trustAsHtml(aspect.getType().icon)"></div>
+                        <div ng-bind-html="trustAsHtml(aspect.getType().icon)" ng-style="{'color': '#' + aspect.color}"></div>
                         <div>{{aspect.name}}</div>
                     </li>
                 </ul>

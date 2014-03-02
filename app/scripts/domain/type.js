@@ -22,7 +22,7 @@
 
 
         this.addField = function() {
-            this.fields[this.fields.length] = new yuga.Field();
+            this.fields[this.fields.length] = new yuga.Field({id: yuga.DomainObject.newId()});
         };
 
         /** TODO how does this affect all the aspects which derive from it? */
@@ -39,7 +39,7 @@
          * @param field
          */
         this.getFieldId = function(field) {
-            return field.name.replace(/\s/, "_");
+            return field.id;
         };
 
         /**

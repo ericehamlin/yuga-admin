@@ -3,6 +3,7 @@
 function TitleBarCtrl($scope, Commander, ApplicationState) {
 
     $scope.filters = ApplicationState.filters;
+    $scope.timeline = ApplicationState.timeline;
 
     /**
      * TODO: make sure these filters are accurate
@@ -90,6 +91,13 @@ function TitleBarCtrl($scope, Commander, ApplicationState) {
             });
         }
     });
+
+    /**
+     *
+     */
+    $scope.toggleEditName = function() {
+        $scope.editName = !$scope.editName;
+    };
 }
 
 TitleBarCtrl.$inject = ['$scope', 'Commander', 'ApplicationState'];

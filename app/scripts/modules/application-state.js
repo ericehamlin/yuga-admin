@@ -70,6 +70,6 @@ angular.module('yugaAdmin')
             filters: filters,
             addFilter: addFilter,
             removeFilter: removeFilter,
-            selectedElement: null
+            selectedElement: null,
         };
     }]);

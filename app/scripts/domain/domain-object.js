@@ -4,9 +4,9 @@
 
         var ignoreProperties = ["$$hashKey", "tempData", "timeline", "events", "types", "type", "aspects", "localAspects"];
 
+
         this.tempData = {
         };
-
 
         /**
          *
@@ -187,6 +187,14 @@
         }
 
         return newObject;
+    };
+
+    var maxId = 6666;
+    /**
+     * TODO: I can't even count the number of things that are wrong with this
+     */
+    yuga.DomainObject.newId = function() {
+        return maxId++;
     };
 
 

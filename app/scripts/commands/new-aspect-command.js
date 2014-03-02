@@ -7,7 +7,7 @@
         this.isUndoable = true;
 
         // todo id for new object
-        var aspect = new yuga.Aspect({id: 6666, name: "New Aspect"});
+        var aspect = new yuga.Aspect({id: yuga.DomainObject.newId(), name: "New Aspect"});
 
         this.execute = function(ApplicationState, ApplicationEvents, Commander) {
             aspect.timeline = ApplicationState.timeline;

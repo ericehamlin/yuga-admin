@@ -1,6 +1,7 @@
 function OpenTimelineModalCtrl($scope, Timeline) {
     $scope.timelines = [];
 
+    var selectedTimelineId = undefined;
 
     function loadTimelines() {
         var timelinesPromise = Timeline.query();
@@ -10,8 +11,19 @@ function OpenTimelineModalCtrl($scope, Timeline) {
         });
     }
 
-    $scope.openTimeline = function(timelineId) {
-        var timelineLoaded = Timeline.read(timelineId);
+    $scope.isTimelineSelected = function(timelineId) {
+        if (timelineId) {
+            return selectedTimelineId == timelineId;
+        }
+        return selectedTimelineId;
+    };
+
+    $scope.selectTimeline = function(timelineId) {
+        selectedTimelineId = timelineId;
+    };
+
+    $scope.openTimeline = function() {
+        var timelineLoaded = Timeline.read(selectedTimelineId);
         timelineLoaded.then(function() {
             $scope.closeModal();
         })
