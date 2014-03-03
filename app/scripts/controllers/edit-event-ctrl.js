@@ -66,7 +66,6 @@ function EditEventCtrl($scope, ApplicationState, ApplicationEvents, Commander) {
      */
     function reset() {
         $scope.event = ApplicationState.selectedElement;
-        console.log(JSON.stringify($scope.event.timeline.serialize()));
         $scope.editName = false;
         $scope.refresh++;
     }

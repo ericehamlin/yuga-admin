@@ -137,6 +137,28 @@ input, select {
      -ms-user-select: @select;
 }
 
+.list-item-selectable {
+    display: block;
+    position: relative;
+    color: #aaa;
+    cursor: pointer;
+    padding: 5px 0px;
+
+    &.selected, &.selected:hover {
+        color: #fff;
+        background-color: #666;
+    }
+
+    &.selected-secondary {
+        color: #666;
+    }
+
+    &:hover {
+        color: #fff;
+        background-color: #999;
+    }
+}
+
 /** BEGIN */
 
 html {
@@ -276,25 +298,7 @@ h6 {
         }
         
         li {
-            display: block;
-            position: relative;
-            color: #aaa;
-            cursor: pointer;
-            padding: 5px 0px;
-
-            &.selected, &.selected:hover {
-                color: #fff;
-                background-color: #666;
-            }
-
-            &.selected-secondary {
-                color: #666;
-            }
-
-            &:hover {
-                color: #fff;
-                background-color: #999;
-            }
+            .list-item-selectable;
         }
 
         li, .list-header {
@@ -494,8 +498,16 @@ h6 {
             margin-right:-10px;
          }
     }
- }
+}
 
+.selectable-list {
+    li {
+        .list-item-selectable;
+        padding-left: 1em;
+    }
+}
+
+/** TIMELINE */
 
 .timeline-drag-grab {
     cursor: move;

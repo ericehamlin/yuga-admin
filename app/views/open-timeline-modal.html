@@ -1,10 +1,10 @@
 <div ng-controller="OpenTimelineModalCtrl">
-    <div>
-        <div ng-repeat="timeline in timelines" ng-click="selectTimeline(timeline.id)">
-            <div ng-class="{'selected': isTimelineSelected(timeline.id)}">{{timeline.name}}</div>
+    <ul class="selectable-list">
+        <li ng-repeat="timeline in timelines" ng-click="selectTimeline(timeline.id)"  ng-class="{'selected': isTimelineSelected(timeline.id)}">
+            <div>{{timeline.name}}</div>
             <div></div>
-        </div>
-    </div>
+        </li>
+    </ul>
     <button ng-click="closeModal()">Close</button>
     <button ng-click="openTimeline()" ng-disabled="!isTimelineSelected()">Open</button>
 </div>
