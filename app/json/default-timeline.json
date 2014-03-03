@@ -3,9 +3,50 @@
     "name":"Default Timeline",
     "events":[{}],
     "types":[
-        {"id":9,"fields":[],"icon":"&#xf025;","name":"Person"},
-        {"id":4,"fields":[],"icon":"&#xf041;","name":"Place"},
-        {"id":5,"fields":[{"id":11,"name":"boobak","type":"text","defaultText":"rambalamba"}],"icon":"&#xf02d;","name":"Thing"}
+        {
+            "id":9,
+            "name":"Person",
+            "icon":"&#xf183;",
+            "fields":[
+                {
+                    "id":11,
+                    "name":"Name",
+                    "type":"text",
+                    "defaultText":"Name"
+                },
+                {
+                    "id":14,
+                    "name":"Description",
+                    "type":"textarea",
+                    "defaultText":"Description"
+                }
+            ]
+        },
+        {
+            "id":4,
+            "name":"Place",
+            "icon":"&#xf041;",
+            "fields":[
+                {
+                    "id":12,
+                    "name":"Name",
+                    "type":"text",
+                    "defaultText":"Name"
+                }]
+        },
+        {
+            "id":5,
+            "name":"Thing",
+            "icon":"&#xf02d;",
+            "fields":[
+                {
+                    "id":13,
+                    "name":"Name",
+                    "type":"text",
+                    "defaultText":"Name"
+                }
+            ]
+        }
     ],
     "aspects":[{}]
 }

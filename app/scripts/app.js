@@ -3,6 +3,8 @@
 /**
  * TODO:
  *
+ * new timeline doesn't work
+ *
  * date display on timeline wrong
  *
  * dates out of range on timeline sometimes break
